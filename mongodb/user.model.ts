@@ -1,4 +1,22 @@
-import { Schema, models, model } from "mongoose";
+import { Schema, models, model, Document } from "mongoose";
+
+export interface IUser extends Document {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  bio?: string;
+  picture?: string;
+  portfolioWebsite?: string;
+  reputation?: number;
+  joinDate?: Date;
+  questionsAsked?: Schema.Types.ObjectId[];
+  answersGiven?: Schema.Types.ObjectId[];
+  upvotedQuestions?: Schema.Types.ObjectId[];
+  upvotedAnswers?: Schema.Types.ObjectId[];
+  viewedQuestions?: Schema.Types.ObjectId[];
+  tags?: string[];
+}
 
 const UserSchema = new Schema({
   username: {
@@ -53,6 +71,12 @@ const UserSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: "Answer",
+    },
+  ],
+  viewedQuestions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Question",
     },
   ],
 });

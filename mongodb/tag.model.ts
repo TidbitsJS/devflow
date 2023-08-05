@@ -1,4 +1,12 @@
-import { Schema, models, model } from "mongoose";
+import { Schema, models, model, Document } from "mongoose";
+
+export interface ITag extends Document {
+  name: string;
+  description: string;
+  questionsCount: number;
+  followersCount: number;
+  createdOn: Date;
+}
 
 const TagSchema = new Schema({
   name: {

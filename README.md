@@ -30,3 +30,21 @@ If you see this error after the installation, go to the tsconfig.json and change
 ```
 
 #
+
+**Change ECMAScript version to support latest javascript functions (and to avoid few TypeScript Errors)**
+
+```javascript
+// From
+"compilerOptions": {
+   "target": "es5",
+   ...
+}
+
+// To
+"compilerOptions": {
+   "target": "es2022",
+   ...
+}
+```
+
+#

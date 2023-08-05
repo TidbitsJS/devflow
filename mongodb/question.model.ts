@@ -1,4 +1,15 @@
-import { Schema, models, model } from "mongoose";
+import { Schema, models, model, Document } from "mongoose";
+
+export interface IQuestion extends Document {
+  title: string;
+  body: string;
+  tags: string[];
+  author: Schema.Types.ObjectId;
+  upvotes: number;
+  views: number;
+  answers: Schema.Types.ObjectId[];
+  createdAt: Date;
+}
 
 const QuestionSchema = new Schema({
   title: {
@@ -15,7 +26,7 @@ const QuestionSchema = new Schema({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
   upvotes: {
@@ -29,7 +40,7 @@ const QuestionSchema = new Schema({
   answers: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Answer',
+      ref: "Answer",
     },
   ],
   createdAt: {
@@ -38,6 +49,6 @@ const QuestionSchema = new Schema({
   },
 });
 
-const Question = models.Question || model('Question', QuestionSchema);
+const Question = models.Question || model("Question", QuestionSchema);
 
 export default Question;
