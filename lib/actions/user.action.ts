@@ -1,25 +1,29 @@
 "use server";
 
+import { connectToDB } from "../mongoose";
 import { IUser, IQuestion, ITag } from "@/mongodb";
 
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
 import Tag from "@/mongodb/tag.model";
 import User from "@/mongodb/user.model";
+
 import { getTrendingTags } from "./tag.action";
 
 interface CreateUserParams {
   name: string;
   username: string;
   email: string;
-  password: string;
+  password?: string;
   bio?: string;
-  picture?: string;
+  picture: string;
   portfolioWebsite?: string;
 }
 
 export async function createUser(userData: CreateUserParams) {
   try {
+    connectToDB();
+
     const newUser = new User(userData);
     await newUser.save();
     return newUser;
@@ -35,6 +39,8 @@ interface GetUserByIdParams {
 
 export async function getUserById(params: GetUserByIdParams) {
   try {
+    connectToDB();
+
     const { userId } = params;
     const user = await User.findById(userId);
     return user;
@@ -51,6 +57,8 @@ interface UpdateUserParams {
 
 export async function updateUser(params: UpdateUserParams) {
   try {
+    connectToDB();
+
     const { userId, updateData } = params;
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
       new: true,
@@ -68,6 +76,8 @@ interface DeleteUserParams {
 
 export async function deleteUser(params: DeleteUserParams) {
   try {
+    connectToDB();
+
     const { userId } = params;
 
     // Find the user by ID
@@ -127,6 +137,8 @@ export async function getRecommendedQuestions(
   params: GetRecommendedQuestionsParams
 ) {
   try {
+    connectToDB();
+
     const { userId, limit = 5 } = params;
 
     // Get the user's interests
