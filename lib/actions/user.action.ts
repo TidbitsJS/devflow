@@ -25,8 +25,7 @@ export async function createUser(userData: CreateUserParams) {
   try {
     connectToDB();
 
-    const newUser = new User(userData);
-    await newUser.save();
+    const newUser: IUser = await User.create(userData);
     return newUser;
   } catch (error) {
     console.error("Error creating user:", error);
