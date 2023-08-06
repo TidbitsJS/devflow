@@ -48,10 +48,14 @@ export const POST = async (request: Request) => {
       evnt.data;
 
     const mongoUser = await createUser({
+      // @ts-ignore
       clerkId: id,
       name: `${first_name}${last_name}`,
+      // @ts-ignore
       username,
+      // @ts-ignore
       email: email_addresses[0].email_address,
+      // @ts-ignore
       picture: image_url,
     });
 
@@ -63,10 +67,12 @@ export const POST = async (request: Request) => {
       evnt.data;
 
     const updatedUser = await updateUser({
+      // @ts-ignore
       clerkId: id,
       userData: {
         name: `${first_name}${last_name}`,
         username,
+        // @ts-ignore
         email: email_addresses[0].email_address,
         picture: image_url,
       },
@@ -79,7 +85,8 @@ export const POST = async (request: Request) => {
     const { id } = evnt.data;
 
     const deletedUser = await deleteUser({
-      clerkId: id,
+      // @ts-ignore
+      clerkId: id, // @ts
     });
 
     return NextResponse.json({ message: "Ok", user: deletedUser });
