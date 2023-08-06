@@ -69,11 +69,13 @@ export const POST = async (request: Request) => {
     const updatedUser = await updateUser({
       // @ts-ignore
       clerkId: id,
-      userData: {
-        name: `${first_name}${last_name}`,
+      updateData: {
+        name: `${first_name} ${last_name}`,
+        // @ts-ignore
         username,
         // @ts-ignore
         email: email_addresses[0].email_address,
+        // @ts-ignore
         picture: image_url,
       },
     });
