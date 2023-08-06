@@ -4,8 +4,7 @@ import { headers } from "next/headers";
 import { IncomingHttpHeaders } from "http";
 
 import { NextResponse } from "next/server";
-import { clerkClient } from "@clerk/nextjs";
-import { createUser } from "@/lib/actions/user.action";
+import { createUser, deleteUser, updateUser } from "@/lib/actions/user.action";
 
 // Resource: https://clerk.com/docs/integration/webhooks#supported-events
 // Above document lists the supported events
@@ -49,6 +48,7 @@ export const POST = async (request: Request) => {
       evnt.data;
 
     const mongoUser = await createUser({
+      clerkId: id,
       name: `${first_name}${last_name}`,
       username,
       email: email_addresses[0].email_address,
@@ -59,16 +59,29 @@ export const POST = async (request: Request) => {
   }
 
   if (eventType === "user.updated") {
-    const { id, username, first_name } = evnt.data;
+    const { id, email_addresses, image_url, username, first_name, last_name } =
+      evnt.data;
 
-    console.log("User Updated", { id, username, first_name });
-    return NextResponse.json({ message: "Ok" });
+    const updatedUser = await updateUser({
+      clerkId: id,
+      userData: {
+        name: `${first_name}${last_name}`,
+        username,
+        email: email_addresses[0].email_address,
+        picture: image_url,
+      },
+    });
+
+    return NextResponse.json({ message: "Ok", user: updatedUser });
   }
 
   if (eventType === "user.deleted") {
     const { id } = evnt.data;
 
-    console.log("User Deleted", { id });
-    return NextResponse.json({ message: "Ok" });
+    const deletedUser = await deleteUser({
+      clerkId: id,
+    });
+
+    return NextResponse.json({ message: "Ok", user: deletedUser });
   }
 };

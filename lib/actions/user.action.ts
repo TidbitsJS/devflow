@@ -11,6 +11,7 @@ import User from "@/mongodb/user.model";
 import { getTrendingTags } from "./tag.action";
 
 interface CreateUserParams {
+  clerkId: string;
   name: string;
   username: string;
   email: string;
@@ -51,7 +52,7 @@ export async function getUserById(params: GetUserByIdParams) {
 }
 
 interface UpdateUserParams {
-  userId: string;
+  clerkId: string;
   updateData: Partial<IUser>;
 }
 
@@ -59,10 +60,13 @@ export async function updateUser(params: UpdateUserParams) {
   try {
     connectToDB();
 
-    const { userId, updateData } = params;
-    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+    const { clerkId, updateData } = params;
+
+    // Assuming "clerkId" is another field in the User model that you want to use for querying
+    const updatedUser = await User.findOneAndUpdate({ clerkId }, updateData, {
       new: true,
     });
+
     return updatedUser;
   } catch (error) {
     console.error("Error updating user:", error);
@@ -71,37 +75,37 @@ export async function updateUser(params: UpdateUserParams) {
 }
 
 interface DeleteUserParams {
-  userId: string;
+  clerkId: string;
 }
 
 export async function deleteUser(params: DeleteUserParams) {
   try {
     connectToDB();
 
-    const { userId } = params;
+    const { clerkId } = params;
 
-    // Find the user by ID
-    const user = await User.findById(userId);
+    // Find the user by clerkId
+    const user = await User.findOne({ clerkId });
 
     if (!user) {
       throw new Error("User not found.");
     }
 
     // Delete all questions asked by the user
-    await Question.deleteMany({ author: userId });
+    await Question.deleteMany({ author: user._id });
 
     // Delete all answers given by the user
-    await Answer.deleteMany({ author: userId });
+    await Answer.deleteMany({ author: user._id });
 
     // Clear user references from upvotedQuestions and upvotedAnswers arrays of other users
     await User.updateMany(
       { _id: { $in: user.upvotedQuestions } },
-      { $pull: { upvotedQuestions: userId } }
+      { $pull: { upvotedQuestions: user._id } }
     );
 
     await User.updateMany(
       { _id: { $in: user.upvotedAnswers } },
-      { $pull: { upvotedAnswers: userId } }
+      { $pull: { upvotedAnswers: user._id } }
     );
 
     // Update the upvote count of each question and answer
@@ -116,10 +120,10 @@ export async function deleteUser(params: DeleteUserParams) {
     );
 
     // Delete tags created by the user
-    await Tag.deleteMany({ author: userId });
+    await Tag.deleteMany({ author: user._id });
 
     // Delete the user
-    const deletedUser = await User.findByIdAndDelete(userId);
+    const deletedUser = await User.findByIdAndDelete(user._id);
 
     return deletedUser;
   } catch (error) {
@@ -129,7 +133,7 @@ export async function deleteUser(params: DeleteUserParams) {
 }
 
 interface GetRecommendedQuestionsParams {
-  userId: string;
+  clerkId: string;
   limit?: number;
 }
 
@@ -139,12 +143,16 @@ export async function getRecommendedQuestions(
   try {
     connectToDB();
 
-    const { userId, limit = 5 } = params;
+    const { clerkId, limit = 5 } = params;
 
     // Get the user's interests
-    const user = await User.findById(userId).select(
+    const user = await User.findOne({ clerkId }).select(
       "tags viewedQuestions upvotedQuestions questionsAsked"
     );
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
 
     // Get the trending tags
     const trendingTags = await getTrendingTags({ limit });
@@ -181,6 +189,6 @@ export async function getRecommendedQuestions(
     return filteredQuestions;
   } catch (error) {
     console.error("Error getting recommended questions:", error);
-    return [];
+    throw error;
   }
 }
