@@ -1,78 +1,106 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
- 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
- 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
- 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
- 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --ring: 215 20.2% 65.1%;
- 
-    --radius: 0.5rem;
+
+@layer utilities {
+  .css-invert {
+    @apply invert-[49%] brightness-[1000%];
   }
- 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
- 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
- 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
- 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
- 
-    --ring: 217.2 32.6% 17.5%;
+
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+
+  .flex-start {
+    @apply flex justify-start items-center;
+  }
+
+  .heading1 {
+    @apply text-[32px] leading-[42px] font-semibold;
+  }
+
+  .heading3-medium {
+    @apply text-[24px] leading-[31px] font-medium;
+  }
+
+  .heading3-semibold {
+    @apply text-[24px] leading-[31px] font-semibold;
+  }
+
+  .heading4-medium {
+    @apply text-[20px] leading-[26px] font-medium;
+  }
+
+  .heading4-semibold {
+    @apply text-[20px] leading-[26px] font-semibold;
+  }
+
+  .paragraph-regular {
+    @apply text-[16px] leading-[22px] font-normal;
+  }
+
+  .paragraph-medium {
+    @apply text-[16px] leading-[22px] font-medium;
+  }
+
+  .paragraph-semibold {
+    @apply text-[16px] leading-[22px] font-semibold;
+  }
+
+  .body-regular {
+    @apply text-[14px] leading-[24px] font-normal;
+  }
+
+  .body-medium {
+    @apply text-[14px] leading-[18.2px] font-medium;
+  }
+
+  .body-semibold {
+    @apply text-[14px] leading-[21px] font-semibold;
+  }
+
+  .small-regular {
+    @apply text-[12px] leading-[15.6px] font-normal;
+  }
+
+  .small-medium {
+    @apply text-[12px] leading-[15.6px] font-medium;
+  }
+
+  .subtle {
+    @apply text-[13px] leading-[15px] font-normal;
   }
 }
- 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+
+.no-focus {
+  @apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
+}
+
+.active-theme {
+  filter: invert(53%) sepia(98%) saturate(3332%) hue-rotate(0deg)
+    brightness(104%) contrast(106%) !important;
+}
+
+.primary-gradient {
+  background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+}
+
+.dark-gradient {
+  background: linear-gradient(
+    232deg,
+    rgba(23, 28, 35, 0.41) 0%,
+    rgba(19, 22, 28, 0.7) 100%
+  );
+}
+
+.light-gradient {
+  background: linear-gradient(
+    132deg,
+    rgba(247, 249, 255, 0.5) 0%,
+    rgba(229, 237, 255, 0.25) 100%
+  );
 }

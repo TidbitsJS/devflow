@@ -21,7 +21,7 @@ If you see this error after the installation, go to the tsconfig.json and change
 ✔ Which style would you like to use? › New York
 ✔ Which color would you like to use as base color? › Slate
 ✔ Where is your global CSS file? app/globals.css
-✔ Would you like to use CSS variables for colors? yes
+✔ Would you like to use CSS variables for colors? no
 ✔ Where is your tailwind.config.js located? tailwind.config.js
 ✔ Configure the import alias for components: @/components
 ✔ Configure the import alias for utils: @/lib/utils

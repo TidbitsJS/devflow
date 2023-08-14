@@ -88,7 +88,7 @@ export const POST = async (request: Request) => {
 
     const deletedUser = await deleteUser({
       // @ts-ignore
-      clerkId: id, // @ts
+      clerkId: id,
     });
 
     return NextResponse.json({ message: "Ok", user: deletedUser });
