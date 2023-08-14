@@ -24,7 +24,7 @@ const Navbar = () => {
           alt='Dev Overflow Logo'
         />
 
-        <p className='heading4-semibold font-spaceGrotesk text-white max-sm:hidden'>
+        <p className='h2-bold font-spaceGrotesk text-white max-sm:hidden'>
           Dev<span className='text-primary-500'>Overflow</span>
         </p>
       </Link>

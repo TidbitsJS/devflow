@@ -19,60 +19,68 @@
     @apply flex justify-start items-center;
   }
 
-  .heading1 {
-    @apply text-[32px] leading-[42px] font-semibold;
+  .h1-bold {
+    @apply text-[30px] font-bold leading-[42px] tracking-tighter;
   }
 
-  .heading3-medium {
-    @apply text-[24px] leading-[31px] font-medium;
+  .h2-bold {
+    @apply text-[24px] font-bold leading-[31.2px];
   }
 
-  .heading3-semibold {
-    @apply text-[24px] leading-[31px] font-semibold;
+  .h3-bold {
+    @apply text-[20px] font-bold leading-[26px];
   }
 
-  .heading4-medium {
-    @apply text-[20px] leading-[26px] font-medium;
+  .h3-semibold {
+    @apply text-[20px] font-semibold leading-[24.8px];
   }
 
-  .heading4-semibold {
-    @apply text-[20px] leading-[26px] font-semibold;
+  .base-medium {
+    @apply text-[18px] font-medium leading-[25.2px];
+  }
+
+  .base-semibold {
+    @apply text-[18px] font-semibold leading-[25.2px];
+  }
+
+  .base-bold {
+    @apply text-[18px] font-bold leading-[140%];
   }
 
   .paragraph-regular {
-    @apply text-[16px] leading-[22px] font-normal;
+    @apply text-[16px] font-normal leading-[22.4px];
   }
 
   .paragraph-medium {
-    @apply text-[16px] leading-[22px] font-medium;
+    @apply text-[16px] font-medium leading-[22.4px];
   }
 
   .paragraph-semibold {
-    @apply text-[16px] leading-[22px] font-semibold;
+    @apply text-[16px] font-semibold leading-[20.8px];
   }
 
   .body-regular {
-    @apply text-[14px] leading-[24px] font-normal;
+    @apply text-[14px] font-normal leading-[19.6px];
   }
 
   .body-medium {
-    @apply text-[14px] leading-[18.2px] font-medium;
+    @apply text-[14px] font-medium leading-[18.2px];
   }
 
   .body-semibold {
-    @apply text-[14px] leading-[21px] font-semibold;
+    @apply text-[14px] font-semibold leading-[18.2px];
   }
 
   .small-regular {
-    @apply text-[12px] leading-[15.6px] font-normal;
+    @apply text-[12px] font-normal leading-[15.6px];
   }
 
   .small-medium {
-    @apply text-[12px] leading-[15.6px] font-medium;
+    @apply text-[12px] font-medium leading-[15.6px];
   }
 
-  .subtle {
-    @apply text-[13px] leading-[15px] font-normal;
+  .subtle-medium {
+    @apply text-[10px] font-medium leading-[13px];
   }
 }
 
