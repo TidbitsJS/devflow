@@ -26,6 +26,7 @@ const Navbar = () => {
       </Link>
 
       <Searchbar
+        route='/'
         iconPosition='left'
         imgSrc='/assets/icons/search.svg'
         placeholder='Search for Questions Here...'

@@ -24,6 +24,9 @@ export async function getQuestions(params: GetQuestionsParams) {
 
     const { page = 1, pageSize = 20, searchQuery, filterTags } = params;
 
+    // Calculate the number of posts to skip based on the page number and page size.
+    const skipAmount = (page - 1) * pageSize;
+
     const query: FilterQuery<typeof Question> = {};
 
     if (searchQuery) {
@@ -42,13 +45,13 @@ export async function getQuestions(params: GetQuestionsParams) {
     const questions = await Question.find(query)
       .populate("tags")
       .populate("author")
-      .skip((page - 1) * pageSize)
+      .skip(skipAmount)
       .limit(pageSize)
       .sort({ createdAt: -1 });
 
-    const totalPages = Math.ceil(totalQuestions / pageSize);
+    const isNext = totalQuestions > skipAmount + questions.length;
 
-    return { questions, totalPages };
+    return { questions, isNext };
   } catch (error) {
     console.error("Error fetching questions:", error);
     throw error;

@@ -1,38 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 interface CustomInputProps {
+  route: string;
   iconPosition: string;
   imgSrc: string;
   placeholder: string;
-  value?: string;
-  name?: string;
-  onChange?: (name: string, value: string) => void;
   classname?: string;
 }
 
 const Searchbar = ({
+  route,
   iconPosition,
   imgSrc,
   placeholder,
-  value,
-  name,
-  onChange,
   classname,
 }: CustomInputProps) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    if (onChange) {
-      onChange(name, value);
-    }
-  };
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+
+  // query after 0.3s of no input
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (search) {
+        router.push(`/${route}?q=` + search);
+      } else {
+        router.push(`/${route}`);
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search, route]);
 
   return (
-    <form
+    <div
       className={`dark-gradient flex min-h-[56px] max-w-[600px] grow items-center gap-4 rounded-[10px] px-4 ${classname}`}
     >
       {iconPosition === "left" && (
@@ -48,9 +54,8 @@ const Searchbar = ({
       <Input
         type='text'
         placeholder={placeholder}
-        name={name}
-        value={value}
-        onChange={handleChange}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         className='paragraph-regular no-focus border-none text-light-700 outline-none placeholder:text-light-500'
       />
 
@@ -63,7 +68,7 @@ const Searchbar = ({
           className='cursor-pointer'
         />
       )}
-    </form>
+    </div>
   );
 };
 
