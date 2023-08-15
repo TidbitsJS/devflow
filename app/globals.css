@@ -82,6 +82,10 @@
   .subtle-medium {
     @apply text-[10px] font-medium leading-[13px];
   }
+
+  .markdown {
+    @apply prose prose-p:text-light-700;
+  }
 }
 
 .no-focus {
@@ -111,4 +115,28 @@
     rgba(247, 249, 255, 0.5) 0%,
     rgba(229, 237, 255, 0.25) 100%
   );
+}
+
+.markdown a,
+code {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.codeStyle span {
+  font-style: normal !important;
+  font-weight: 600 !important;
 }
