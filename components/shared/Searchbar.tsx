@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface CustomInputProps {
   route: string;
@@ -22,6 +22,7 @@ const Searchbar = ({
   classname,
 }: CustomInputProps) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [search, setSearch] = useState("");
 
   // query after 0.3s of no input
@@ -30,7 +31,7 @@ const Searchbar = ({
       if (search) {
         router.push(`/${route}?q=` + search);
       } else {
-        router.push(`/${route}`);
+        router.push(`${pathname}`);
       }
     }, 300);
 
