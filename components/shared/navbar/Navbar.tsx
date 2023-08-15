@@ -1,18 +1,14 @@
-"use client";
-
-import { UserButton, SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
+import { UserButton, SignedIn, SignedOut, auth } from "@clerk/nextjs";
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import Searchbar from "../Searchbar";
 import Theme from "./Theme";
 import MobileNav from "./MobileNav";
 
 const Navbar = () => {
-  const { userId } = useAuth();
-  const pathname = usePathname();
+  const { userId } = auth();
 
   return (
     <nav className='flex-between fixed top-0 z-20 w-full gap-5 border-b border-b-dark-500 bg-dark-200/50 p-6 sm:px-12'>
@@ -52,30 +48,19 @@ const Navbar = () => {
         </SignedOut>
 
         <SignedIn>
-          <div className='flex-between gap-5'>
-            {pathname !== "/" && pathname !== "/create-question" && (
-              <Link
-                className='rounded-[40px] bg-primary-500 px-4 py-3 text-white max-md:hidden'
-                href='/create-question'
-              >
-                Ask a Question
-              </Link>
-            )}
-
-            <UserButton
-              userProfileMode='navigation'
-              userProfileUrl={`/profile/${userId}`}
-              afterSignOutUrl='/'
-              appearance={{
-                elements: {
-                  avatarBox: "h-10 w-10",
-                },
-                variables: {
-                  colorPrimary: "#FF7000",
-                },
-              }}
-            />
-          </div>
+          <UserButton
+            userProfileMode='navigation'
+            userProfileUrl={`/profile/${userId}`}
+            afterSignOutUrl='/'
+            appearance={{
+              elements: {
+                avatarBox: "h-10 w-10",
+              },
+              variables: {
+                colorPrimary: "#FF7000",
+              },
+            }}
+          />
         </SignedIn>
 
         <MobileNav />

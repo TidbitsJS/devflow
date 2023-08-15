@@ -1,5 +1,6 @@
-import { SignedOut } from "@clerk/nextjs";
+"use client";
 
+import { SignedOut } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
