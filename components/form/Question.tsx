@@ -41,7 +41,6 @@ const Question = () => {
   });
 
   async function onSubmit(values: z.infer<typeof questionSchema>) {
-    console.log(values);
     setSubmitting(true);
   }
 
@@ -107,6 +106,7 @@ const Question = () => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name='explanation'
@@ -123,6 +123,8 @@ const Question = () => {
                       // @ts-ignore
                       (editorRef.current = editor)
                     }
+                    onEditorChange={(content) => field.onChange(content)}
+                    onBlur={field.onBlur}
                     init={{
                       height: 350,
                       menubar: false,
@@ -209,6 +211,7 @@ const Question = () => {
               </FormItem>
             )}
           />
+
           <div className='mt-16 flex justify-end'>
             <Button
               type='submit'
