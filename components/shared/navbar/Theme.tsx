@@ -1,104 +1,93 @@
 "use client";
 
 import Image from "next/image";
-
 import { useState, useEffect } from "react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 import { themes } from "@/constants";
+import {
+  Menubar,
+  MenubarItem,
+  MenubarMenu,
+  MenubarContent,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 
 const Theme = () => {
-  const [mode, setMode] = useState(localStorage.getItem("theme") ?? "light");
+  const [mode, setMode] = useState("dark");
 
-  const handleTheme = (selectedMode: string) => {
+  const handleThemeChange = () => {
     if (
-      (window.matchMedia("(prefers-color-scheme: dark)").matches &&
-        selectedMode === "system") ||
-      selectedMode === "dark"
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
-      document.documentElement.setAttribute("data-mode", "dark");
-      localStorage.setItem("theme", "dark");
-      setMode(selectedMode);
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.removeAttribute("data-mode");
-      localStorage.setItem("theme", "light");
-      setMode(selectedMode);
-    }
-  };
-
-  const setInitialTheme = () => {
-    const userPreference = localStorage.getItem("theme");
-
-    if (userPreference === "light" || userPreference === "dark") {
-      handleTheme(userPreference);
-    } else {
-      const systemPreference = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
-      handleTheme(systemPreference);
+      document.documentElement.classList.remove("dark");
     }
   };
 
   useEffect(() => {
-    setInitialTheme();
-  }, []);
+    handleThemeChange();
+  }, [mode]);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild className='cursor-pointer'>
-        {localStorage.getItem("theme") === "light" ? (
-          <Image
-            src='/assets/icons/sun.svg'
-            alt='sun'
-            width={20}
-            height={20}
-            className='active-theme'
-          />
-        ) : (
-          <Image
-            src='/assets/icons/moon.svg'
-            alt='moon'
-            width={20}
-            height={20}
-            className='active-theme'
-          />
-        )}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='border-none bg-dark-300 py-2'>
-        {themes.map((theme) => (
-          <DropdownMenuItem
-            key={theme.value}
-            className='flex items-center gap-4 focus:bg-dark-400'
-            onClick={() => {
-              if (mode !== theme.value) handleTheme(theme.value);
-            }}
-          >
+    <Menubar className='no-focus relative border-none bg-transparent'>
+      <MenubarMenu>
+        <MenubarTrigger className='p-0 focus:bg-transparent data-[state=open]:bg-transparent dark:focus:bg-transparent dark:data-[state=open]:bg-transparent'>
+          {mode === "light" ? (
             <Image
-              src={theme.icon}
-              alt={theme.value}
-              width={16}
-              height={16}
-              className={`${mode === theme.value && "active-theme"}`}
+              src='/assets/icons/sun.svg'
+              alt='sun'
+              width={20}
+              height={20}
+              className='active-theme'
             />
+          ) : (
+            <Image
+              src='/assets/icons/moon.svg'
+              alt='moon'
+              width={20}
+              height={20}
+              className='active-theme'
+            />
+          )}
+        </MenubarTrigger>
 
-            <p
-              className={`paragraph-medium ${
-                mode === theme.value ? "text-primary-500" : "text-white"
-              }`}
+        <MenubarContent className='absolute -right-5 mt-3 min-w-[120px] rounded border border-dark-400 bg-dark-300 py-2'>
+          {themes.map((item) => (
+            <MenubarItem
+              key={item.value}
+              className='flex items-center gap-4 px-2.5 py-2 focus:bg-dark-400'
+              onClick={() => {
+                setMode(item.value);
+                if (item.value !== "system") {
+                  localStorage.theme = item.value;
+                } else {
+                  localStorage.removeItem("theme");
+                }
+              }}
             >
-              {theme.label}
-            </p>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+              <Image
+                src={item.icon}
+                alt={item.value}
+                width={16}
+                height={16}
+                className={`${mode === item.value && "active-theme"}`}
+              />
+
+              <p
+                className={`body-semibold text-light-500 ${
+                  mode === item.value ? "text-primary-500" : "text-white"
+                }`}
+              >
+                {item.label}
+              </p>
+            </MenubarItem>
+          ))}
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
   );
 };
 
