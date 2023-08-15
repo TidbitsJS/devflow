@@ -10,7 +10,7 @@ const LeftSidebar = () => {
   const pathname = usePathname();
 
   return (
-    <section className='sticky left-0 top-0 flex h-screen w-fit min-w-[266px] flex-col gap-6 overflow-y-auto bg-dark-200/50 p-6 pt-28 '>
+    <section className='sticky left-0 top-0 flex h-screen w-fit flex-col gap-6 overflow-y-auto bg-dark-200/50 p-6 pt-36 max-sm:hidden lg:w-[266px]'>
       {sidebarLinks.map((item) => {
         const isActive = pathname === item.route;
 
@@ -24,7 +24,9 @@ const LeftSidebar = () => {
           >
             <Image src={item.imgURL} alt={item.label} width={20} height={20} />
             <p
-              className={`${isActive ? "base-bold" : "base-medium"} text-white`}
+              className={`${
+                isActive ? "base-bold" : "base-medium"
+              } text-white max-lg:hidden`}
             >
               {item.label}
             </p>
