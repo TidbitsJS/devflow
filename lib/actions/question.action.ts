@@ -1,41 +1,106 @@
-import { Schema } from "mongoose";
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { FilterQuery, Schema } from "mongoose";
+
+import { IUser } from "@/mongodb";
+import { connectToDB } from "../mongoose";
 
 import User from "@/mongodb/user.model";
-import { connectToDB } from "../mongoose";
 import Question from "@/mongodb/question.model";
-import { ITag, IUser } from "@/mongodb";
 import Tag from "@/mongodb/tag.model";
 import Answer from "@/mongodb/answer.model";
+
+interface GetQuestionsParams {
+  page?: number;
+  pageSize?: number;
+  searchQuery?: string;
+  filterTags?: string[];
+}
+
+export async function getQuestions(params: GetQuestionsParams) {
+  try {
+    connectToDB();
+
+    const { page = 1, pageSize = 20, searchQuery, filterTags } = params;
+
+    const query: FilterQuery<typeof Question> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, 'i') } },
+        { body: { $regex: new RegExp(searchQuery, 'i') } },
+      ];
+    }
+
+    if (filterTags && filterTags.length > 0) {
+      query.tags = { $in: filterTags };
+    }
+
+    const totalQuestions = await Question.countDocuments(query);
+
+    const questions = await Question.find(query)
+      .populate('tags')
+      .populate('author')
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .sort({ createdAt: -1 });
+
+    const totalPages = Math.ceil(totalQuestions / pageSize);
+
+    return { questions, totalPages };
+  } catch (error) {
+    console.error("Error fetching questions:", error);
+    throw error;
+  }
+}
+
 
 interface CreateQuestionParams {
   title: string;
   body: string;
-  tags: Schema.Types.ObjectId[] | ITag[];
+  tags: Array<string>;
   author: Schema.Types.ObjectId | IUser;
+  path: string
 }
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
     connectToDB();
 
-    const { title, body, tags, author } = params;
+    const { title, body, tags, author, path } = params;
+
+    // Create the question
     const question = await Question.create({
       title,
       body,
-      tags,
       author,
     });
 
-    const user = await User.findByIdAndUpdate(
-      author,
-      { $push: { questionsAsked: question._id } },
-      { new: true }
-    );
+    const tagDocuments = [];
 
-    if (!user) {
-      throw new Error("User not found.");
+    // Create or retrieve tag documents
+    for (const tag of tags) {
+      const existingTag = await Tag.findOneAndUpdate(
+        { name: { $regex: new RegExp(`^${tag}$`, "i") } },
+        { $setOnInsert: { name: tag }, $inc: { questionsCount: 1 } },
+        { upsert: true, new: true }
+      );
+
+      tagDocuments.push(existingTag._id);
     }
 
+    // Update the question's tags field using $push and $each
+    await Question.findByIdAndUpdate(question._id, {
+      $push: { tags: { $each: tagDocuments } },
+    });
+
+    // Update the user's questionsAsked field
+    await User.findByIdAndUpdate(author, {
+      $push: { questionsAsked: question._id },
+    });
+
+    revalidatePath(path)
     return question;
   } catch (error) {
     console.error("Error creating question:", error);

@@ -12,7 +12,7 @@ const questionSchema = z.object({
     .string()
     .array()
     .min(1, { message: "Add at least one tag." })
-    .max(5, { message: "Maximum of 5 tags." }),
+    .max(3, { message: "Maximum of 5 tags." }),
 });
 
 export default questionSchema;

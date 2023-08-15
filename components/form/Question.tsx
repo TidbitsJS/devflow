@@ -2,10 +2,9 @@
 
 import * as z from "zod";
 import Image from "next/image";
-// import { useAuth } from "@clerk/nextjs";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-// import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Editor } from "@tinymce/tinymce-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -22,14 +21,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import questionSchema from "@/lib/validations/question.validate";
 import { Badge } from "../ui/badge";
+import { createQuestion } from "@/lib/actions/question.action";
 
-const Question = () => {
+interface Props {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: Props) => {
+  const router = useRouter();
+  const pathname = usePathname()
+
   const editorRef = useRef(null);
-
   const [submitting, setSubmitting] = useState(false);
 
-  //   const { userId } = useAuth();
-  //   const router = useRouter();
 
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
@@ -40,8 +44,24 @@ const Question = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof questionSchema>) {
+   const handleCreateQuestion = async (values: z.infer<typeof questionSchema>) => {
     setSubmitting(true);
+
+    try {
+      await createQuestion({
+        title: values.title,
+        body: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname
+      });
+
+      router.push("/")
+    } catch(error) {
+      console.error("Error creating a question", error);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const handleInputKeyDown = (
@@ -82,7 +102,7 @@ const Question = () => {
       <Form {...form}>
         <form
           className='flex w-full flex-col gap-10'
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(handleCreateQuestion)}
         >
           <FormField
             control={form.control}
