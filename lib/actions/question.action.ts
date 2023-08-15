@@ -28,8 +28,8 @@ export async function getQuestions(params: GetQuestionsParams) {
 
     if (searchQuery) {
       query.$or = [
-        { title: { $regex: new RegExp(searchQuery, 'i') } },
-        { body: { $regex: new RegExp(searchQuery, 'i') } },
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { body: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
 
@@ -40,8 +40,8 @@ export async function getQuestions(params: GetQuestionsParams) {
     const totalQuestions = await Question.countDocuments(query);
 
     const questions = await Question.find(query)
-      .populate('tags')
-      .populate('author')
+      .populate("tags")
+      .populate("author")
       .skip((page - 1) * pageSize)
       .limit(pageSize)
       .sort({ createdAt: -1 });
@@ -55,13 +55,12 @@ export async function getQuestions(params: GetQuestionsParams) {
   }
 }
 
-
 interface CreateQuestionParams {
   title: string;
   body: string;
   tags: Array<string>;
   author: Schema.Types.ObjectId | IUser;
-  path: string
+  path: string;
 }
 
 export async function createQuestion(params: CreateQuestionParams) {
@@ -69,6 +68,7 @@ export async function createQuestion(params: CreateQuestionParams) {
     connectToDB();
 
     const { title, body, tags, author, path } = params;
+    console.log(path);
 
     // Create the question
     const question = await Question.create({
@@ -100,8 +100,7 @@ export async function createQuestion(params: CreateQuestionParams) {
       $push: { questionsAsked: question._id },
     });
 
-    revalidatePath(path)
-    return question;
+    revalidatePath(path);
   } catch (error) {
     console.error("Error creating question:", error);
     throw error;

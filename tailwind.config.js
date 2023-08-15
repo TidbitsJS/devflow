@@ -36,6 +36,9 @@ module.exports = {
         poppins: ["var(--font-poppins)"],
         spaceGrotesk: ["var(--font-spaceGrotesk)"],
       },
+      boxShadow: {
+        "question-card-dark": "0px 2px 10px 0px rgba(46, 52, 56, 0.10)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },

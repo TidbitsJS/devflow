@@ -4,6 +4,9 @@ const nextConfig = {
     serverActions: true,
     serverComponentsExternalPackages: ["mongoose"],
   },
+  images: {
+    domains: ["img.clerk.com"],
+  },
 };
 
 module.exports = nextConfig;

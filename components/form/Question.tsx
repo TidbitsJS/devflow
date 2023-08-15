@@ -29,11 +29,10 @@ interface Props {
 
 const Question = ({ mongoUserId }: Props) => {
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
-
 
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
@@ -44,7 +43,9 @@ const Question = ({ mongoUserId }: Props) => {
     },
   });
 
-   const handleCreateQuestion = async (values: z.infer<typeof questionSchema>) => {
+  const handleCreateQuestion = async (
+    values: z.infer<typeof questionSchema>
+  ) => {
     setSubmitting(true);
 
     try {
@@ -53,16 +54,16 @@ const Question = ({ mongoUserId }: Props) => {
         body: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
-        path: pathname
+        path: pathname,
       });
 
-      router.push("/")
-    } catch(error) {
+      router.push("/");
+    } catch (error) {
       console.error("Error creating a question", error);
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
