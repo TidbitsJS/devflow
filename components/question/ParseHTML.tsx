@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import ReactMarkdown, { Components } from "react-markdown";
-import rehypeRaw from "rehype-raw";
 import Prism from "prismjs";
 
 import "prismjs/components/prism-python";
@@ -28,32 +26,18 @@ import "prismjs/components/prism-mongodb";
 import "prismjs/plugins/line-numbers/prism-line-numbers.js";
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 
-interface RenderMarkdownProps {
+import parse from "html-react-parser";
+
+interface Props {
   data: string;
 }
 
-const SyntaxHighlight: Components["code"] = ({
-  node,
-  inline,
-  className,
-  ...props
-}) => {
-  return <code className={`${className} line-numbers`} {...props} />;
-};
-
-const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ data }) => {
+const ParseHTML = ({ data }: Props) => {
   useEffect(() => {
     Prism.highlightAll();
   }, []);
 
-  return (
-    <ReactMarkdown
-      components={{ code: SyntaxHighlight }}
-      rehypePlugins={[rehypeRaw]}
-    >
-      {data}
-    </ReactMarkdown>
-  );
+  return <>{parse(data)}</>;
 };
 
-export default RenderMarkdown;
+export default ParseHTML;

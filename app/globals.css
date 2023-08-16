@@ -84,7 +84,7 @@
   }
 
   .markdown {
-    @apply prose prose-p:text-light-700;
+    @apply max-w-full prose prose-p:text-light-700 prose-ol:text-light-500 prose-ul:text-light-500 prose-strong:text-white;
   }
 }
 
@@ -117,6 +117,10 @@
   );
 }
 
+.markdown pre {
+  width: 100%;
+}
+
 .markdown a,
 code {
   /* These are technically the same, but use both */
@@ -134,6 +138,9 @@ code {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  background: #ff7000;
+  padding: 2px;
 }
 
 .codeStyle span {

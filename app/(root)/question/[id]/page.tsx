@@ -1,15 +1,13 @@
-import RenderMarkdown from "@/components/question/RenderMarkdown";
+import ParseHTML from "@/components/question/ParseHTML";
 import { getQuestionById } from "@/lib/actions/question.action";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const result = await getQuestionById({ questionId: params.id });
 
-  console.log(result);
-
   return (
     <>
       <div className='markdown w-full'>
-        <RenderMarkdown data={result.body} />
+        <ParseHTML data={result.body} />
       </div>
     </>
   );
