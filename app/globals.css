@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 @layer utilities {
-  .css-invert {
-    @apply invert-[49%] brightness-[1000%];
-  }
-
   .flex-center {
     @apply flex justify-center items-center;
   }
@@ -25,6 +21,10 @@
 
   .h2-bold {
     @apply text-[24px] font-bold leading-[31.2px];
+  }
+
+  .h2-semibold {
+    @apply text-[24px] font-semibold leading-[31.2px];
   }
 
   .h3-bold {
@@ -141,9 +141,4 @@ code {
 
   background: #ff7000;
   padding: 2px;
-}
-
-.codeStyle span {
-  font-style: normal !important;
-  font-weight: 600 !important;
 }

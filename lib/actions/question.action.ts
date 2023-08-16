@@ -144,7 +144,16 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
     connectToDB();
 
     const { questionId } = params;
-    const question = await Question.findById(questionId);
+    const question = await Question.findById(questionId)
+      .populate({
+        path: "tags",
+        select: "_id name",
+      })
+      .populate({
+        path: "author",
+        select: "_id name picture",
+      })
+      .populate("answers");
 
     return question;
   } catch (error) {

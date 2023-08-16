@@ -35,7 +35,6 @@ const NavContent = () => {
                 alt={item.label}
                 width={18}
                 height={18}
-                className={`${isActive && "css-invert"}`}
               />
               <p>{item.label}</p>
             </Link>
