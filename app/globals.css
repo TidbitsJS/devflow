@@ -117,6 +117,13 @@
   );
 }
 
+.primary-text-gradient {
+  background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .markdown pre {
   width: 100%;
 }

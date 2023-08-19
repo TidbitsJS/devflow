@@ -5,10 +5,10 @@ import ParseHTML from "@/components/question/ParseHTML";
 import { Badge } from "@/components/ui/badge";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getTimeStamp } from "@/lib/utils";
+import Answer from "@/components/form/Answer";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const result = await getQuestionById({ questionId: params.id });
-  console.log(result);
 
   return (
     <>
@@ -120,6 +120,17 @@ const Page = async ({ params }: { params: { id: string } }) => {
           </Badge>
         ))}
       </div>
+
+      {/* Answers */}
+      <div className='mt-11'>
+        <h3 className='primary-text-gradient'>
+          {result.answers.length} Answers
+        </h3>
+      </div>
+
+      <div className='my-10 h-0.5 w-full bg-dark-300' />
+
+      <Answer questionTitle={result.title} />
     </>
   );
 };
