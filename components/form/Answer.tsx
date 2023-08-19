@@ -18,10 +18,10 @@ import {
 import answerSchema from "@/lib/validations/answer.validate";
 
 interface Props {
-  questionTitle: string;
+  question: string;
 }
 
-const Answer = ({ questionTitle }: Props) => {
+const Answer = ({ question }: Props) => {
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -48,7 +48,7 @@ const Answer = ({ questionTitle }: Props) => {
     const response = await fetch("http://localhost:3000/api/chatgpt", {
       method: "POST",
       body: JSON.stringify({
-        question: questionTitle,
+        question,
       }),
     });
 

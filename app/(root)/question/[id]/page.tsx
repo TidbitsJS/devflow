@@ -130,7 +130,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
       <div className='my-10 h-0.5 w-full bg-dark-300' />
 
-      <Answer questionTitle={result.title} />
+      <Answer question={result.body} />
     </>
   );
 };
