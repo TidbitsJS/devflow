@@ -82,7 +82,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         </h4>
 
         <Button
-          className='primary-text-gradient gap-1.5 rounded-md border border-dark-400 bg-dark-300 px-4 py-2.5'
+          className='gap-1.5 rounded-md border border-dark-400 bg-dark-300 px-4 py-2.5 text-primary-500'
           onClick={() => generateAIAnswer()}
         >
           <Image
