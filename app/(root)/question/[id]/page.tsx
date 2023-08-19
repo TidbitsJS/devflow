@@ -1,13 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import ParseHTML from "@/components/question/ParseHTML";
+import ParseHTML from "@/components/shared/ParseHTML";
 import { Badge } from "@/components/ui/badge";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getTimeStamp } from "@/lib/utils";
 import Answer from "@/components/form/Answer";
+import Votes from "@/components/shared/Votes";
+import { auth } from "@clerk/nextjs";
+import { getUserById } from "@/lib/actions/user.action";
 
 const Page = async ({ params }: { params: { id: string } }) => {
+  const { userId } = auth();
+  if (!userId) return null;
+
+  const mongoUser = await getUserById({ userId });
+
   const result = await getQuestionById({ questionId: params.id });
   console.log({ result });
 
@@ -30,33 +38,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
               {result.author.name}
             </p>
           </Link>
-          <div className='flex gap-5'>
-            <div className='flex-center gap-2.5'>
-              <Image
-                src='/assets/icons/upvote.svg'
-                width={18}
-                height={18}
-                alt='upvote'
-              />
-
-              <div className='flex-center min-w-[18px] rounded-sm bg-dark-400 p-1'>
-                <p className='subtle-medium text-white'>{result.upvotes}</p>
-              </div>
-
-              <Image
-                src='/assets/icons/downvote.svg'
-                width={18}
-                height={18}
-                alt='downvote'
-              />
-            </div>
-            <Image
-              src='/assets/icons/star-red.svg'
-              width={18}
-              height={18}
-              alt='star'
-            />
-          </div>
+          <Votes
+            type='Question'
+            itemId={JSON.stringify(result._id)}
+            userId={JSON.stringify(mongoUser._id)}
+            upvotes={result.upvotes}
+          />
         </div>
         <h2 className='h2-semibold mt-3.5 w-full text-left text-white'>
           {result.title}
@@ -133,8 +120,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
       <Answer
         question={result.body}
-        questionId={result._id}
-        authorId={result.author._id}
+        questionId={JSON.stringify(result._id)}
+        authorId={JSON.stringify(mongoUser._id)}
       />
     </>
   );

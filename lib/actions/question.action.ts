@@ -162,6 +162,54 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
   }
 }
 
+interface VoteParams {
+  itemId: string; // Question or Answer ID
+  userId: string;
+  path: string;
+}
+
+export async function upvoteQuestion(params: VoteParams) {
+  const { itemId, userId, path } = params;
+
+  try {
+    const updatedQuestion = await Question.findByIdAndUpdate(itemId, {
+      $inc: { upvotes: 1 },
+    });
+
+    if (updatedQuestion) {
+      await User.findByIdAndUpdate(userId, {
+        $push: { upvotedQuestions: itemId },
+      });
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error upvoting question:", error);
+    return false;
+  }
+}
+
+export async function downvoteQuestion(params: VoteParams) {
+  const { itemId, userId, path } = params;
+
+  try {
+    const updatedQuestion = await Question.findByIdAndUpdate(itemId, {
+      $inc: { upvotes: -1 },
+    });
+
+    if (updatedQuestion) {
+      await User.findByIdAndUpdate(userId, {
+        $pull: { upvotedQuestions: itemId },
+      });
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error downvoting question:", error);
+    return false;
+  }
+}
+
 interface DeleteQuestionParams {
   questionId: string;
 }

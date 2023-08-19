@@ -44,3 +44,51 @@ export async function createAnswer(params: CreateAnswerParams) {
     return null;
   }
 }
+
+interface VoteParams {
+  itemId: string; // Question or Answer ID
+  userId: string;
+  path: string;
+}
+
+export async function upvoteAnswer(params: VoteParams) {
+  const { itemId, userId, path } = params;
+
+  try {
+    const updatedAnswer = await Answer.findByIdAndUpdate(itemId, {
+      $inc: { upvotes: 1 },
+    });
+
+    if (updatedAnswer) {
+      await User.findByIdAndUpdate(userId, {
+        $push: { upvotedAnswers: itemId },
+      });
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error upvoting answer:", error);
+    return false;
+  }
+}
+
+export async function downvoteAnswer(params: VoteParams) {
+  const { itemId, userId, path } = params;
+
+  try {
+    const updatedAnswer = await Answer.findByIdAndUpdate(itemId, {
+      $inc: { upvotes: -1 },
+    });
+
+    if (updatedAnswer) {
+      await User.findByIdAndUpdate(userId, {
+        $pull: { upvotedAnswers: itemId },
+      });
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error downvoting answer:", error);
+    return false;
+  }
+}
