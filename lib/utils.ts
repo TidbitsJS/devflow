@@ -29,3 +29,18 @@ export const getTimeStamp = (createdAt: Date): string => {
 
   return `${diffDays} days ago`;
 };
+
+export function formatDate(createdAt: Date) {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    createdAt
+  );
+  return formattedDate;
+}

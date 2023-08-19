@@ -45,6 +45,66 @@ export async function createAnswer(params: CreateAnswerParams) {
   }
 }
 
+interface GetAnswersParams {
+  questionId: string;
+  sortBy?: "highestUpvotes" | "lowestUpvotes" | "recent" | "old";
+  limit?: number;
+  skip?: number;
+}
+
+export async function getAnswers({
+  questionId,
+  sortBy = "highestUpvotes", // Default to highestUpvotes
+  limit = 10, // Default limit
+  skip = 0, // Default skip
+}: GetAnswersParams) {
+  try {
+    connectToDB();
+
+    let sortOptions = {};
+
+    switch (sortBy) {
+      case "highestUpvotes":
+        sortOptions = { upvotes: -1 };
+        break;
+      case "lowestUpvotes":
+        sortOptions = { upvotes: 1 };
+        break;
+      case "recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "old":
+        sortOptions = { createdAt: 1 };
+        break;
+      default:
+        break;
+    }
+
+    const answers = await Answer.find({ question: questionId })
+      .sort(sortOptions)
+      .skip(skip) // Use the skip parameter
+      .limit(limit)
+      .populate({
+        path: "author",
+        select: "_id name picture",
+      });
+
+    // Check if there are more answers beyond the current set
+    const totalAnswersCount = await Answer.countDocuments({
+      question: questionId,
+    });
+    const isNext = totalAnswersCount > skip + limit;
+
+    return {
+      answers,
+      isNext, // Renamed from moreAnswersAvailable
+    };
+  } catch (error) {
+    console.error("Error fetching answers:", error);
+    throw error;
+  }
+}
+
 interface VoteParams {
   itemId: string; // Question or Answer ID
   userId: string;

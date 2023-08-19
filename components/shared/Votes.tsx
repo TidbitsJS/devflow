@@ -89,12 +89,14 @@ const Votes = ({ type, itemId, userId, upvotes }: Params) => {
           onClick={() => handleVote("downvote")}
         />
       </div>
-      <Image
-        src='/assets/icons/star-red.svg'
-        width={18}
-        height={18}
-        alt='star'
-      />
+      {type === "Question" && (
+        <Image
+          src='/assets/icons/star-red.svg'
+          width={18}
+          height={18}
+          alt='star'
+        />
+      )}
     </div>
   );
 };

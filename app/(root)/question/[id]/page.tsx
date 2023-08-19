@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-
-import ParseHTML from "@/components/shared/ParseHTML";
-import { Badge } from "@/components/ui/badge";
-import { getQuestionById } from "@/lib/actions/question.action";
-import { getTimeStamp } from "@/lib/utils";
-import Answer from "@/components/form/Answer";
-import Votes from "@/components/shared/Votes";
 import { auth } from "@clerk/nextjs";
+
+import Answer from "@/components/form/Answer";
+import { Badge } from "@/components/ui/badge";
+import Votes from "@/components/shared/Votes";
+import ParseHTML from "@/components/shared/ParseHTML";
+import AllAnswers from "@/components/Answer/AllAnswers";
+
+import { getTimeStamp } from "@/lib/utils";
+import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 
 const Page = async ({ params }: { params: { id: string } }) => {
@@ -15,9 +17,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
   if (!userId) return null;
 
   const mongoUser = await getUserById({ userId });
-
   const result = await getQuestionById({ questionId: params.id });
-  console.log({ result });
 
   return (
     <>
@@ -109,14 +109,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
         ))}
       </div>
 
-      {/* Answers */}
-      <div className='mt-11'>
-        <h3 className='primary-text-gradient'>
-          {result.answers.length} Answers
-        </h3>
-      </div>
-
-      <div className='my-10 h-0.5 w-full bg-dark-300' />
+      {/* @ts-ignore */}
+      <AllAnswers questionId={result._id} userId={mongoUser._id} />
 
       <Answer
         question={result.body}

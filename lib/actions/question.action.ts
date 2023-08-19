@@ -152,8 +152,7 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
       .populate({
         path: "author",
         select: "_id name picture",
-      })
-      .populate("answers");
+      });
 
     return question;
   } catch (error) {

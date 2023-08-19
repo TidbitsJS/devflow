@@ -151,7 +151,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
             )}
           />
 
-          <div className='mt-16 flex justify-end'>
+          <div className='flex justify-end'>
             <Button
               type='submit'
               className='primary-gradient w-fit'
