@@ -9,6 +9,7 @@ import Answer from "@/components/form/Answer";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const result = await getQuestionById({ questionId: params.id });
+  console.log({ result });
 
   return (
     <>
@@ -130,7 +131,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
       <div className='my-10 h-0.5 w-full bg-dark-300' />
 
-      <Answer question={result.body} />
+      <Answer
+        question={result.body}
+        questionId={result._id}
+        authorId={result.author._id}
+      />
     </>
   );
 };

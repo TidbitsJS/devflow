@@ -16,12 +16,18 @@ import {
   FormMessage,
 } from "../ui/form";
 import answerSchema from "@/lib/validations/answer.validate";
+import { createAnswer } from "@/lib/actions/answer.action";
+import { usePathname } from "next/navigation";
 
 interface Props {
   question: string;
+  questionId: string;
+  authorId: string;
 }
 
-const Answer = ({ question }: Props) => {
+const Answer = ({ question, questionId, authorId }: Props) => {
+  const pathname = usePathname();
+
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -32,11 +38,16 @@ const Answer = ({ question }: Props) => {
     },
   });
 
-  const handleCreateAnswer = () => {
+  const handleCreateAnswer = async (values: z.infer<typeof answerSchema>) => {
     setSubmitting(true);
 
     try {
-      // do somethings
+      await createAnswer({
+        body: values.answer,
+        author: authorId,
+        question: questionId,
+        path: pathname,
+      });
     } catch (error) {
       console.error("Error creating a question", error);
     } finally {
@@ -55,10 +66,8 @@ const Answer = ({ question }: Props) => {
     const aiAnswer = await response.json();
 
     // Convert plain text to HTML format
-    const formattedAnswer = aiAnswer.reply
-      .replace(/\n/g, '<br>') // Convert line breaks to <br> tags
-      .replace(/```([^`]+)```/g, '<code>$1</code>'); // Convert code blocks to <code> tags
-    
+    const formattedAnswer = aiAnswer.reply.replace(/\n/g, "<br>");
+
     if (editorRef.current) {
       const editor = editorRef.current as any;
       editor.setContent(formattedAnswer);
