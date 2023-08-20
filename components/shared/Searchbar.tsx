@@ -29,8 +29,10 @@ const Searchbar = ({
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (search) {
-        router.push(`/${route}?q=` + search);
+        router.push(`${route}?q=` + search);
       } else {
+        console.log(pathname, route);
+
         if (pathname === route) {
           router.push(`${pathname}`);
         }

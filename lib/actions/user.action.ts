@@ -9,6 +9,7 @@ import Tag from "@/mongodb/tag.model";
 import User from "@/mongodb/user.model";
 
 import { getTrendingTags } from "./tag.action";
+import { FilterQuery } from "mongoose";
 
 interface CreateUserParams {
   clerkId: string;
@@ -46,6 +47,58 @@ export async function getUserById(params: GetUserByIdParams) {
     return user;
   } catch (error) {
     console.error("Error getting user by ID:", error);
+    throw error;
+  }
+}
+
+interface GetAllUsersParams {
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+  searchQuery?: string; // Add searchQuery parameter
+}
+
+export async function getAllUsers(params: GetAllUsersParams) {
+  try {
+    connectToDB();
+
+    const { page = 1, pageSize = 20, filter, searchQuery } = params;
+    const skipAmount = (page - 1) * pageSize;
+
+    const query: FilterQuery<typeof User> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { username: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "reputation":
+        sortOptions = { reputation: -1 };
+        break;
+      case "joinDate":
+        sortOptions = { joinDate: 1 };
+        break;
+      default:
+        // No specific filter
+        break;
+    }
+
+    const users = await User.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const totalUsers = await User.countDocuments();
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
+  } catch (error) {
+    console.error("Error fetching users:", error);
     throw error;
   }
 }
