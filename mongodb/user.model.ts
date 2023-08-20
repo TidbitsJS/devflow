@@ -7,6 +7,7 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   bio?: string;
+  location?: string;
   picture: string;
   portfolioWebsite?: string;
   reputation?: number;
@@ -46,6 +47,9 @@ const UserSchema = new Schema({
   picture: {
     type: String,
     required: true,
+  },
+  location: {
+    type: String,
   },
   portfolioWebsite: {
     type: String,

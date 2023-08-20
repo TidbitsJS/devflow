@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import questionSchema from "@/lib/validations/question.validate";
 import { Badge } from "../ui/badge";
 import { createQuestion } from "@/lib/actions/question.action";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   mongoUserId: string;
@@ -57,9 +58,17 @@ const Question = ({ mongoUserId }: Props) => {
         path: pathname,
       });
 
+      toast({
+        title: "Question Posted",
+        description: "Your question has been successfully posted.",
+      });
+
       router.push("/");
     } catch (error) {
-      console.error("Error creating a question", error);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
     } finally {
       setSubmitting(false);
     }

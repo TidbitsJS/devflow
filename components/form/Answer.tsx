@@ -18,6 +18,7 @@ import {
 import answerSchema from "@/lib/validations/answer.validate";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   question: string;
@@ -54,8 +55,16 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         const editor = editorRef.current as any;
         editor.setContent("");
       }
+
+      toast({
+        title: "Answer Posted",
+        description: "Your answer has been successfully posted.",
+      });
     } catch (error) {
-      console.error("Error creating a question", error);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -78,6 +87,12 @@ const Answer = ({ question, questionId, authorId }: Props) => {
       const editor = editorRef.current as any;
       editor.setContent(formattedAnswer);
     }
+
+    toast({
+      title: "AI Answer Generated",
+      description:
+        "The AI has successfully generated an answer based on your query.",
+    });
   };
 
   return (

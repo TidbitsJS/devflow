@@ -18,6 +18,7 @@
     "@radix-ui/react-menubar": "^1.0.3",
     "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.4",
     "@tinymce/tinymce-react": "^4.3.0",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",
