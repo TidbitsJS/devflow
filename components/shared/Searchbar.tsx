@@ -31,8 +31,6 @@ const Searchbar = ({
       if (search) {
         router.push(`${route}?q=` + search);
       } else {
-        console.log(pathname, route);
-
         if (pathname === route) {
           router.push(`${pathname}`);
         }
