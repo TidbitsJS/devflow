@@ -31,12 +31,14 @@ const Searchbar = ({
       if (search) {
         router.push(`/${route}?q=` + search);
       } else {
-        router.push(`${pathname}`);
+        if (pathname === route) {
+          router.push(`${pathname}`);
+        }
       }
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [search, route]);
+  }, [search, route, pathname, router]);
 
   return (
     <div

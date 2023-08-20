@@ -6,7 +6,7 @@ import RightSidebar from "@/components/shared/RightSidebar";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <main className='bg-black'>
+    <main className='relative bg-black'>
       <Navbar />
       <div className='flex'>
         <LeftSidebar />

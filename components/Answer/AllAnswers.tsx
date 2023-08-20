@@ -6,21 +6,34 @@ import ParseHTML from "../shared/ParseHTML";
 
 import { formatDate } from "@/lib/utils";
 import { getAnswers } from "@/lib/actions/answer.action";
+import Pagination from "../shared/Pagination";
 
 interface Params {
   questionId: string;
   userId: string;
+  totalAnswers: number;
+  page: string | undefined;
+  filter: string | undefined;
 }
 
-const AllAnswers = async ({ questionId, userId }: Params) => {
-  const result = await getAnswers({ questionId });
+const AllAnswers = async ({
+  questionId,
+  userId,
+  totalAnswers,
+  page,
+  filter,
+}: Params) => {
+  const result = await getAnswers({
+    questionId,
+    page: page ? +page : 1,
+    pageSize: 5,
+    sortBy: filter,
+  });
 
   return (
     <div className='mt-11'>
       <div className='flex items-center justify-between'>
-        <h3 className='primary-text-gradient'>
-          {result.answers.length} Answers
-        </h3>
+        <h3 className='primary-text-gradient'>{totalAnswers} Answers</h3>
 
         <AnswerFilter />
       </div>
@@ -60,6 +73,14 @@ const AllAnswers = async ({ questionId, userId }: Params) => {
             <div className='my-10 h-0.5 w-full bg-dark-300' />
           </article>
         ))}
+      </div>
+
+      <div className='my-10 w-full'>
+        <Pagination
+          path={`question/${questionId}`}
+          pageNumber={page ? +page : 1}
+          isNext={result.isNext}
+        />
       </div>
     </div>
   );

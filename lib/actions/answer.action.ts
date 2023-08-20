@@ -47,19 +47,24 @@ export async function createAnswer(params: CreateAnswerParams) {
 
 interface GetAnswersParams {
   questionId: string;
-  sortBy?: "highestUpvotes" | "lowestUpvotes" | "recent" | "old";
-  limit?: number;
-  skip?: number;
+  sortBy?: string;
+  page?: number;
+  pageSize?: number;
 }
 
-export async function getAnswers({
-  questionId,
-  sortBy = "highestUpvotes", // Default to highestUpvotes
-  limit = 10, // Default limit
-  skip = 0, // Default skip
-}: GetAnswersParams) {
+export async function getAnswers(params: GetAnswersParams) {
   try {
     connectToDB();
+
+    const {
+      questionId,
+      sortBy = "highestUpvotes", // Default to highestUpvotes
+      page = 1, // Default limit
+      pageSize = 10, // Default skip
+    } = params;
+
+    // Calculate the number of posts to skip based on the page number and page size.
+    const skipAmount = (page - 1) * pageSize;
 
     let sortOptions = {};
 
@@ -82,8 +87,8 @@ export async function getAnswers({
 
     const answers = await Answer.find({ question: questionId })
       .sort(sortOptions)
-      .skip(skip) // Use the skip parameter
-      .limit(limit)
+      .skip(skipAmount) // Use the skip parameter
+      .limit(pageSize)
       .populate({
         path: "author",
         select: "_id name picture",
@@ -93,12 +98,9 @@ export async function getAnswers({
     const totalAnswersCount = await Answer.countDocuments({
       question: questionId,
     });
-    const isNext = totalAnswersCount > skip + limit;
+    const isNext = totalAnswersCount > skipAmount + answers.length;
 
-    return {
-      answers,
-      isNext, // Renamed from moreAnswersAvailable
-    };
+    return { answers, isNext };
   } catch (error) {
     console.error("Error fetching answers:", error);
     throw error;

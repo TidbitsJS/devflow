@@ -12,7 +12,16 @@ import { getTimeStamp } from "@/lib/utils";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 
-const Page = async ({ params }: { params: { id: string } }) => {
+interface Params {
+  params: {
+    id: string;
+  };
+  searchParams: {
+    [key: string]: string | undefined;
+  };
+}
+
+const Page = async ({ params, searchParams }: Params) => {
   const { userId } = auth();
   if (!userId) return null;
 
@@ -110,7 +119,13 @@ const Page = async ({ params }: { params: { id: string } }) => {
       </div>
 
       {/* @ts-ignore */}
-      <AllAnswers questionId={result._id} userId={mongoUser._id} />
+      <AllAnswers
+        questionId={result._id}
+        userId={mongoUser._id}
+        totalAnswers={result.answers.length}
+        page={searchParams?.page}
+        filter={searchParams?.filter}
+      />
 
       <Answer
         question={result.body}
