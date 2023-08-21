@@ -47,15 +47,15 @@ const Page = async ({ params, searchParams }: Params) => {
               {result.author.name}
             </p>
           </Link>
-          {/* <Votes
+          <Votes
             type='Question'
             itemId={JSON.stringify(result._id)}
             userId={JSON.stringify(mongoUser._id)}
             upvotes={result.upvotes}
-            hasupVoted={result.author.upvotedQuestions.includes(result._id)}
+            hasupVoted={result.upvotes.includes(mongoUser._id)}
             downvotes={result.downvotes}
-            hasdownVoted={result.author.downvotedQuestions.includes(result._id)}
-          /> */}
+            hasdownVoted={result.downvotesincludes(mongoUser._id)}
+          />
         </div>
         <h2 className='h2-semibold mt-3.5 w-full text-left text-white'>
           {result.title}

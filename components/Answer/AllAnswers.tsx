@@ -58,17 +58,15 @@ const AllAnswers = async ({
                   • answered {formatDate(answer.createdAt)}
                 </p>
               </div>
-              {/* <Votes
+              <Votes
                 type='Answer'
                 itemId={JSON.stringify(answer._id)}
                 userId={JSON.stringify(userId)}
-                upvotes={answer.upvotes}
-                hasupVoted={answer.author.upvotedQuestions.includes(answer._id)}
-                downvotes={answer.downvotes}
-                hasdownVoted={answer.author.downvotedQuestions.includes(
-                  answer._id
-                )}
-              /> */}
+                upvotes={answer.upvotes.length}
+                hasupVoted={answer.upvotes.includes(userId)}
+                downvotes={answer.downvotes.length}
+                hasdownVoted={answer.downvotes.includes(userId)}
+              />
             </div>
 
             <div className='markdown mt-6 w-full'>

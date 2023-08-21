@@ -126,13 +126,14 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
 interface VoteParams {
   questionId: string;
   userId: string;
+  path: string;
 }
 
 export async function upvoteQuestion(params: VoteParams) {
   try {
     await connectToDB();
 
-    const { questionId, userId } = params;
+    const { questionId, userId, path } = params;
 
     const question = await Question.findByIdAndUpdate(
       questionId,
@@ -144,7 +145,7 @@ export async function upvoteQuestion(params: VoteParams) {
       throw new Error("Question not found");
     }
 
-    return question;
+    revalidatePath(path);
   } catch (error) {
     console.error("Error upvoting question:", error);
     throw error;
@@ -155,7 +156,7 @@ export async function downvoteQuestion(params: VoteParams) {
   try {
     await connectToDB();
 
-    const { questionId, userId } = params;
+    const { questionId, userId, path } = params;
 
     const question = await Question.findByIdAndUpdate(
       questionId,
@@ -167,7 +168,7 @@ export async function downvoteQuestion(params: VoteParams) {
       throw new Error("Question not found");
     }
 
-    return question;
+    revalidatePath(path);
   } catch (error) {
     console.error("Error downvoting question:", error);
     throw error;

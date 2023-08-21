@@ -1,8 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-// import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+import {
+  downvoteQuestion,
+  upvoteQuestion,
+} from "@/lib/actions/question.action";
+import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
+import { toast } from "../ui/use-toast";
 
 interface Params {
   type: string;
@@ -23,20 +28,53 @@ const Votes = ({
   downvotes,
   hasdownVoted,
 }: Params) => {
-  // const pathname = usePathname();
-  const [localUpVotes, setLocalUpVotes] = useState(upvotes);
-  const [localDownVotes, setLocaDownVote] = useState(downvotes);
+  const pathname = usePathname();
 
-  const handleVote = (action: string) => {
-    if (action === "upvote" && hasupVoted) return;
-    if (action === "downvote" && hasdownVoted) return;
+  const handleVote = async (action: string) => {
+    if (action === "upvote" && hasupVoted) {
+      return toast({
+        title: "Already upvoted",
+        description: `You have already upvoted this ${type}`,
+      });
+    }
+
+    if (action === "downvote" && hasdownVoted) {
+      return toast({
+        title: "Already downvoted",
+        description: `You have already downvoted this ${type}`,
+      });
+    }
 
     if (action === "upvote") {
-      setLocalUpVotes(upvotes + 1);
+      if (type === "Question") {
+        return await upvoteQuestion({
+          questionId: itemId,
+          userId,
+          path: pathname,
+        });
+      } else if (type === "Answer") {
+        return await upvoteAnswer({
+          answerId: itemId,
+          userId,
+          path: pathname,
+        });
+      }
     }
 
     if (action === "downvote") {
-      setLocaDownVote(downvotes - 1);
+      if (type === "Question") {
+        return await downvoteQuestion({
+          questionId: itemId,
+          userId,
+          path: pathname,
+        });
+      } else if (type === "Answer") {
+        return await downvoteAnswer({
+          answerId: itemId,
+          userId,
+          path: pathname,
+        });
+      }
     }
   };
 
@@ -45,7 +83,11 @@ const Votes = ({
       <div className='flex-center gap-2.5'>
         <div className='flex-center gap-1.5'>
           <Image
-            src='/assets/icons/upvote.svg'
+            src={
+              hasupVoted
+                ? "/assets/icons/upvoted.svg"
+                : "/assets/icons/upvote.svg"
+            }
             width={18}
             height={18}
             alt='upvote'
@@ -54,13 +96,17 @@ const Votes = ({
           />
 
           <div className='flex-center min-w-[18px] rounded-sm bg-dark-400 p-1'>
-            <p className='subtle-medium text-white'>{localUpVotes}</p>
+            <p className='subtle-medium text-white'>{upvotes}</p>
           </div>
         </div>
 
         <div className='flex-center gap-1.5'>
           <Image
-            src='/assets/icons/downvote.svg'
+            src={
+              hasdownVoted
+                ? "/assets/icons/downvoted.svg"
+                : "/assets/icons/downvote.svg"
+            }
             width={18}
             height={18}
             alt='downvote'
@@ -69,10 +115,11 @@ const Votes = ({
           />
 
           <div className='flex-center min-w-[18px] rounded-sm bg-dark-400 p-1'>
-            <p className='subtle-medium text-white'>{localDownVotes}</p>
+            <p className='subtle-medium text-white'>{downvotes}</p>
           </div>
         </div>
       </div>
+
       {type === "Question" && (
         <Image
           src='/assets/icons/star-red.svg'
