@@ -8,7 +8,7 @@ import Votes from "@/components/shared/Votes";
 import ParseHTML from "@/components/shared/ParseHTML";
 import AllAnswers from "@/components/Answer/AllAnswers";
 
-import { getTimeStamp } from "@/lib/utils";
+import { formatNumber, getTimeStamp } from "@/lib/utils";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 
@@ -102,7 +102,7 @@ const Page = async ({ params, searchParams }: Params) => {
           />
 
           <p className='small-medium text-light-800'>
-            {result.views}
+            {formatNumber(result.views)}
             <span className='small-regular'> Views</span>
           </p>
         </div>

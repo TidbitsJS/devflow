@@ -1,13 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   downvoteQuestion,
   upvoteQuestion,
 } from "@/lib/actions/question.action";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 import { toast } from "../ui/use-toast";
+import { useEffect } from "react";
+import { viewQuestion } from "@/lib/actions/interaction.action";
+import { formatNumber } from "@/lib/utils";
 
 interface Params {
   type: string;
@@ -29,6 +32,16 @@ const Votes = ({
   hasdownVoted,
 }: Params) => {
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    viewQuestion({
+      questionId: JSON.parse(itemId),
+      userId: JSON.parse(userId),
+    });
+
+    router.refresh();
+  }, [itemId, userId, pathname, router]);
 
   const handleVote = async (action: string) => {
     if (action === "upvote" && hasupVoted) {
@@ -96,7 +109,7 @@ const Votes = ({
           />
 
           <div className='flex-center min-w-[18px] rounded-sm bg-dark-400 p-1'>
-            <p className='subtle-medium text-white'>{upvotes}</p>
+            <p className='subtle-medium text-white'>{formatNumber(upvotes)}</p>
           </div>
         </div>
 
@@ -115,7 +128,9 @@ const Votes = ({
           />
 
           <div className='flex-center min-w-[18px] rounded-sm bg-dark-400 p-1'>
-            <p className='subtle-medium text-white'>{downvotes}</p>
+            <p className='subtle-medium text-white'>
+              {formatNumber(downvotes)}
+            </p>
           </div>
         </div>
       </div>

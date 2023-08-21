@@ -1,8 +1,8 @@
-import { getTimeStamp } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Badge } from "../ui/badge";
+import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 interface Question {
   _id: string;
@@ -77,7 +77,7 @@ const QuestionCard = ({
             />
 
             <p className='small-medium text-light-800'>
-              {upvotes}
+              {formatNumber(upvotes)}
               <span className='small-regular'> Votes</span>
             </p>
           </div>
@@ -91,7 +91,7 @@ const QuestionCard = ({
             />
 
             <p className='small-medium text-light-800'>
-              {answers.length}
+              {formatNumber(answers.length)}
               <span className='small-regular'> Answers</span>
             </p>
           </div>
@@ -105,7 +105,7 @@ const QuestionCard = ({
             />
 
             <p className='small-medium text-light-800'>
-              {views}
+              {formatNumber(views)}
               <span className='small-regular'> Views</span>
             </p>
           </div>
