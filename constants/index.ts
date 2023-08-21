@@ -1,15 +1,11 @@
-import {
-  HotNetworkQuestion,
-  MockUserData,
-  PopularTag,
-  SidebarLink,
-} from "@/types";
+import { HotNetworkQuestion, MockUserData, SidebarLink } from "@/types";
 
 export const themes = [
   { value: "light", label: "Light", icon: "/assets/icons/sun.svg" },
   { value: "dark", label: "Dark", icon: "/assets/icons/moon.svg" },
   { value: "system", label: "System", icon: "/assets/icons/computer.svg" },
 ];
+
 export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: "/assets/icons/home.svg",
@@ -84,34 +80,6 @@ export const hotNetworkQuestion: HotNetworkQuestion[] = [
   {
     id: 5,
     question: "What is an example of 3 numbers that do not make up a vector?",
-  },
-];
-
-export const popularTags: PopularTag[] = [
-  {
-    id: 1,
-    name: "javascript",
-    count: "23493+",
-  },
-  {
-    id: 2,
-    name: "reactjs",
-    count: "20152+",
-  },
-  {
-    id: 3,
-    name: "html_css",
-    count: "17493+",
-  },
-  {
-    id: 4,
-    name: "expressjs",
-    count: "14431+",
-  },
-  {
-    id: 5,
-    name: "mongoose",
-    count: "9429+",
   },
 ];
 
