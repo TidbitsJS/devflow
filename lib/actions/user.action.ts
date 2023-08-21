@@ -1,15 +1,14 @@
 "use server";
 
 import { connectToDB } from "../mongoose";
-import { IUser, IQuestion, ITag } from "@/mongodb";
+import { IUser } from "@/mongodb";
 
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
-import Tag from "@/mongodb/tag.model";
 import User from "@/mongodb/user.model";
 
-import { getTrendingTags } from "./tag.action";
 import { FilterQuery } from "mongoose";
+import Interaction from "@/mongodb/interaction.model";
 
 interface CreateUserParams {
   clerkId: string;
@@ -114,7 +113,6 @@ export async function updateUser(params: UpdateUserParams) {
 
     const { clerkId, updateData } = params;
 
-    // Assuming "clerkId" is another field in the User model that you want to use for querying
     const updatedUser = await User.findOneAndUpdate({ clerkId }, updateData, {
       new: true,
     });
@@ -149,30 +147,32 @@ export async function deleteUser(params: DeleteUserParams) {
     // Delete all answers given by the user
     await Answer.deleteMany({ author: user._id });
 
-    // Clear user references from upvotedQuestions and upvotedAnswers arrays of other users
-    await User.updateMany(
-      { _id: { $in: user.upvotedQuestions } },
-      { $pull: { upvotedQuestions: user._id } }
-    );
-
-    await User.updateMany(
-      { _id: { $in: user.upvotedAnswers } },
-      { $pull: { upvotedAnswers: user._id } }
-    );
-
-    // Update the upvote count of each question and answer
+    // Remove user reference from upvotes and downvotes on questions
     await Question.updateMany(
-      { _id: { $in: user.upvotedQuestions } },
-      { $inc: { upvotes: -1 } }
+      { upvotes: user._id },
+      { $pull: { upvotes: user._id } }
+    );
+
+    await Question.updateMany(
+      { downvotes: user._id },
+      { $pull: { downvotes: user._id } }
+    );
+
+    // Remove user reference from upvotes and downvotes on answers
+    await Answer.updateMany(
+      { upvotes: user._id },
+      { $pull: { upvotes: user._id } }
     );
 
     await Answer.updateMany(
-      { _id: { $in: user.upvotedAnswers } },
-      { $inc: { upvotes: -1 } }
+      { downvotes: user._id },
+      { $pull: { downvotes: user._id } }
     );
 
-    // Delete tags created by the user
-    await Tag.deleteMany({ author: user._id });
+    // Delete interactions involving the user
+    await Interaction.deleteMany({ user: user._id });
+
+    // TODO: tag followers?
 
     // Delete the user
     const deletedUser = await User.findByIdAndDelete(user._id);
@@ -184,63 +184,4 @@ export async function deleteUser(params: DeleteUserParams) {
   }
 }
 
-interface GetRecommendedQuestionsParams {
-  clerkId: string;
-  limit?: number;
-}
-
-export async function getRecommendedQuestions(
-  params: GetRecommendedQuestionsParams
-) {
-  try {
-    connectToDB();
-
-    const { clerkId, limit = 5 } = params;
-
-    // Get the user's interests
-    const user = await User.findOne({ clerkId }).select(
-      "tags viewedQuestions upvotedQuestions questionsAsked"
-    );
-
-    if (!user) {
-      throw new Error("User not found.");
-    }
-
-    // Get the trending tags
-    const trendingTags = await getTrendingTags({ limit });
-
-    // Combine user interests and trending tags
-    const combinedTags: Set<string> = new Set([
-      ...user.tags,
-      ...trendingTags.map((tag: ITag) => tag.name),
-    ]);
-
-    // Fetch questions based on user interests and trending tags, and rank by relevance score
-    const relevantQuestions: IQuestion[] = await Question.find({
-      tags: { $in: [...combinedTags] },
-      _id: {
-        $nin: [
-          ...user.viewedQuestions,
-          ...user.upvotedQuestions,
-          ...user.questionsAsked,
-        ],
-      },
-    })
-      .sort({ upvotes: -1, views: -1, createdAt: -1 })
-      .limit(limit)
-      .lean();
-
-    // Filter out questions the user has already seen or upvoted
-    const filteredQuestions: IQuestion[] = relevantQuestions.filter(
-      (question) =>
-        !user.viewedQuestions.includes(question._id) &&
-        !user.upvotedQuestions.includes(question._id)
-    );
-
-    // Return the recommended questions
-    return filteredQuestions;
-  } catch (error) {
-    console.error("Error getting recommended questions:", error);
-    throw error;
-  }
-}
+// TODO: Interaction Recommendation?

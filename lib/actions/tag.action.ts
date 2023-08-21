@@ -1,50 +1,14 @@
 "use server";
 
-import { ITag } from "@/mongodb";
 import Tag from "@/mongodb/tag.model";
 import { FilterQuery } from "mongoose";
 import { connectToDB } from "../mongoose";
 
-interface GetTrendingTagsParams {
-  limit: number;
-}
-
-export async function getTrendingTags(
-  params: GetTrendingTagsParams
-): Promise<ITag[]> {
-  try {
-    const { limit } = params;
-
-    const trendingTags: ITag[] = await Tag.aggregate([
-      {
-        $unwind: "$tags",
-      },
-      {
-        $group: {
-          _id: "$tags",
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $sort: { count: -1 },
-      },
-      {
-        $limit: limit,
-      },
-    ]).exec();
-
-    return trendingTags;
-  } catch (error) {
-    console.error("Error getting trending tags:", error);
-    throw error;
-  }
-}
-
-interface GetAllTagsParams {
+export interface GetAllTagsParams {
   page?: number;
   pageSize?: number;
-  filter?: string;
-  searchQuery?: string; // Add searchQuery parameter
+  filter?: "popular" | "recent" | "old";
+  searchQuery?: string;
 }
 
 export async function getAllTags(params: GetAllTagsParams) {
@@ -60,26 +24,30 @@ export async function getAllTags(params: GetAllTagsParams) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
     }
 
-    let sortOptions = {};
+    let sortOptions: any = {};
 
     switch (filter) {
-      case "reputation":
-        sortOptions = { reputation: -1 };
+      case "popular":
+        sortOptions = { questions: -1 };
         break;
-      case "joinDate":
-        sortOptions = { joinDate: 1 };
+      case "recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "old":
+        sortOptions = { createdAt: 1 };
         break;
       default:
         // No specific filter
         break;
     }
 
+    const totalTags = await Tag.countDocuments(query);
+
     const tags = await Tag.find(query)
       .sort(sortOptions)
       .skip(skipAmount)
       .limit(pageSize);
 
-    const totalTags = await Tag.countDocuments();
     const isNext = totalTags > skipAmount + tags.length;
 
     return { tags, isNext };

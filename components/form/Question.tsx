@@ -52,7 +52,7 @@ const Question = ({ mongoUserId }: Props) => {
     try {
       await createQuestion({
         title: values.title,
-        body: values.explanation,
+        content: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
         path: pathname,

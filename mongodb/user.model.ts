@@ -1,4 +1,4 @@
-import { Schema, models, model, Document } from "mongoose";
+import { Schema, models, model, Document, Date } from "mongoose";
 
 export interface IUser extends Document {
   clerkId: string;
@@ -7,16 +7,11 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   bio?: string;
-  location?: string;
   picture: string;
+  location?: string;
   portfolioWebsite?: string;
   reputation?: number;
-  joinDate?: Date;
-  questionsAsked?: Schema.Types.ObjectId[];
-  answersGiven?: Schema.Types.ObjectId[];
-  upvotedQuestions?: Schema.Types.ObjectId[];
-  upvotedAnswers?: Schema.Types.ObjectId[];
-  viewedQuestions?: Schema.Types.ObjectId[];
+  createdAt: Date;
 }
 
 const UserSchema = new Schema({
@@ -54,43 +49,8 @@ const UserSchema = new Schema({
   portfolioWebsite: {
     type: String,
   },
-  reputation: {
-    type: Number,
-  },
-  joinDate: {
-    type: Date,
-    default: Date.now,
-  },
-  questionsAsked: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Question",
-    },
-  ],
-  answersGiven: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Answer",
-    },
-  ],
-  upvotedQuestions: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Question",
-    },
-  ],
-  upvotedAnswers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Answer",
-    },
-  ],
-  viewedQuestions: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Question",
-    },
-  ],
+  reputation: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const User = models.User || model("User", UserSchema);

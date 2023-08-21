@@ -1,18 +1,15 @@
 import { Schema, models, model, Document } from "mongoose";
 
 export interface IAnswer extends Document {
-  body: string;
   author: Schema.Types.ObjectId;
   question: Schema.Types.ObjectId;
-  upvotes: number;
+  content: string;
+  upvotes: Schema.Types.ObjectId[];
+  downvotes: Schema.Types.ObjectId[];
   createdAt: Date;
 }
 
 const AnswerSchema = new Schema({
-  body: {
-    type: String,
-    required: true,
-  },
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -23,10 +20,22 @@ const AnswerSchema = new Schema({
     ref: "Question",
     required: true,
   },
-  upvotes: {
-    type: Number,
-    default: 0,
+  content: {
+    type: String,
+    required: true,
   },
+  upvotes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  downvotes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

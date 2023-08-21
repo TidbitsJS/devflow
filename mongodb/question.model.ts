@@ -2,11 +2,12 @@ import { Schema, models, model, Document } from "mongoose";
 
 export interface IQuestion extends Document {
   title: string;
-  body: string;
+  content: string;
   tags: Schema.Types.ObjectId[];
-  author: Schema.Types.ObjectId;
-  upvotes: number;
   views: number;
+  upvotes: Schema.Types.ObjectId[];
+  downvotes: Schema.Types.ObjectId[];
+  author: Schema.Types.ObjectId;
   answers: Schema.Types.ObjectId[];
   createdAt: Date;
 }
@@ -16,27 +17,36 @@ const QuestionSchema = new Schema({
     type: String,
     required: true,
   },
-  body: {
+  content: {
     type: String,
     required: true,
   },
-  tags: {
-    type: [Schema.Types.ObjectId],
-    ref: "Tag",
-    required: true,
+  tags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Tag",
+    },
+  ],
+  views: {
+    type: Number,
+    default: 0,
   },
+  upvotes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  downvotes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
-  },
-  upvotes: {
-    type: Number,
-    default: 0,
-  },
-  views: {
-    type: Number,
-    default: 0,
   },
   answers: [
     {

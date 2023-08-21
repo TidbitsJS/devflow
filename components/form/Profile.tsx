@@ -44,8 +44,6 @@ const Profile = ({ clerkId, user }: Params) => {
   });
 
   const handleUpdateProfile = async (values: z.infer<typeof profileSchema>) => {
-    console.log("coming here");
-
     setSubmitting(true);
     try {
       await updateUser({

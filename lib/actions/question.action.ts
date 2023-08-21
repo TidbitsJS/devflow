@@ -6,23 +6,20 @@ import { FilterQuery, Schema } from "mongoose";
 import { IUser } from "@/mongodb";
 import { connectToDB } from "../mongoose";
 
-import User from "@/mongodb/user.model";
 import Question from "@/mongodb/question.model";
 import Tag from "@/mongodb/tag.model";
-import Answer from "@/mongodb/answer.model";
 
 interface GetQuestionsParams {
   page?: number;
   pageSize?: number;
   searchQuery?: string;
-  filterTags?: string[];
 }
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDB();
 
-    const { page = 1, pageSize = 20, searchQuery, filterTags } = params;
+    const { page = 1, pageSize = 20, searchQuery } = params;
 
     // Calculate the number of posts to skip based on the page number and page size.
     const skipAmount = (page - 1) * pageSize;
@@ -32,12 +29,8 @@ export async function getQuestions(params: GetQuestionsParams) {
     if (searchQuery) {
       query.$or = [
         { title: { $regex: new RegExp(searchQuery, "i") } },
-        { body: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
       ];
-    }
-
-    if (filterTags && filterTags.length > 0) {
-      query.tags = { $in: filterTags };
     }
 
     const totalQuestions = await Question.countDocuments(query);
@@ -60,8 +53,8 @@ export async function getQuestions(params: GetQuestionsParams) {
 
 interface CreateQuestionParams {
   title: string;
-  body: string;
-  tags: Array<string>;
+  content: string;
+  tags: string[];
   author: Schema.Types.ObjectId | IUser;
   path: string;
 }
@@ -70,13 +63,12 @@ export async function createQuestion(params: CreateQuestionParams) {
   try {
     connectToDB();
 
-    const { title, body, tags, author, path } = params;
-    console.log(path);
+    const { title, content, tags, author, path } = params;
 
     // Create the question
     const question = await Question.create({
       title,
-      body,
+      content,
       author,
     });
 
@@ -86,7 +78,7 @@ export async function createQuestion(params: CreateQuestionParams) {
     for (const tag of tags) {
       const existingTag = await Tag.findOneAndUpdate(
         { name: { $regex: new RegExp(`^${tag}$`, "i") } },
-        { $setOnInsert: { name: tag }, $inc: { questionsCount: 1 } },
+        { $setOnInsert: { name: tag }, $push: { questions: question._id } },
         { upsert: true, new: true }
       );
 
@@ -98,39 +90,9 @@ export async function createQuestion(params: CreateQuestionParams) {
       $push: { tags: { $each: tagDocuments } },
     });
 
-    // Update the user's questionsAsked field
-    await User.findByIdAndUpdate(author, {
-      $push: { questionsAsked: question._id },
-    });
-
     revalidatePath(path);
   } catch (error) {
     console.error("Error creating question:", error);
-    throw error;
-  }
-}
-
-interface UpdateQuestionParams {
-  questionId: Schema.Types.ObjectId | string;
-  updateData: Partial<CreateQuestionParams>;
-}
-
-export async function updateQuestion(params: UpdateQuestionParams) {
-  try {
-    connectToDB();
-
-    const { questionId, updateData } = params;
-    const updatedQuestion = await Question.findByIdAndUpdate(
-      questionId,
-      updateData,
-      {
-        new: true,
-      }
-    );
-
-    return updatedQuestion;
-  } catch (error) {
-    console.error("Error updating question:", error);
     throw error;
   }
 }
@@ -162,96 +124,52 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
 }
 
 interface VoteParams {
-  itemId: string; // Question or Answer ID
+  questionId: string;
   userId: string;
-  path: string;
 }
 
 export async function upvoteQuestion(params: VoteParams) {
-  const { itemId, userId, path } = params;
-
   try {
-    const updatedQuestion = await Question.findByIdAndUpdate(itemId, {
-      $inc: { upvotes: 1 },
-    });
+    await connectToDB();
 
-    if (updatedQuestion) {
-      await User.findByIdAndUpdate(userId, {
-        $push: { upvotedQuestions: itemId },
-      });
+    const { questionId, userId } = params;
+
+    const question = await Question.findByIdAndUpdate(
+      questionId,
+      { $addToSet: { upvotes: userId }, $pull: { downvotes: userId } },
+      { new: true }
+    );
+
+    if (!question) {
+      throw new Error("Question not found");
     }
 
-    revalidatePath(path);
+    return question;
   } catch (error) {
     console.error("Error upvoting question:", error);
-    return false;
+    throw error;
   }
 }
 
 export async function downvoteQuestion(params: VoteParams) {
-  const { itemId, userId, path } = params;
-
   try {
-    const updatedQuestion = await Question.findByIdAndUpdate(itemId, {
-      $inc: { upvotes: -1 },
-    });
+    await connectToDB();
 
-    if (updatedQuestion) {
-      await User.findByIdAndUpdate(userId, {
-        $pull: { upvotedQuestions: itemId },
-      });
+    const { questionId, userId } = params;
+
+    const question = await Question.findByIdAndUpdate(
+      questionId,
+      { $addToSet: { downvotes: userId }, $pull: { upvotes: userId } },
+      { new: true }
+    );
+
+    if (!question) {
+      throw new Error("Question not found");
     }
 
-    revalidatePath(path);
+    return question;
   } catch (error) {
     console.error("Error downvoting question:", error);
-    return false;
-  }
-}
-
-interface DeleteQuestionParams {
-  questionId: string;
-}
-
-export async function deleteQuestion(params: DeleteQuestionParams) {
-  try {
-    connectToDB();
-
-    const { questionId } = params;
-
-    const deletedQuestion = await Question.findByIdAndDelete(questionId);
-
-    if (deletedQuestion) {
-      // Remove the deleted question's _id from questionsAsked array in the User model
-      await User.findByIdAndUpdate(deletedQuestion.author, {
-        $pull: { questionsAsked: deletedQuestion._id },
-      });
-
-      // Decrement questionsCount in the Tag model for each tag
-      await Tag.updateMany(
-        { _id: { $in: deletedQuestion.tags } },
-        { $inc: { questionsCount: -1 } }
-      );
-
-      // Delete all answers associated with the deleted question
-      await Answer.deleteMany({ _id: { $in: deletedQuestion.answers } });
-
-      // Update the upvote count of each answer
-      await Answer.updateMany(
-        { _id: { $in: deletedQuestion.answers } },
-        { $inc: { upvotes: -1 } }
-      );
-
-      // Remove references from other users' upvotedAnswers array
-      await User.updateMany(
-        { upvotedAnswers: { $in: deletedQuestion.answers } },
-        { $pullAll: { upvotedAnswers: deletedQuestion.answers } }
-      );
-    }
-
-    return deletedQuestion;
-  } catch (error) {
-    console.error("Error deleting question:", error);
     throw error;
   }
 }
