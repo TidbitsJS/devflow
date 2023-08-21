@@ -26,7 +26,7 @@ const Page = async ({ searchParams }: Params) => {
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'
           placeholder='Search amazing minds here...'
-          classname='mt-11'
+          otherClasses='mt-11'
         />
       </div>
 

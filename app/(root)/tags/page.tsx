@@ -1,6 +1,7 @@
 import Pagination from "@/components/shared/Pagination";
 import Searchbar from "@/components/shared/Searchbar";
 import { getAllTags } from "@/lib/actions/tag.action";
+import Link from "next/link";
 
 interface Params {
   searchParams: {
@@ -24,7 +25,7 @@ const Page = async ({ searchParams }: Params) => {
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'
           placeholder='Search by tag name...'
-          classname='mt-11'
+          otherClasses='mt-11'
         />
       </div>
 
@@ -34,9 +35,11 @@ const Page = async ({ searchParams }: Params) => {
             key={tag._id}
             className='flex w-full flex-col rounded-2xl border border-dark-300 bg-dark-200 px-8 py-10 sm:w-[260px]'
           >
-            <div className='w-fit rounded-sm bg-dark-400 px-5 py-1.5'>
-              <p className='paragraph-semibold text-white'>{tag.name}</p>
-            </div>
+            <Link href={`/tags/${tag._id}`}>
+              <div className='w-fit rounded-sm bg-dark-400 px-5 py-1.5'>
+                <p className='paragraph-semibold text-white'>{tag.name}</p>
+              </div>
+            </Link>
 
             <p className='small-regular mt-4 text-light-700'>
               JavaScript, often abbreviated as JS, is a programming language

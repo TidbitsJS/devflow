@@ -116,7 +116,7 @@ const Page = async ({ params, searchParams }: Params) => {
             key={tag._id}
             className='subtle-medium rounded-md px-4 py-2 uppercase text-light-500'
           >
-            {tag.name}
+            <Link href={`/tags/${tag._id}`}>{tag.name}</Link>
           </Badge>
         ))}
       </div>
