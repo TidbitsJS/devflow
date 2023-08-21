@@ -1,11 +1,13 @@
+import React from "react";
+
 import JobCard from "@/components/cards/JobCard";
 import JobsFilter from "@/components/jobs/JobsFilter";
+import Pagination from "@/components/shared/Pagination";
 import {
   fetchCountries,
   fetchJobs,
   fetchLocation,
 } from "@/lib/actions/job.action";
-import React from "react";
 
 interface Props {
   searchParams: {
@@ -46,6 +48,16 @@ const Page = async ({ searchParams }: Props) => {
           </div>
         )}
       </section>
+
+      <div className='my-9 h-0.5 bg-dark-300' />
+
+      {jobs.length > 0 && (
+        <Pagination
+          path='/jobs'
+          pageNumber={page}
+          isNext={jobs.length === 10}
+        />
+      )}
     </>
   );
 };

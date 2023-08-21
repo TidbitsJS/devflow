@@ -1,7 +1,8 @@
 "use client";
 
+import { formUrlQuery } from "@/lib/utils";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "../ui/button";
 
@@ -13,6 +14,7 @@ interface Props {
 
 function Pagination({ pageNumber, isNext, path }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleNavigation = (type: string) => {
     let nextPageNumber = pageNumber;
@@ -24,9 +26,24 @@ function Pagination({ pageNumber, isNext, path }: Props) {
     }
 
     if (nextPageNumber > 1) {
-      router.push(`/${path}?page=${nextPageNumber}`);
+      // router.push(`/${path}?page=${nextPageNumber}`);
+      const newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: "page",
+        value: nextPageNumber.toString(),
+      });
+
+      router.push(newUrl);
     } else {
-      router.push(`/${path}`);
+      // router.push(`/${path}`);
+
+      const newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: "page",
+        value: null,
+      });
+
+      router.push(newUrl);
     }
   };
 
