@@ -49,7 +49,7 @@ const Page = async ({ searchParams }: Params) => {
 
             <p className='small-medium mt-3.5 text-light-500'>
               <span className='body-semibold primary-text-gradient mr-2.5'>
-                {tag.questionsCount}+
+                {tag.questions.length}+
               </span>
               Questions
             </p>
