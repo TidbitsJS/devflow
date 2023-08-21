@@ -11,6 +11,7 @@ import { toast } from "../ui/use-toast";
 import { useEffect } from "react";
 import { viewQuestion } from "@/lib/actions/interaction.action";
 import { formatNumber } from "@/lib/utils";
+import { toggleSaveQuestion } from "@/lib/actions/user.action";
 
 interface Params {
   type: string;
@@ -20,6 +21,7 @@ interface Params {
   hasupVoted: boolean;
   downvotes: number;
   hasdownVoted: boolean;
+  hasSaved?: boolean;
 }
 
 const Votes = ({
@@ -30,6 +32,7 @@ const Votes = ({
   hasupVoted,
   downvotes,
   hasdownVoted,
+  hasSaved,
 }: Params) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -91,6 +94,14 @@ const Votes = ({
     }
   };
 
+  const handleSave = async () => {
+    await toggleSaveQuestion({
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+      path: pathname,
+    });
+  };
+
   return (
     <div className='flex gap-5'>
       <div className='flex-center gap-2.5'>
@@ -137,10 +148,16 @@ const Votes = ({
 
       {type === "Question" && (
         <Image
-          src='/assets/icons/star-red.svg'
+          src={
+            hasSaved
+              ? "/assets/icons/star-filled.svg"
+              : "/assets/icons/star-red.svg"
+          }
           width={18}
           height={18}
           alt='star'
+          className='cursor-pointer'
+          onClick={() => handleSave()}
         />
       )}
     </div>

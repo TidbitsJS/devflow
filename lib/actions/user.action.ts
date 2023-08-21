@@ -1,14 +1,17 @@
 "use server";
 
-import { connectToDB } from "../mongoose";
+import { FilterQuery } from "mongoose";
+import { revalidatePath } from "next/cache";
+
 import { IUser } from "@/mongodb";
+import { connectToDB } from "../mongoose";
 
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
 import User from "@/mongodb/user.model";
 
-import { FilterQuery } from "mongoose";
 import Interaction from "@/mongodb/interaction.model";
+import Tag from "@/mongodb/tag.model";
 
 interface CreateUserParams {
   clerkId: string;
@@ -120,6 +123,95 @@ export async function updateUser(params: UpdateUserParams) {
     return updatedUser;
   } catch (error) {
     console.error("Error updating user:", error);
+    throw error;
+  }
+}
+
+interface ToggleSaveQuestionParams {
+  userId: string;
+  questionId: string;
+  path: string;
+}
+
+export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
+  try {
+    await connectToDB();
+
+    const { userId, questionId, path } = params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const isQuestionSaved = user.saved.includes(questionId);
+
+    if (isQuestionSaved) {
+      // Remove the question from the saved list
+      await User.findByIdAndUpdate(
+        userId,
+        { $pull: { saved: questionId } },
+        { new: true }
+      );
+    } else {
+      // Add the question to the saved list
+      await User.findByIdAndUpdate(
+        userId,
+        { $addToSet: { saved: questionId } },
+        { new: true }
+      );
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error toggling saved question:", error);
+    throw error;
+  }
+}
+
+interface GetSavedQuestionsParams {
+  clerkId: string;
+  page?: number;
+  pageSize?: number;
+  searchQuery?: string;
+}
+
+export async function getSavedQuestions(params: GetSavedQuestionsParams) {
+  try {
+    await connectToDB();
+
+    const { clerkId, page = 1, pageSize = 10, searchQuery } = params;
+
+    // Find the user by clerkId and populate the saved questions
+    const user = await User.findOne({ clerkId }).populate({
+      path: "saved",
+      match: searchQuery
+        ? { title: { $regex: searchQuery, $options: "i" } }
+        : {},
+      options: {
+        skip: (page - 1) * pageSize,
+        limit: pageSize + 1, // Fetch one extra to determine if there is a next page
+      },
+      populate: [
+        { path: "tags", model: Tag, select: "_id name" }, // Populate the tags field of questions
+        { path: "author", model: User, select: "_id name picture" }, // Populate the author field of questions
+      ],
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Extract the saved questions from the user
+    const savedQuestions = user.saved.slice(0, pageSize);
+
+    // Calculate the isNext indicator
+    const isNext = user.saved.length > pageSize;
+
+    return { questions: savedQuestions, isNext };
+  } catch (error) {
+    console.error("Error fetching saved questions:", error);
     throw error;
   }
 }
