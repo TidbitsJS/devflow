@@ -70,7 +70,7 @@ const AllAnswers = async ({
             </div>
 
             <div className='markdown mt-6 w-full'>
-              <ParseHTML data={answer.body} />
+              <ParseHTML data={answer.content} />
             </div>
 
             <div className='my-10 h-0.5 w-full bg-dark-300' />

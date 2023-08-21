@@ -51,10 +51,10 @@ const Page = async ({ params, searchParams }: Params) => {
             type='Question'
             itemId={JSON.stringify(result._id)}
             userId={JSON.stringify(mongoUser._id)}
-            upvotes={result.upvotes}
+            upvotes={result.upvotes.length}
             hasupVoted={result.upvotes.includes(mongoUser._id)}
-            downvotes={result.downvotes}
-            hasdownVoted={result.downvotesincludes(mongoUser._id)}
+            downvotes={result.downvotes.length}
+            hasdownVoted={result.downvotes.includes(mongoUser._id)}
           />
         </div>
         <h2 className='h2-semibold mt-3.5 w-full text-left text-white'>
@@ -107,7 +107,7 @@ const Page = async ({ params, searchParams }: Params) => {
       </div>
 
       <div className='markdown mt-8 w-full'>
-        <ParseHTML data={result.body} />
+        <ParseHTML data={result.content} />
       </div>
 
       <div className='mt-8 flex flex-wrap gap-2'>

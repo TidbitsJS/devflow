@@ -48,14 +48,14 @@ const Votes = ({
     if (action === "upvote") {
       if (type === "Question") {
         return await upvoteQuestion({
-          questionId: itemId,
-          userId,
+          questionId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
           path: pathname,
         });
       } else if (type === "Answer") {
         return await upvoteAnswer({
-          answerId: itemId,
-          userId,
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
           path: pathname,
         });
       }
@@ -64,14 +64,14 @@ const Votes = ({
     if (action === "downvote") {
       if (type === "Question") {
         return await downvoteQuestion({
-          questionId: itemId,
-          userId,
+          questionId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
           path: pathname,
         });
       } else if (type === "Answer") {
         return await downvoteAnswer({
-          answerId: itemId,
-          userId,
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
           path: pathname,
         });
       }
