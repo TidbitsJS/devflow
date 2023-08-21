@@ -6,8 +6,9 @@ import { FilterQuery, Schema } from "mongoose";
 import { IUser } from "@/mongodb";
 import { connectToDB } from "../mongoose";
 
-import Question from "@/mongodb/question.model";
 import Tag from "@/mongodb/tag.model";
+import Question from "@/mongodb/question.model";
+import Interaction from "@/mongodb/interaction.model";
 
 interface GetQuestionsParams {
   page?: number;
@@ -88,6 +89,14 @@ export async function createQuestion(params: CreateQuestionParams) {
     // Update the question's tags field using $push and $each
     await Question.findByIdAndUpdate(question._id, {
       $push: { tags: { $each: tagDocuments } },
+    });
+
+    // Create an Interaction record for the user's ask_question action
+    await Interaction.create({
+      user: author,
+      action: "ask_question",
+      question: question._id,
+      tags: tagDocuments,
     });
 
     revalidatePath(path);

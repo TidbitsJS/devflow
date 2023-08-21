@@ -6,6 +6,7 @@ import { connectToDB } from "../mongoose";
 
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
+import Interaction from "@/mongodb/interaction.model";
 
 interface CreateAnswerParams {
   content: string;
@@ -30,6 +31,14 @@ export async function createAnswer(params: CreateAnswerParams) {
     // Add the answer to the question's answers array
     await Question.findByIdAndUpdate(question, {
       $push: { answers: newAnswer._id },
+    });
+
+    // Create an Interaction record for the user's answer action
+    await Interaction.create({
+      user: author,
+      action: "answer",
+      question,
+      answer: newAnswer._id,
     });
 
     revalidatePath(path);
