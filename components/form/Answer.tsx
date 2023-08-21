@@ -15,10 +15,10 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import answerSchema from "@/lib/validations/answer.validate";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
 import { toast } from "../ui/use-toast";
+import { AnswerSchema } from "@/lib/validations";
 
 interface Props {
   question: string;
@@ -32,14 +32,14 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof answerSchema>>({
-    resolver: zodResolver(answerSchema),
+  const form = useForm<z.infer<typeof AnswerSchema>>({
+    resolver: zodResolver(AnswerSchema),
     defaultValues: {
       answer: "",
     },
   });
 
-  const handleCreateAnswer = async (values: z.infer<typeof answerSchema>) => {
+  const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
     setSubmitting(true);
 
     try {

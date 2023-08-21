@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import profileSchema from "@/lib/validations/profile.validate";
 import { Textarea } from "../ui/textarea";
 import { updateUser } from "@/lib/actions/user.action";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ProfileSchema } from "@/lib/validations";
 
 interface Params {
   clerkId: string;
@@ -32,8 +32,8 @@ const Profile = ({ clerkId, user }: Params) => {
 
   const [submitting, setSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof profileSchema>>({
-    resolver: zodResolver(profileSchema),
+  const form = useForm<z.infer<typeof ProfileSchema>>({
+    resolver: zodResolver(ProfileSchema),
     defaultValues: {
       name: parsedUser.name || "",
       username: parsedUser.username || "",
@@ -43,7 +43,7 @@ const Profile = ({ clerkId, user }: Params) => {
     },
   });
 
-  const handleUpdateProfile = async (values: z.infer<typeof profileSchema>) => {
+  const handleUpdateProfile = async (values: z.infer<typeof ProfileSchema>) => {
     setSubmitting(true);
     try {
       await updateUser({

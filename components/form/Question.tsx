@@ -19,10 +19,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import questionSchema from "@/lib/validations/question.validate";
 import { Badge } from "../ui/badge";
 import { createQuestion } from "@/lib/actions/question.action";
 import { toast } from "../ui/use-toast";
+import { QuestionSchema } from "@/lib/validations";
 
 interface Props {
   mongoUserId: string;
@@ -35,8 +35,8 @@ const Question = ({ mongoUserId }: Props) => {
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof questionSchema>>({
-    resolver: zodResolver(questionSchema),
+  const form = useForm<z.infer<typeof QuestionSchema>>({
+    resolver: zodResolver(QuestionSchema),
     defaultValues: {
       title: "",
       explanation: "",
@@ -45,7 +45,7 @@ const Question = ({ mongoUserId }: Props) => {
   });
 
   const handleCreateQuestion = async (
-    values: z.infer<typeof questionSchema>
+    values: z.infer<typeof QuestionSchema>
   ) => {
     setSubmitting(true);
 
@@ -213,7 +213,7 @@ const Question = ({ mongoUserId }: Props) => {
 
                     {field.value.length > 0 && (
                       <div className='flex-start mt-2.5 gap-2.5'>
-                        {field.value.map((tag) => (
+                        {field.value.map((tag: any) => (
                           <Badge
                             key={tag}
                             onClick={() => handleTagRemove(tag, field)}
