@@ -41,7 +41,7 @@ const AllAnswers = async ({
       <div className='mt-10'>
         {result.answers.map((answer) => (
           <article key={answer._id}>
-            <div className='flex items-center justify-between'>
+            <div className='flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
               <div className='flex flex-1 items-center gap-1'>
                 <Image
                   src={answer.author.picture}
@@ -58,20 +58,20 @@ const AllAnswers = async ({
                   • answered {formatDate(answer.createdAt)}
                 </p>
               </div>
-              <Votes
-                type='Answer'
-                itemId={JSON.stringify(answer._id)}
-                userId={JSON.stringify(userId)}
-                upvotes={answer.upvotes.length}
-                hasupVoted={answer.upvotes.includes(userId)}
-                downvotes={answer.downvotes.length}
-                hasdownVoted={answer.downvotes.includes(userId)}
-              />
+              <div className='flex justify-end'>
+                <Votes
+                  type='Answer'
+                  itemId={JSON.stringify(answer._id)}
+                  userId={JSON.stringify(userId)}
+                  upvotes={answer.upvotes.length}
+                  hasupVoted={answer.upvotes.includes(userId)}
+                  downvotes={answer.downvotes.length}
+                  hasdownVoted={answer.downvotes.includes(userId)}
+                />
+              </div>
             </div>
 
-            <div className='markdown mt-6 w-full'>
-              <ParseHTML data={answer.content} />
-            </div>
+            <ParseHTML data={answer.content} />
 
             <div className='my-10 h-0.5 w-full bg-dark-300' />
           </article>

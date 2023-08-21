@@ -31,7 +31,7 @@ const Page = async ({ params, searchParams }: Params) => {
   return (
     <>
       <div className='flex-start w-full flex-col'>
-        <div className='flex-between w-full'>
+        <div className='flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
           <Link
             href={`/profile/${result.author._id}`}
             className='flex items-center justify-start gap-1'
@@ -47,22 +47,24 @@ const Page = async ({ params, searchParams }: Params) => {
               {result.author.name}
             </p>
           </Link>
-          <Votes
-            type='Question'
-            itemId={JSON.stringify(result._id)}
-            userId={JSON.stringify(mongoUser._id)}
-            upvotes={result.upvotes.length}
-            hasupVoted={result.upvotes.includes(mongoUser._id)}
-            downvotes={result.downvotes.length}
-            hasdownVoted={result.downvotes.includes(mongoUser._id)}
-          />
+          <div className='flex justify-end'>
+            <Votes
+              type='Question'
+              itemId={JSON.stringify(result._id)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvotes={result.upvotes.length}
+              hasupVoted={result.upvotes.includes(mongoUser._id)}
+              downvotes={result.downvotes.length}
+              hasdownVoted={result.downvotes.includes(mongoUser._id)}
+            />
+          </div>
         </div>
         <h2 className='h2-semibold mt-3.5 w-full text-left text-white'>
           {result.title}
         </h2>
       </div>
 
-      <div className='mt-5 flex gap-4'>
+      <div className='mt-5 flex flex-wrap gap-4'>
         <div className='flex-center gap-1'>
           <Image
             src='/assets/icons/clock.svg'
@@ -106,9 +108,7 @@ const Page = async ({ params, searchParams }: Params) => {
         </div>
       </div>
 
-      <div className='markdown mt-8 w-full'>
-        <ParseHTML data={result.content} />
-      </div>
+      <ParseHTML data={result.content} />
 
       <div className='mt-8 flex flex-wrap gap-2'>
         {result.tags.map((tag: any) => (

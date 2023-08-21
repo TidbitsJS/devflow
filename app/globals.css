@@ -124,10 +124,6 @@
   -webkit-text-fill-color: transparent;
 }
 
-.markdown pre {
-  width: 100%;
-}
-
 .markdown a,
 code {
   /* These are technically the same, but use both */
@@ -146,6 +142,18 @@ code {
   -webkit-hyphens: auto;
   hyphens: auto;
 
-  background: #ff7000;
   padding: 2px;
+  color: #ff7000 !important;
+}
+
+.markdown pre {
+  display: grid;
+}
+
+.markdown pre code {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+
+  color: inherit !important;
 }
