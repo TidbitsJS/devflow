@@ -1,12 +1,13 @@
-import Image from "next/image";
 import React from "react";
-
-import { Badge } from "../ui/badge";
-import { hotNetworkQuestion } from "@/constants";
-import { getTopPopularTags } from "@/lib/actions/tag.action";
+import Image from "next/image";
 import Link from "next/link";
 
+import { Badge } from "../ui/badge";
+import { getTopPopularTags } from "@/lib/actions/tag.action";
+import { getHotQuestions } from "@/lib/actions/question.action";
+
 const RightSidebar = async () => {
+  const hotQuestions = await getHotQuestions();
   const popularTags = await getTopPopularTags();
 
   return (
@@ -14,12 +15,13 @@ const RightSidebar = async () => {
       <div>
         <h2 className='h3-bold text-white'>Hot Network</h2>
         <div className='mt-7 flex w-full flex-col gap-[30px]'>
-          {hotNetworkQuestion.map(({ question, id }) => (
-            <div
-              key={id}
+          {hotQuestions.map((question) => (
+            <Link
+              href={`/question/${question._id}`}
+              key={question._id}
               className='flex cursor-pointer items-center justify-between gap-7'
             >
-              <p className='body-medium text-light-700'>{question}</p>
+              <p className='body-medium text-light-700'>{question.title}</p>
 
               <Image
                 src='/assets/icons/chevron-right.svg'
@@ -27,7 +29,7 @@ const RightSidebar = async () => {
                 width={20}
                 height={20}
               />
-            </div>
+            </Link>
           ))}
         </div>
       </div>
