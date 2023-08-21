@@ -1,12 +1,13 @@
 import Image from "next/image";
 
 import Votes from "../shared/Votes";
-import AnswerFilter from "./AnswerFilter";
 import ParseHTML from "../shared/ParseHTML";
 
 import { formatDate } from "@/lib/utils";
 import { getAnswers } from "@/lib/actions/answer.action";
 import Pagination from "../shared/Pagination";
+import Filter from "../shared/Filter";
+import { AnswerFilters } from "@/constants/filters";
 
 interface Params {
   questionId: string;
@@ -35,7 +36,7 @@ const AllAnswers = async ({
       <div className='flex items-center justify-between'>
         <h3 className='primary-text-gradient'>{totalAnswers} Answers</h3>
 
-        <AnswerFilter />
+        <Filter filters={AnswerFilters} />
       </div>
 
       <div className='mt-10'>

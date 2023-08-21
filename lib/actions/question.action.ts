@@ -9,6 +9,7 @@ import { connectToDB } from "../mongoose";
 import Tag from "@/mongodb/tag.model";
 import Question from "@/mongodb/question.model";
 import Interaction from "@/mongodb/interaction.model";
+import User from "@/mongodb/user.model";
 
 interface GetQuestionsParams {
   page?: number;
@@ -37,8 +38,14 @@ export async function getQuestions(params: GetQuestionsParams) {
     const totalQuestions = await Question.countDocuments(query);
 
     const questions = await Question.find(query)
-      .populate("tags")
-      .populate("author")
+      .populate({
+        path: "tags",
+        model: Tag,
+      })
+      .populate({
+        path: "author",
+        model: User,
+      })
       .skip(skipAmount)
       .limit(pageSize)
       .sort({ createdAt: -1 });
@@ -118,10 +125,12 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
     const question = await Question.findById(questionId)
       .populate({
         path: "tags",
+        model: Tag,
         select: "_id name",
       })
       .populate({
         path: "author",
+        model: User,
         select: "_id name picture",
       });
 

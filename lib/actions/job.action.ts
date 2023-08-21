@@ -16,12 +16,11 @@ export const fetchCountries = async () => {
 
 interface FilterParams {
   query: string;
-  employment_types: string;
   page: string;
 }
 
 export const fetchJobs = async (filters: FilterParams) => {
-  const { query, employment_types, page } = filters;
+  const { query, page } = filters;
 
   const headers = {
     "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RAPID_API_KEY ?? "",
@@ -29,7 +28,7 @@ export const fetchJobs = async (filters: FilterParams) => {
   };
 
   const response = await fetch(
-    `https://jsearch.p.rapidapi.com/search?query=${query}&employment_types=${employment_types}&page=${page}`,
+    `https://jsearch.p.rapidapi.com/search?query=${query}&page=${page}`,
     {
       headers,
     }

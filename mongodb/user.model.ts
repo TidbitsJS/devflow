@@ -51,6 +51,7 @@ const UserSchema = new Schema({
   },
   reputation: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
+  saved: [{ type: Schema.Types.ObjectId, ref: "Question" }],
 });
 
 const User = models.User || model("User", UserSchema);

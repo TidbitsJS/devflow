@@ -30,7 +30,7 @@ const Navbar = () => {
         iconPosition='left'
         imgSrc='/assets/icons/search.svg'
         placeholder='Search for Questions Here...'
-        classname='max-lg:hidden'
+        otherClasses='max-lg:hidden max-w-[600px]'
       />
 
       <div className='flex-between gap-5'>

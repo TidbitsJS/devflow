@@ -4,14 +4,15 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { Input } from "@/components/ui/input";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { formUrlQuery } from "@/lib/utils";
 
 interface CustomInputProps {
   route: string;
   iconPosition: string;
   imgSrc: string;
   placeholder: string;
-  classname?: string;
+  otherClasses?: string;
 }
 
 const Searchbar = ({
@@ -19,30 +20,46 @@ const Searchbar = ({
   iconPosition,
   imgSrc,
   placeholder,
-  classname,
+  otherClasses,
 }: CustomInputProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+
+  const query = searchParams.get("q");
+
+  const [search, setSearch] = useState(query || "");
 
   // query after 0.3s of no input
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (search) {
-        router.push(`${route}?q=` + search);
+        const newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "q",
+          value: search,
+        });
+
+        router.push(newUrl, { scroll: false });
       } else {
         if (pathname === route) {
-          router.push(`${pathname}`);
+          const newUrl = formUrlQuery({
+            params: searchParams.toString(),
+            key: "q",
+            value: null,
+          });
+
+          router.push(newUrl, { scroll: false });
         }
       }
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [search, route, pathname, router]);
+  }, [search, route, pathname, router, searchParams, query]);
 
   return (
     <div
-      className={`dark-gradient flex min-h-[56px] max-w-[600px] grow items-center gap-4 rounded-[10px] px-4 ${classname}`}
+      className={`dark-gradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
       {iconPosition === "left" && (
         <Image

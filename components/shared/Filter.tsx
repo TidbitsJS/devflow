@@ -9,27 +9,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { formUrlQuery } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const filters = [
-  { name: "Highest Upvotes", value: "highestUpvotes" },
-  { name: "Lowest Upvotes", value: "lowestUpvotes" },
-  { name: "Most Recent", value: "recent" },
-  { name: "Oldest", value: "old" },
-];
+interface Props {
+  filters: {
+    name: string;
+    value: string;
+  }[];
+}
 
-function AnswerFilter() {
+const Filter = ({ filters }: Props) => {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const paramsFilter = searchParams.get("filter");
-  const paramsPage = searchParams.get("page");
 
   const handleUpdateParams = (value: string) => {
-    router.push(`${pathname}/?page=${paramsPage || 1}&filter=${value}`, {
-      scroll: false,
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: "filter",
+      value,
     });
+
+    router.push(newUrl, { scroll: false });
   };
 
   return (
@@ -54,6 +57,6 @@ function AnswerFilter() {
       </Select>
     </div>
   );
-}
+};
 
-export default AnswerFilter;
+export default Filter;
