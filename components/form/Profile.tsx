@@ -20,6 +20,7 @@ import { updateUser } from "@/lib/actions/user.action";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ProfileSchema } from "@/lib/validations";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 interface Params {
   clerkId: string;
@@ -187,7 +188,14 @@ const Profile = ({ clerkId, user }: Params) => {
             className='primary-gradient w-fit'
             disabled={submitting}
           >
-            Submit
+            {submitting ? (
+              <>
+                <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
+                Submitting...
+              </>
+            ) : (
+              <>Submit</>
+            )}
           </Button>
         </div>
       </form>

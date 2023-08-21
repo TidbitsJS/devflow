@@ -25,7 +25,7 @@ async function Home({
             title={item.title}
             tags={item.tags}
             author={item.author}
-            upvotes={item.upvotes}
+            upvotes={item.upvotes.length}
             views={item.views}
             answers={item.answers}
             createdAt={item.createdAt}

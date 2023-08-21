@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { usePathname, useRouter } from "next/navigation";
 import { Editor } from "@tinymce/tinymce-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 import {
   Form,
@@ -248,7 +249,14 @@ const Question = ({ mongoUserId }: Props) => {
               className='primary-gradient w-fit'
               disabled={submitting}
             >
-              Ask a Question
+              {submitting ? (
+                <>
+                  <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
+                  Posting...
+                </>
+              ) : (
+                <>Ask a Question</>
+              )}
             </Button>
           </div>
         </form>
