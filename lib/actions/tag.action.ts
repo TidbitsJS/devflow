@@ -1,5 +1,6 @@
 "use server";
 
+import Interaction from "@/mongodb/interaction.model";
 import Question from "@/mongodb/question.model";
 import Tag, { ITag } from "@/mongodb/tag.model";
 import User from "@/mongodb/user.model";
@@ -121,6 +122,43 @@ export async function getTopPopularTags() {
     return popularTags;
   } catch (error) {
     console.error("Error fetching top popular tags:", error);
+    throw error;
+  }
+}
+
+interface GetTopInteractedTagsParams {
+  userId: string;
+}
+
+export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
+  try {
+    await connectToDB();
+
+    const { userId } = params;
+
+    // Find the user by clerkId
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Find interactions for the user and group by tags
+    const tagCountMap = await Interaction.aggregate([
+      { $match: { user: user._id, tags: { $exists: true, $ne: [] } } },
+      { $unwind: "$tags" },
+      { $group: { _id: "$tags", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 3 },
+    ]);
+
+    const topTags = tagCountMap.map((tagCount) => tagCount._id);
+
+    // Find the tag documents for the top tags
+    const topTagDocuments = await Tag.find({ _id: { $in: topTags } });
+
+    return topTagDocuments;
+  } catch (error) {
+    console.error("Error fetching top interacted tags:", error);
     throw error;
   }
 }

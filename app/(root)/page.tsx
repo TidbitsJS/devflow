@@ -9,7 +9,6 @@ async function Home({
 }) {
   const result = await getQuestions({
     page: searchParams.page ? +searchParams.page : 1,
-    pageSize: 2,
     searchQuery: searchParams.q,
   });
 
