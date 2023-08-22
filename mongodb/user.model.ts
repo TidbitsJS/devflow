@@ -54,6 +54,7 @@ const UserSchema = new Schema({
   saved: [{ type: Schema.Types.ObjectId, ref: "Question" }],
   createdAt: {
     type: Date,
+    required: true,
     default: Date.now,
   },
 });

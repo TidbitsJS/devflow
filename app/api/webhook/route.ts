@@ -50,7 +50,7 @@ export const POST = async (request: Request) => {
     const mongoUser = await createUser({
       // @ts-ignore
       clerkId: id,
-      name: `${first_name}${last_name}`,
+      name: `${first_name}${last_name || ""}`,
       // @ts-ignore
       username,
       // @ts-ignore
