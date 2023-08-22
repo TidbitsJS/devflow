@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/menubar";
 
 const Theme = () => {
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState("");
 
   const handleThemeChange = () => {
     if (
@@ -22,8 +22,10 @@ const Theme = () => {
         window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
       document.documentElement.classList.add("dark");
+      setMode("dark");
     } else {
       document.documentElement.classList.remove("dark");
+      setMode("light");
     }
   };
 
