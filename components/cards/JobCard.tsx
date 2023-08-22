@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Job } from "@/types";
+import { processJobTitle } from "@/lib/utils";
 
 interface JobLocationProps {
   job_country: string | undefined;
@@ -62,19 +63,21 @@ const JobCard = ({ job }: JobCardProps) => {
 
       <div className='flex items-center gap-6'>
         {employer_logo ? (
-          <Link href={employer_website ?? "/jobs"}>
+          <Link
+            href={employer_website ?? "/jobs"}
+            className='relative h-16 w-16 rounded-xl bg-dark-400'
+          >
             <Image
               src={employer_logo}
               alt='company logo'
-              width={64}
-              height={64}
-              className='rounded-xl'
+              fill
+              className='h-full w-full object-contain p-2'
             />
           </Link>
         ) : (
           <Image
-            src='/assets/images/default-logo.svg'
-            alt='default company logo'
+            src='/assets/images/site-logo.svg'
+            alt='default site logo'
             width={64}
             height={64}
             className='rounded-[10px]'
@@ -84,7 +87,9 @@ const JobCard = ({ job }: JobCardProps) => {
 
       <div className='w-full'>
         <div className='flex-between flex-wrap gap-2'>
-          <p className='base-semibold text-white'>{job_title}</p>
+          <p className='base-semibold text-white'>
+            {processJobTitle(job_title)}
+          </p>
 
           <div className='hidden sm:flex'>
             <JobLocation

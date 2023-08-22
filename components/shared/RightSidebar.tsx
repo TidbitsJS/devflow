@@ -13,7 +13,7 @@ const RightSidebar = async () => {
   return (
     <section className='sticky right-0 top-0 flex h-screen w-[330px] flex-col gap-6 overflow-y-auto bg-dark-200/50 p-6 pt-36 max-xl:hidden'>
       <div>
-        <h2 className='h3-bold text-white'>Hot Network</h2>
+        <h2 className='h3-bold text-white'>Top Questions</h2>
         <div className='mt-7 flex w-full flex-col gap-[30px]'>
           {hotQuestions.map((question) => (
             <Link
