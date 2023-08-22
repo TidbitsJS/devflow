@@ -84,7 +84,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
                 />
 
                 <p className='paragraph-medium text-light-700'>
-                  {getJoinedDate(mongoUser.joined_at)}
+                  {getJoinedDate(mongoUser.joinedAt)}
                 </p>
               </div>
             </div>

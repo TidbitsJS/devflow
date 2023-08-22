@@ -1,4 +1,4 @@
-import { Schema, models, model, Document, Date } from "mongoose";
+import { Schema, models, model, Document } from "mongoose";
 
 export interface IUser extends Document {
   clerkId: string;
@@ -12,7 +12,7 @@ export interface IUser extends Document {
   portfolioWebsite?: string;
   reputation?: number;
   saved: Schema.Types.ObjectId[];
-  joined_at: Date;
+  joinedAt: Date;
 }
 
 const UserSchema = new Schema({
@@ -52,7 +52,7 @@ const UserSchema = new Schema({
   },
   reputation: { type: Number, default: 0 },
   saved: [{ type: Schema.Types.ObjectId, ref: "Question" }],
-  joined_at: {
+  joinedAt: {
     type: Date,
     default: Date.now,
   },
