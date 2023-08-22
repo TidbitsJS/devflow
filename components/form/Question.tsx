@@ -85,6 +85,13 @@ const Question = ({ mongoUserId }: Props) => {
       const tagValue = tagInput.value.trim();
 
       if (tagValue !== "") {
+        if (tagValue.length > 10) {
+          return form.setError("tags", {
+            type: "required",
+            message: "Tag must not exceed 10 characters.",
+          });
+        }
+
         if (!field.value.includes(tagValue as never)) {
           form.setValue("tags", [...field.value, tagValue]);
           tagInput.value = "";
@@ -235,8 +242,8 @@ const Question = ({ mongoUserId }: Props) => {
                   </>
                 </FormControl>
                 <FormDescription className='body-regular mt-2.5 text-light-500'>
-                  Add up to 5 tags to describe what your question is about.
-                  Start typing to see suggestions.
+                  Add up to 3 tags to describe what your question is about. You
+                  need to press enter to add a tag.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
