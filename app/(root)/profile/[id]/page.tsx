@@ -15,6 +15,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
   if (!userId) return null;
 
   const mongoUser = await getUserById({ userId: params.id });
+  if (!mongoUser) return null;
+
   const interactedTags = await getTopInteractedTags({
     userId: mongoUser._id,
     limit: 10,

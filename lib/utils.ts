@@ -82,9 +82,8 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
   return newUrl;
 }
 
-export function getJoinedDate(createdAt: Date | undefined): string {
-  console.log(createdAt);
-  if (!createdAt) {
+export function getJoinedDate(joinedAt: Date | undefined) {
+  if (!joinedAt) {
     return "Joined";
   }
 
@@ -103,8 +102,8 @@ export function getJoinedDate(createdAt: Date | undefined): string {
     "December",
   ];
 
-  const year = createdAt.getFullYear();
-  const month = months[createdAt.getMonth()];
+  const year = joinedAt.getFullYear();
+  const month = months[joinedAt.getMonth()];
 
   return `Joined ${month} ${year}`;
 }
