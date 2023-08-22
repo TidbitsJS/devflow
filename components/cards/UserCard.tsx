@@ -19,10 +19,13 @@ const UserCard = async ({ item }: Props) => {
   const interactedTags = await getTopInteractedTags({ userId: item._id });
 
   return (
-    <Link href={`/profile/${item.clerkId}`}>
+    <Link
+      href={`/profile/${item.clerkId}`}
+      className='w-full max-xs:min-w-full xs:w-[260px]'
+    >
       <article
         key={item._id}
-        className='flex w-fit flex-col items-center justify-center rounded-2xl border border-dark-300 bg-dark-200 p-8'
+        className='flex w-full flex-col items-center justify-center rounded-2xl border border-dark-300 bg-dark-200 p-8 '
       >
         <Image
           src={item.picture}
@@ -33,18 +36,24 @@ const UserCard = async ({ item }: Props) => {
         />
 
         <div className='mt-4 text-center'>
-          <h3 className='h3-bold text-white'>{item.name}</h3>
+          <h3 className='h3-bold line-clamp-1 text-white'>{item.name}</h3>
           <p className='body-regular mt-2 text-light-500'>@{item.username}</p>
         </div>
 
         <div className='mt-5 flex flex-wrap gap-2'>
-          {interactedTags.map((tag) => (
-            <Link key={tag._id} href={`/tags/${tag._id}`}>
-              <Badge className='subtle-medium bg-dark-300 px-4 py-2 uppercase text-light-500'>
-                {tag.name}
-              </Badge>
-            </Link>
-          ))}
+          {interactedTags.length > 0 ? (
+            interactedTags.map((tag) => (
+              <Link key={tag._id} href={`/tags/${tag._id}`}>
+                <Badge className='subtle-medium bg-dark-300 px-4 py-2 uppercase text-light-500'>
+                  {tag.name}
+                </Badge>
+              </Link>
+            ))
+          ) : (
+            <Badge className='subtle-medium bg-dark-300 px-4 py-2 uppercase text-light-500'>
+              No tags yet
+            </Badge>
+          )}
         </div>
       </article>
     </Link>

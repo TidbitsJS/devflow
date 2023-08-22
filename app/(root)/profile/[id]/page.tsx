@@ -43,7 +43,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
               @{mongoUser.username}
             </p>
 
-            <div className='mt-5 flex flex-wrap items-start gap-5'>
+            <div className='mt-5 flex flex-wrap items-center justify-start gap-5'>
               {mongoUser.portfolioWebsite && (
                 <div className='flex-center gap-1'>
                   <Image
@@ -117,8 +117,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
       <div className='mt-10'>
         <h4 className='h3-semibold text-white'>Stats</h4>
 
-        <div className='mt-5 flex flex-wrap gap-5'>
-          <div className='flex min-w-full flex-1 items-center justify-evenly gap-11 rounded-md border border-dark-300 bg-dark-200 p-6 shadow-stat-card xs:min-w-[250px]'>
+        <div className='mt-5 grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-4'>
+          <div className='flex flex-wrap items-center justify-evenly gap-11 rounded-md border border-dark-300 bg-dark-200 p-6 shadow-stat-card '>
             <div>
               <p className='paragraph-semibold text-white'>
                 {formatNumber(userStats.totalQuestions)}
@@ -134,7 +134,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
             </div>
           </div>
 
-          <div className='flex-start min-w-full flex-1 flex-wrap gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card xs:min-w-[250px]'>
+          <div className='flex flex-wrap items-center justify-start gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card'>
             <Image
               src='/assets/icons/gold-medal.svg'
               alt='gold medal icon'
@@ -147,7 +147,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
             </div>
           </div>
 
-          <div className='flex-start min-w-full flex-1 flex-wrap gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card xs:min-w-[250px]'>
+          <div className='flex flex-wrap items-center justify-start gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card'>
             <Image
               src='/assets/icons/silver-medal.svg'
               alt='silver medal icon'
@@ -160,7 +160,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
             </div>
           </div>
 
-          <div className='flex-start min-w-full flex-1 flex-wrap gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card xs:min-w-[250px]'>
+          <div className='flex flex-wrap items-center justify-start gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card'>
             <Image
               src='/assets/icons/bronze-medal.svg'
               alt='bronze medal icon'

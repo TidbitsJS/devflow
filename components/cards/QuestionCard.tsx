@@ -40,12 +40,11 @@ const QuestionCard = ({
   const showActionButtons = clerkId && clerkId === author.clerkId;
 
   return (
-    <Link
-      href={`/question/${_id}`}
-      className='dark-gradient rounded-[10px] px-11 py-9 shadow-question-card-dark'
-    >
+    <div className='dark-gradient rounded-[10px] px-11 py-9 shadow-question-card-dark'>
       <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
-        <h3 className='h3-semibold flex-1 text-white'>{title}</h3>
+        <Link href={`/question/${_id}`}>
+          <h3 className='h3-semibold flex-1 text-white'>{title}</h3>
+        </Link>
 
         <SignedIn>
           {showActionButtons && (
@@ -126,7 +125,7 @@ const QuestionCard = ({
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
