@@ -40,11 +40,12 @@ const QuestionCard = ({
   const showActionButtons = clerkId && clerkId === author.clerkId;
 
   return (
-    <div className='dark-gradient rounded-[10px] px-11 py-9 shadow-question-card-dark'>
+    <Link
+      href={`/question/${_id}`}
+      className='dark-gradient rounded-[10px] px-11 py-9 shadow-question-card-dark'
+    >
       <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
-        <Link href={`/question/${_id}`} className='flex-1'>
-          <h3 className='h3-semibold text-white'>{title}</h3>
-        </Link>
+        <h3 className='h3-semibold flex-1 text-white'>{title}</h3>
 
         <SignedIn>
           {showActionButtons && (
@@ -55,12 +56,11 @@ const QuestionCard = ({
 
       <div className='mt-3.5 flex flex-wrap gap-2'>
         {tags.map((tag) => (
-          <Badge
-            key={tag._id}
-            className='subtle-medium bg-dark-300 px-4 py-2 uppercase text-light-500'
-          >
-            <Link href={`/tags/${tag._id}`}>{tag.name}</Link>
-          </Badge>
+          <Link href={`/tags/${tag._id}`} key={tag._id}>
+            <Badge className='subtle-medium bg-dark-300 px-4 py-2 uppercase text-light-500'>
+              {tag.name}
+            </Badge>
+          </Link>
         ))}
       </div>
 
@@ -126,7 +126,7 @@ const QuestionCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
