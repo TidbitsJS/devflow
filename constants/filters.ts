@@ -18,3 +18,10 @@ export const QuestionFilters = [
   { name: "Most Viewed", value: "most_viewed" },
   { name: "Most Answered", value: "most_answered" },
 ];
+
+export const TagFilters = [
+  { name: "Popular", value: "popular" },
+  { name: "Recent", value: "recent" },
+  { name: "Name", value: "name" },
+  { name: "Old", value: "old" },
+];

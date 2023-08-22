@@ -1,11 +1,4 @@
-import "@tinymce/tinymce-react";
 import { Types } from "mongoose";
-// Frontend
-// declare module "@tinymce/tinymce-react" {
-//   interface ExtendedEditor extends Editor {
-//     getContent(args?: { format: string }): string;
-//   }
-// }
 
 export interface QuestionFormType {
   title: string;
@@ -27,11 +20,6 @@ export interface SidebarLink {
   imgURL: string;
   route: string;
   label: string;
-}
-
-export interface HotNetworkQuestion {
-  id: number;
-  question: string;
 }
 
 export interface PopularTag {
@@ -66,20 +54,6 @@ export interface Question {
 export interface Tag {
   name: string;
   count: number;
-}
-
-export interface MockUserData {
-  companyLink: string;
-  location: string;
-  about: string;
-  stats: {
-    questions: number;
-    answers: number;
-    goldBadges: number;
-    silverBadges: number;
-    bronzeBadges: number;
-  };
-  tags: string[];
 }
 
 export interface IQuestion {

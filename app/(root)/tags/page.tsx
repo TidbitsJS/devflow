@@ -1,7 +1,10 @@
+import Link from "next/link";
+
+import Filter from "@/components/shared/Filter";
 import Pagination from "@/components/shared/Pagination";
 import Searchbar from "@/components/shared/Searchbar";
+import { TagFilters } from "@/constants/filters";
 import { getAllTags } from "@/lib/actions/tag.action";
-import Link from "next/link";
 
 interface Params {
   searchParams: {
@@ -12,6 +15,7 @@ interface Params {
 const Page = async ({ searchParams }: Params) => {
   const result = await getAllTags({
     page: searchParams.page ? +searchParams.page : 1,
+    filter: searchParams.filter,
     searchQuery: searchParams.q,
   });
 
@@ -19,13 +23,18 @@ const Page = async ({ searchParams }: Params) => {
     <>
       <h1 className='h1-bold text-white'>Tags</h1>
 
-      <div className='flex items-center justify-between'>
+      <div className='mt-11 flex items-center justify-between gap-5'>
         <Searchbar
           route='/tags'
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'
           placeholder='Search by tag name...'
-          otherClasses='mt-11'
+          otherClasses=''
+        />
+
+        <Filter
+          filters={TagFilters}
+          otherClasses='min-h-[56px] max-w-[250px]'
         />
       </div>
 

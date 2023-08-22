@@ -10,7 +10,7 @@ import { connectToDB } from "../mongoose";
 export interface GetAllTagsParams {
   page?: number;
   pageSize?: number;
-  filter?: "popular" | "recent" | "old";
+  filter?: string;
   searchQuery?: string;
 }
 
@@ -33,12 +33,19 @@ export async function getAllTags(params: GetAllTagsParams) {
       case "popular":
         sortOptions = { questions: -1 };
         break;
+
       case "recent":
         sortOptions = { createdAt: -1 };
         break;
+
       case "old":
         sortOptions = { createdAt: 1 };
         break;
+
+      case "name":
+        sortOptions = { name: 1 };
+        break;
+
       default:
         // No specific filter
         break;
