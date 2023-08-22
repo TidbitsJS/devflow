@@ -12,6 +12,7 @@ export interface IUser extends Document {
   portfolioWebsite?: string;
   reputation?: number;
   createdAt: Date;
+  saved: Schema.Types.ObjectId[];
 }
 
 const UserSchema = new Schema({
