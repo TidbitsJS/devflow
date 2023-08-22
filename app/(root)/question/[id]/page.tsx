@@ -65,7 +65,7 @@ const Page = async ({ params, searchParams }: Params) => {
         </h2>
       </div>
 
-      <div className='mt-5 flex flex-wrap gap-4'>
+      <div className='mb-8 mt-5 flex flex-wrap gap-4'>
         <div className='flex-center gap-1'>
           <Image
             src='/assets/icons/clock.svg'
@@ -109,7 +109,7 @@ const Page = async ({ params, searchParams }: Params) => {
         </div>
       </div>
 
-      <ParseHTML data={result.content} />
+      <ParseHTML data={result.content} otherClasses='markdown' />
 
       <div className='mt-8 flex flex-wrap gap-2'>
         {result.tags.map((tag: any) => (

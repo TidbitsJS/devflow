@@ -286,7 +286,8 @@ export async function getUserStats(params: GetUserStatsParams) {
       .populate({
         path: "question",
         select: "_id title",
-      });
+      })
+      .populate("author", "_id clerkId name picture");
 
     const isNext = totalQuestions > skipAmount + userQuestions.length;
 

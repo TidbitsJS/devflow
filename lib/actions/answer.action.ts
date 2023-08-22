@@ -162,3 +162,40 @@ export async function downvoteAnswer(params: VoteParams) {
     throw error;
   }
 }
+
+interface DeleteAnswerParams {
+  answerId: string;
+  path: string;
+}
+
+export async function deleteAnswer(params: DeleteAnswerParams) {
+  try {
+    await connectToDB();
+
+    const { answerId, path } = params;
+
+    // Find the answer to be deleted
+    const answer = await Answer.findById(answerId);
+
+    if (!answer) {
+      throw new Error("Answer not found");
+    }
+
+    // Delete the answer
+    await Answer.deleteOne({ _id: answerId });
+
+    // Remove the answer reference from its question
+    await Question.updateOne(
+      { _id: answer.question },
+      { $pull: { answers: answerId } }
+    );
+
+    // Delete interactions related to the answer
+    await Interaction.deleteMany({ answer: answerId });
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error deleting answer:", error);
+    throw error;
+  }
+}

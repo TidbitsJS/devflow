@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getTopInteractedTags } from "@/lib/actions/tag.action";
 import { getUserById, getUserStats } from "@/lib/actions/user.action";
 import { formatNumber, getJoinedDate } from "@/lib/utils";
+import AnswerCard from "@/components/cards/AnswerCard";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const { userId } = auth();
@@ -197,6 +198,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
             {userStats.questions.map((item: any) => (
               <QuestionCard
                 key={item._id}
+                clerkId={userId}
                 _id={item._id}
                 title={item.title}
                 tags={item.tags}
@@ -208,8 +210,19 @@ const Page = async ({ params }: { params: { id: string } }) => {
               />
             ))}
           </TabsContent>
-          <TabsContent value='answers' className='mt-5'>
-            Change your password here.
+          <TabsContent value='answers' className='flex w-full flex-col gap-6'>
+            {userStats.answers.map((item: any) => (
+              <AnswerCard
+                key={item._id}
+                clerkId={userId}
+                _id={item._id}
+                question={item.question}
+                title={item.content}
+                author={item.author}
+                upvotes={item.upvotes.length}
+                createdAt={item.createdAt}
+              />
+            ))}
           </TabsContent>
         </Tabs>
 

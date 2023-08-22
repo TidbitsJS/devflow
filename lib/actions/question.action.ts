@@ -10,6 +10,7 @@ import Tag from "@/mongodb/tag.model";
 import Question from "@/mongodb/question.model";
 import Interaction from "@/mongodb/interaction.model";
 import User from "@/mongodb/user.model";
+import Answer from "@/mongodb/answer.model";
 
 interface GetQuestionsParams {
   page?: number;
@@ -205,6 +206,39 @@ export async function getHotQuestions() {
     return hotQuestions;
   } catch (error) {
     console.error("Error fetching hot questions:", error);
+    throw error;
+  }
+}
+
+interface DeleteQuestionParams {
+  questionId: string;
+  path: string;
+}
+
+export async function deleteQuestion(params: DeleteQuestionParams) {
+  try {
+    await connectToDB();
+
+    const { questionId, path } = params;
+
+    // Delete the question
+    await Question.deleteOne({ _id: questionId });
+
+    // Delete all answers associated with the question
+    await Answer.deleteMany({ question: questionId });
+
+    // Delete interactions related to the question
+    await Interaction.deleteMany({ question: questionId });
+
+    // Update tags to remove references to the deleted question
+    await Tag.updateMany(
+      { questions: questionId },
+      { $pull: { questions: questionId } }
+    );
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error deleting question:", error);
     throw error;
   }
 }
