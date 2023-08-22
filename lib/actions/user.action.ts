@@ -181,6 +181,7 @@ interface GetSavedQuestionsParams {
   clerkId: string;
   page?: number;
   pageSize?: number;
+  filter?: string;
   searchQuery?: string;
 }
 
@@ -188,21 +189,51 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     await connectToDB();
 
-    const { clerkId, page = 1, pageSize = 10, searchQuery } = params;
+    const { clerkId, page = 1, pageSize = 10, filter, searchQuery } = params;
 
-    // Find the user by clerkId and populate the saved questions
+    const query: FilterQuery<typeof Question> = searchQuery
+      ? { title: { $regex: new RegExp(searchQuery, "i") } }
+      : {};
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "most_recent":
+        sortOptions = { createdAt: -1 };
+        break;
+
+      case "oldest":
+        sortOptions = { createdAt: 1 };
+        break;
+
+      case "most_voted":
+        sortOptions = { upvotes: -1 };
+        break;
+
+      case "most_viewed":
+        sortOptions = { views: -1 };
+        break;
+
+      case "most_answered":
+        sortOptions = { answers: -1 };
+        break;
+
+      default:
+        // No specific filter
+        break;
+    }
+
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
-      match: searchQuery
-        ? { title: { $regex: searchQuery, $options: "i" } }
-        : {},
+      match: query,
       options: {
+        sort: sortOptions,
         skip: (page - 1) * pageSize,
         limit: pageSize + 1, // Fetch one extra to determine if there is a next page
       },
       populate: [
-        { path: "tags", model: Tag, select: "_id name" }, // Populate the tags field of questions
-        { path: "author", model: User, select: "_id clerkId name picture" }, // Populate the author field of questions
+        { path: "tags", model: Tag, select: "_id name" },
+        { path: "author", model: User, select: "_id clerkId name picture" },
       ],
     });
 
