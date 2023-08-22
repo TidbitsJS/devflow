@@ -18,17 +18,14 @@ interface CreateUserParams {
   name: string;
   username: string;
   email: string;
-  password?: string;
-  bio?: string;
   picture: string;
-  portfolioWebsite?: string;
 }
 
 export async function createUser(userData: CreateUserParams) {
   try {
     connectToDB();
 
-    const newUser: IUser = await User.create(userData);
+    const newUser = await User.create(userData);
     return newUser;
   } catch (error) {
     console.error("Error creating user:", error);
