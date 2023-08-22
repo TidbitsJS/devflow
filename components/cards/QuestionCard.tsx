@@ -43,7 +43,7 @@ const QuestionCard = ({
         {tags.map((tag) => (
           <Badge
             key={tag._id}
-            className='subtle-medium px-4 py-2 uppercase text-light-500'
+            className='subtle-medium px-4 py-2 uppercase text-light-500 bg-dark-300'
           >
             <Link href={`/tags/${tag._id}`}>{tag.name}</Link>
           </Badge>

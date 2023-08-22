@@ -40,7 +40,7 @@ const UserCard = async ({ item }: Props) => {
         <div className='mt-5 flex flex-wrap gap-2'>
           {interactedTags.map((tag) => (
             <Link key={tag._id} href={`/tags/${tag._id}`}>
-              <Badge className='subtle-medium px-4 py-2 uppercase text-light-500'>
+              <Badge className='subtle-medium px-4 py-2 uppercase text-light-500 bg-dark-300'>
                 {tag.name}
               </Badge>
             </Link>

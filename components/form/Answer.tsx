@@ -190,7 +190,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                         "codesample | bold italic forecolor | alignleft aligncenter | " +
                         "alignright alignjustify | bullist numlist",
                       content_style:
-                        "body { font-family: Poppins; font-size:16px;}",
+                        "body { font-family: Inter; font-size:16px;}",
                     }}
                   />
                 </FormControl>

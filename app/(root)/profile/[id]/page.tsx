@@ -54,7 +54,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
                     target='_blank'
                     className='paragraph-medium  text-accent-blue'
                   >
-                    💼 Portfolio
+                    Portfolio
                   </Link>
                 </div>
               )}

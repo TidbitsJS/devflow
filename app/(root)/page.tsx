@@ -14,7 +14,7 @@ async function Home({
 
   return (
     <>
-      <h2 className='h2-bold text-white'>All Questions</h2>
+      <h1 className='h1-bold text-white'>All Questions</h1>
 
       <div className='mt-10 flex w-full flex-col gap-6'>
         {result.questions.map((item: any) => (

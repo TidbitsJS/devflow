@@ -1,15 +1,15 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Poppins, Space_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "./globals.css";
 import "../styles/prism.css";
 
-const poppins = Poppins({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins",
+  variable: "--font-inter",
 });
 
 const spaceGrotesk = Space_Grotesk({
@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`${poppins.variable} ${spaceGrotesk.variable}`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
         <ClerkProvider>{children}</ClerkProvider>
       </body>
     </html>
