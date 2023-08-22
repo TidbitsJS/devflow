@@ -323,11 +323,19 @@ export async function deleteUser(params: DeleteUserParams) {
       throw new Error("User not found.");
     }
 
+    // get user question ids
+    const userQuestionIds = await Question.find({ author: user._id }).distinct(
+      "_id"
+    );
+
     // Delete all questions asked by the user
     await Question.deleteMany({ author: user._id });
 
     // Delete all answers given by the user
     await Answer.deleteMany({ author: user._id });
+
+    // Delete the answers created by other users on questions created by the user
+    await Answer.deleteMany({ question: { $in: userQuestionIds } });
 
     // Remove user reference from upvotes and downvotes on questions
     await Question.updateMany(
@@ -354,7 +362,11 @@ export async function deleteUser(params: DeleteUserParams) {
     // Delete interactions involving the user
     await Interaction.deleteMany({ user: user._id });
 
-    // TODO: tag followers?
+    // Update tags to remove references to the user's questions
+    await Tag.updateMany(
+      { questions: { $in: userQuestionIds } },
+      { $pull: { questions: { $in: userQuestionIds } } }
+    );
 
     // Delete the user
     const deletedUser = await User.findByIdAndDelete(user._id);

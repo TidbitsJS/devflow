@@ -1,3 +1,7 @@
+import { auth, SignedIn } from "@clerk/nextjs";
+import Image from "next/image";
+import Link from "next/link";
+
 import QuestionCard from "@/components/cards/QuestionCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -5,9 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getTopInteractedTags } from "@/lib/actions/tag.action";
 import { getUserById, getUserStats } from "@/lib/actions/user.action";
 import { formatNumber, getJoinedDate } from "@/lib/utils";
-import { auth, SignedIn } from "@clerk/nextjs";
-import Image from "next/image";
-import Link from "next/link";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const { userId } = auth();
@@ -83,7 +84,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
                 />
 
                 <p className='paragraph-medium text-light-700'>
-                  {getJoinedDate(mongoUser.createdAt)}
+                  {getJoinedDate(mongoUser.joined_at)}
                 </p>
               </div>
             </div>
