@@ -196,7 +196,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" }, // Populate the tags field of questions
-        { path: "author", model: User, select: "_id name picture" }, // Populate the author field of questions
+        { path: "author", model: User, select: "_id clerkId name picture" }, // Populate the author field of questions
       ],
     });
 
@@ -242,7 +242,7 @@ export async function getUserStats(params: GetUserStatsParams) {
       .skip(skipAmount)
       .limit(pageSize)
       .populate("tags", "_id name")
-      .populate("author", "_id name picture");
+      .populate("author", "_id clerkId name picture");
 
     // Get the user's answers sorted by popularity (upvotes)
     const userAnswers = await Answer.find({ author: userId })

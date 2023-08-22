@@ -89,7 +89,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" }, // Populate the tags field of questions
-        { path: "author", model: User, select: "_id name picture" }, // Populate the author field of questions
+        { path: "author", model: User, select: "_id clerkId name picture" }, // Populate the author field of questions
       ],
     });
 

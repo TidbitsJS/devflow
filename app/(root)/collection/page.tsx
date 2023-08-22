@@ -14,7 +14,6 @@ async function Home({
   const result = await getSavedQuestions({
     clerkId: userId,
     page: searchParams.page ? +searchParams.page : 1,
-    pageSize: 2,
     searchQuery: searchParams.q,
   });
 

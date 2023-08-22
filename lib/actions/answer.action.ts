@@ -94,7 +94,7 @@ export async function getAnswers(params: GetAnswersParams) {
       .limit(pageSize)
       .populate({
         path: "author",
-        select: "_id name picture",
+        select: "_id clerkId name picture",
       });
 
     // Check if there are more answers beyond the current set

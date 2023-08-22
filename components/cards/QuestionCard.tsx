@@ -13,6 +13,7 @@ interface Question {
   }[];
   author: {
     _id: string;
+    clerkId: string;
     name: string;
     picture: string;
   };
@@ -50,7 +51,7 @@ const QuestionCard = ({
       </div>
 
       <div className='flex-between mt-6 w-full flex-wrap gap-3'>
-        <div className='flex-center gap-1'>
+        <Link href={`/profile/${author.clerkId}`} className='flex-center gap-1'>
           <Image
             src={author.picture}
             className='rounded-full'
@@ -65,7 +66,7 @@ const QuestionCard = ({
               • asked {getTimeStamp(createdAt)}
             </span>
           </p>
-        </div>
+        </Link>
 
         <div className='flex-center gap-3'>
           <div className='flex-center gap-1'>

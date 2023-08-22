@@ -12,7 +12,6 @@ async function Page({
   const result = await getQuestionsByTagId({
     tagId: params.id,
     page: searchParams.page ? +searchParams.page : 1,
-    pageSize: 2,
     searchQuery: searchParams.q,
   });
 

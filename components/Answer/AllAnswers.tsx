@@ -8,6 +8,7 @@ import { getAnswers } from "@/lib/actions/answer.action";
 import Pagination from "../shared/Pagination";
 import Filter from "../shared/Filter";
 import { AnswerFilters } from "@/constants/filters";
+import Link from "next/link";
 
 interface Params {
   questionId: string;
@@ -43,7 +44,10 @@ const AllAnswers = async ({
         {result.answers.map((answer) => (
           <article key={answer._id}>
             <div className='flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
-              <div className='flex flex-1 items-center gap-1'>
+              <Link
+                href={`/profile/${answer.author.clerkId}`}
+                className='flex flex-1 items-center gap-1'
+              >
                 <Image
                   src={answer.author.picture}
                   alt='user picture'
@@ -58,7 +62,7 @@ const AllAnswers = async ({
                 <p className='subtle-medium text-light-500'>
                   • answered {formatDate(answer.createdAt)}
                 </p>
-              </div>
+              </Link>
               <div className='flex justify-end'>
                 <Votes
                   type='Answer'
