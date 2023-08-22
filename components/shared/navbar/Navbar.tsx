@@ -1,4 +1,4 @@
-import { UserButton, SignedIn, SignedOut, auth } from "@clerk/nextjs";
+import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,8 +8,6 @@ import Theme from "./Theme";
 import MobileNav from "./MobileNav";
 
 const Navbar = () => {
-  const { userId } = auth();
-
   return (
     <nav className='flex-between fixed z-50 w-full gap-5 border-b border-b-dark-500 bg-dark-200/50 p-6 sm:px-12'>
       <Link href='/' className='flex items-center gap-1'>
@@ -50,8 +48,6 @@ const Navbar = () => {
 
         <SignedIn>
           <UserButton
-            userProfileMode='navigation'
-            userProfileUrl={`/profile/${userId}`}
             afterSignOutUrl='/'
             appearance={{
               elements: {

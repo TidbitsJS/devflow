@@ -18,7 +18,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "../ui/textarea";
 import { updateUser } from "@/lib/actions/user.action";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ProfileSchema } from "@/lib/validations";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
@@ -30,6 +30,7 @@ interface Params {
 const Profile = ({ clerkId, user }: Params) => {
   const parsedUser = JSON.parse(user);
   const router = useRouter();
+  const pathname = usePathname();
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -56,6 +57,7 @@ const Profile = ({ clerkId, user }: Params) => {
           location: values.location,
           bio: values.bio,
         },
+        path: pathname,
       });
 
       toast({
@@ -63,7 +65,7 @@ const Profile = ({ clerkId, user }: Params) => {
         description: "Your profile information has been successfully updated.",
       });
 
-      router.push("/");
+      router.back();
     } catch (error: any) {
       toast({
         title: "Uh oh! Something went wrong.",

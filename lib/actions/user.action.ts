@@ -108,19 +108,20 @@ export async function getAllUsers(params: GetAllUsersParams) {
 interface UpdateUserParams {
   clerkId: string;
   updateData: Partial<IUser>;
+  path: string;
 }
 
 export async function updateUser(params: UpdateUserParams) {
   try {
     connectToDB();
 
-    const { clerkId, updateData } = params;
+    const { clerkId, updateData, path } = params;
 
-    const updatedUser = await User.findOneAndUpdate({ clerkId }, updateData, {
+    await User.findOneAndUpdate({ clerkId }, updateData, {
       new: true,
     });
 
-    return updatedUser;
+    revalidatePath(path);
   } catch (error) {
     console.error("Error updating user:", error);
     throw error;
@@ -212,6 +213,58 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     return { questions: savedQuestions, isNext };
   } catch (error) {
     console.error("Error fetching saved questions:", error);
+    throw error;
+  }
+}
+
+interface GetUserStatsParams {
+  userId: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export async function getUserStats(params: GetUserStatsParams) {
+  try {
+    await connectToDB();
+
+    const { userId, page = 1, pageSize = 10 } = params;
+    const skipAmount = (page - 1) * pageSize;
+
+    // Get the user's questions count
+    const totalQuestions = await Question.countDocuments({ author: userId });
+
+    // Get the user's answers count
+    const totalAnswers = await Answer.countDocuments({ author: userId });
+
+    // Get the user's questions sorted by popularity (views + upvotes)
+    const userQuestions = await Question.find({ author: userId })
+      .sort({ views: -1, upvotes: -1 })
+      .skip(skipAmount)
+      .limit(pageSize)
+      .populate("tags", "_id name")
+      .populate("author", "_id name picture");
+
+    // Get the user's answers sorted by popularity (upvotes)
+    const userAnswers = await Answer.find({ author: userId })
+      .sort({ upvotes: -1 })
+      .skip(skipAmount)
+      .limit(pageSize)
+      .populate({
+        path: "question",
+        select: "_id title",
+      });
+
+    const isNext = totalQuestions > skipAmount + userQuestions.length;
+
+    return {
+      totalQuestions: totalQuestions || 0,
+      totalAnswers: totalAnswers || 0,
+      questions: userQuestions,
+      answers: userAnswers,
+      isNext,
+    };
+  } catch (error) {
+    console.error("Error fetching user stats:", error);
     throw error;
   }
 }

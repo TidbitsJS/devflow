@@ -128,13 +128,14 @@ export async function getTopPopularTags() {
 
 interface GetTopInteractedTagsParams {
   userId: string;
+  limit?: number;
 }
 
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
   try {
     await connectToDB();
 
-    const { userId } = params;
+    const { userId, limit = 3 } = params;
 
     // Find the user by clerkId
     const user = await User.findById(userId);
@@ -148,7 +149,7 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
       { $unwind: "$tags" },
       { $group: { _id: "$tags", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
-      { $limit: 3 },
+      { $limit: limit },
     ]);
 
     const topTags = tagCountMap.map((tagCount) => tagCount._id);
