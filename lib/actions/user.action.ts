@@ -79,12 +79,18 @@ export async function getAllUsers(params: GetAllUsersParams) {
     let sortOptions = {};
 
     switch (filter) {
-      case "reputation":
+      case "new_users":
+        sortOptions = { createdAt: -1 };
+        break;
+
+      case "old_users":
+        sortOptions = { createdAt: 1 };
+        break;
+
+      case "top_contributors":
         sortOptions = { reputation: -1 };
         break;
-      case "joinDate":
-        sortOptions = { joinDate: 1 };
-        break;
+
       default:
         // No specific filter
         break;
@@ -95,7 +101,7 @@ export async function getAllUsers(params: GetAllUsersParams) {
       .skip(skipAmount)
       .limit(pageSize);
 
-    const totalUsers = await User.countDocuments();
+    const totalUsers = await User.countDocuments(query);
     const isNext = totalUsers > skipAmount + users.length;
 
     return { users, isNext };

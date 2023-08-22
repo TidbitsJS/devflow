@@ -51,12 +51,6 @@ export const filterLinks: string[] = [
   "Unanswered",
 ];
 
-export const userFilterLinks: string[] = [
-  "Reputation",
-  "New Users",
-  "Moderators",
-];
-
 export const tagsFilterLinks: string[] = ["Popular", "Name", "New"];
 
 export const hotNetworkQuestion: HotNetworkQuestion[] = [

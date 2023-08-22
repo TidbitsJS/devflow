@@ -17,9 +17,10 @@ interface Props {
     name: string;
     value: string;
   }[];
+  otherClasses?: string;
 }
 
-const Filter = ({ filters }: Props) => {
+const Filter = ({ filters, otherClasses }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -41,7 +42,9 @@ const Filter = ({ filters }: Props) => {
         onValueChange={(value) => handleUpdateParams(value)}
         defaultValue={paramsFilter || filters[0].value}
       >
-        <SelectTrigger className='small-regular border border-dark-300 bg-dark-300 px-5 py-2.5 text-light-700'>
+        <SelectTrigger
+          className={`small-regular border border-dark-300 bg-dark-300 px-5 py-2.5 text-light-700 ${otherClasses}`}
+        >
           <SelectValue placeholder='Select a Filter' />
         </SelectTrigger>
         <SelectContent>
