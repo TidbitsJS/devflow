@@ -14,6 +14,7 @@ interface Params {
 const Page = async ({ searchParams }: Params) => {
   const result = await getAllUsers({
     page: searchParams.page ? +searchParams.page : 1,
+    filter: searchParams.filter,
     searchQuery: searchParams.q,
   });
 
