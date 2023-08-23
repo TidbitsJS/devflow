@@ -35,7 +35,16 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-        <ClerkProvider>{children}</ClerkProvider>
+        <ClerkProvider
+          appearance={{
+            elements: {
+              formButtonPrimary: "primary-gradient",
+              footerActionLink: "primary-text-gradient hover:text-primary-500",
+            },
+          }}
+        >
+          {children}
+        </ClerkProvider>
       </body>
     </html>
   );
