@@ -242,3 +242,93 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
     throw error;
   }
 }
+
+interface EditQuestionParams {
+  questionId: string;
+  title: string;
+  content: string;
+  tags: string[];
+  path: string;
+}
+
+export async function editQuestion(params: EditQuestionParams) {
+  try {
+    await connectToDB();
+
+    const { questionId, title, content, tags, path } = params;
+
+    // Find the question to be edited
+    const question = await Question.findById(questionId).populate("tags");
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+
+    // Update question fields
+    question.title = title;
+    question.content = content;
+    await question.save();
+
+    const newTags = tags.map((tag: string) => tag.toLowerCase());
+    const existingTags = question.tags.map((tag: any) =>
+      tag.name.toLowerCase()
+    );
+
+    const tagUpdates = {
+      tagsToAdd: [] as string[],
+      tagsToRemove: [] as string[],
+    };
+
+    for (const tag of newTags) {
+      if (!existingTags.includes(tag.toLowerCase())) {
+        tagUpdates.tagsToAdd.push(tag);
+      }
+    }
+
+    for (const tag of question.tags) {
+      if (!newTags.includes(tag.name.toLowerCase())) {
+        tagUpdates.tagsToRemove.push(tag._id);
+      }
+    }
+
+    // Add new tags and link them to the question
+    const newTagDocuments = [];
+
+    for (const tag of tagUpdates.tagsToAdd) {
+      const newTag = await Tag.findOneAndUpdate(
+        { name: { $regex: new RegExp(`^${tag}$`, "i") } },
+        { $setOnInsert: { name: tag }, $push: { questions: question._id } },
+        { upsert: true, new: true }
+      );
+
+      newTagDocuments.push(newTag._id);
+    }
+
+    console.log({ tagUpdates });
+
+    // Remove question reference for tagsToRemove from the tag
+    if (tagUpdates.tagsToRemove.length > 0) {
+      await Tag.updateMany(
+        { _id: { $in: tagUpdates.tagsToRemove } },
+        { $pull: { questions: question._id } }
+      );
+    }
+
+    if (tagUpdates.tagsToRemove.length > 0) {
+      await Question.findByIdAndUpdate(question._id, {
+        $pull: { tags: { $in: tagUpdates.tagsToRemove } },
+      });
+    }
+
+    if (newTagDocuments.length > 0) {
+      await Question.findByIdAndUpdate(question._id, {
+        $push: { tags: { $each: newTagDocuments } },
+      });
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error editing question:", error);
+    throw error;
+  }
+}

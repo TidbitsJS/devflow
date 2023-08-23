@@ -21,27 +21,35 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "../ui/badge";
-import { createQuestion } from "@/lib/actions/question.action";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { toast } from "../ui/use-toast";
 import { QuestionSchema } from "@/lib/validations";
 
 interface Props {
+  type?: string;
   mongoUserId: string;
+  questionDetails?: string;
 }
 
-const Question = ({ mongoUserId }: Props) => {
+const Question = ({ type, mongoUserId, questionDetails }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
 
+  const parsedQuestionDetails =
+    questionDetails && JSON.parse(questionDetails as string);
+  console.log(parsedQuestionDetails);
+
+  const groupedTags = parsedQuestionDetails?.tags.map((tag: any) => tag.name);
+
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
-      title: "",
-      explanation: "",
-      tags: [],
+      title: parsedQuestionDetails?.title || "",
+      explanation: parsedQuestionDetails?.content || "",
+      tags: groupedTags || [],
     },
   });
 
@@ -51,20 +59,37 @@ const Question = ({ mongoUserId }: Props) => {
     setSubmitting(true);
 
     try {
-      await createQuestion({
-        title: values.title,
-        content: values.explanation,
-        tags: values.tags,
-        author: JSON.parse(mongoUserId),
-        path: pathname,
-      });
+      if (type === "edit") {
+        await editQuestion({
+          questionId: parsedQuestionDetails._id,
+          title: values.title,
+          content: values.explanation,
+          tags: values.tags,
+          path: pathname,
+        });
 
-      toast({
-        title: "Question Posted",
-        description: "Your question has been successfully posted.",
-      });
+        toast({
+          title: "Question Edited",
+          description: "Your question has been successfully edited.",
+        });
 
-      router.push("/");
+        router.push(`/question/${parsedQuestionDetails._id}`);
+      } else {
+        await createQuestion({
+          title: values.title,
+          content: values.explanation,
+          tags: values.tags,
+          author: JSON.parse(mongoUserId),
+          path: pathname,
+        });
+
+        toast({
+          title: "Question Posted",
+          description: "Your question has been successfully posted.",
+        });
+
+        router.push("/");
+      }
     } catch (error) {
       toast({
         title: "Uh oh! Something went wrong.",
@@ -161,6 +186,7 @@ const Question = ({ mongoUserId }: Props) => {
                       // @ts-ignore
                       (editorRef.current = editor)
                     }
+                    initialValue={parsedQuestionDetails?.content || ""}
                     onEditorChange={(content) => field.onChange(content)}
                     onBlur={field.onBlur}
                     init={{
@@ -259,10 +285,10 @@ const Question = ({ mongoUserId }: Props) => {
               {submitting ? (
                 <>
                   <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
-                  Posting...
+                  {type === "edit" ? "Editing..." : "Posting..."}
                 </>
               ) : (
-                <>Ask a Question</>
+                <>{type === "edit" ? "Edit Question" : "Ask a Question"}</>
               )}
             </Button>
           </div>

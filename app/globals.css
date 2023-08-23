@@ -156,6 +156,7 @@ code {
 
 .markdown pre {
   display: grid;
+  width: 100%;
 }
 
 .markdown pre code {

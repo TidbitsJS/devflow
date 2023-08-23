@@ -18,7 +18,7 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
 
   const handleEdit = async () => {
     if (type === "Question") {
-      router.push(`/question/edit/${itemId}`);
+      router.push(`/question/edit/${JSON.parse(itemId)}`);
     } else if (type === "Answer") {
       // do something
     }
