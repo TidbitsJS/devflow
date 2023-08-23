@@ -30,7 +30,7 @@ import parse from "html-react-parser";
 
 interface Props {
   data: string;
-  otherClasses: string;
+  otherClasses?: string;
 }
 
 const ParseHTML = ({ data, otherClasses }: Props) => {
@@ -39,7 +39,9 @@ const ParseHTML = ({ data, otherClasses }: Props) => {
   }, []);
 
   return (
-    <div className={`w-full min-w-full ${otherClasses}`}>{parse(data)}</div>
+    <div className={`markdown w-full min-w-full ${otherClasses}`}>
+      {parse(data)}
+    </div>
   );
 };
 

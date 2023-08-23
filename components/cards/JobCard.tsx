@@ -51,6 +51,8 @@ const JobCard = ({ job }: JobCardProps) => {
     job_country,
   } = job;
 
+  console.log(job_title);
+
   return (
     <section className='flex flex-col items-start gap-6 rounded-lg border border-dark-300 bg-dark-200 p-6 sm:flex-row sm:p-8'>
       <div className='flex w-full justify-end sm:hidden'>

@@ -109,7 +109,7 @@ const Page = async ({ params, searchParams }: Params) => {
         </div>
       </div>
 
-      <ParseHTML data={result.content} otherClasses='markdown' />
+      <ParseHTML data={result.content} />
 
       <div className='mt-8 flex flex-wrap gap-2'>
         {result.tags.map((tag: any) => (

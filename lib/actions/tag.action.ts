@@ -51,6 +51,9 @@ export async function getAllTags(params: GetAllTagsParams) {
         break;
     }
 
+    // Modify the query to include tags with non-empty questions array
+    query.questions = { $exists: true, $not: { $size: 0 } };
+
     const totalTags = await Tag.countDocuments(query);
 
     const tags = await Tag.find(query)

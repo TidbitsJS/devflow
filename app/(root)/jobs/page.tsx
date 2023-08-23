@@ -40,7 +40,12 @@ const Page = async ({ searchParams }: Props) => {
 
       <section className='mt-11 flex flex-col gap-9'>
         {jobs.length > 0 ? (
-          jobs.map((job: any) => <JobCard key={job.id} job={job} />)
+          jobs.map((job: any) => {
+            if (job.job_title && job.job_title.toLowerCase() !== "undefined")
+              return <JobCard key={job.id} job={job} />;
+
+            return null;
+          })
         ) : (
           <div className='paragraph-regular w-full text-center text-light-700'>
             Oops! We couldn&apos;t find any jobs at the moment. Please try again

@@ -76,7 +76,7 @@ const AllAnswers = async ({
               </div>
             </div>
 
-            <ParseHTML data={answer.content} otherClasses='markdown' />
+            <ParseHTML data={answer.content} />
 
             <div className='my-10 h-0.5 w-full bg-dark-300' />
           </article>
