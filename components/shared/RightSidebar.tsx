@@ -11,9 +11,9 @@ const RightSidebar = async () => {
   const popularTags = await getTopPopularTags();
 
   return (
-    <section className='sticky right-0 top-0 flex h-screen w-[330px] flex-col gap-6 overflow-y-auto bg-dark-200/50 p-6 pt-36 max-xl:hidden'>
+    <section className='custom-scrollbar common-background-shade sticky right-0 top-0 flex h-screen w-[330px] flex-col gap-6 overflow-y-auto p-6 pt-36 max-xl:hidden'>
       <div>
-        <h2 className='h3-bold text-white'>Top Questions</h2>
+        <h3 className='h3-bold heading3-color'>Top Questions</h3>
         <div className='mt-7 flex w-full flex-col gap-[30px]'>
           {hotQuestions.map((question) => (
             <Link
@@ -21,13 +21,14 @@ const RightSidebar = async () => {
               key={question._id}
               className='flex cursor-pointer items-center justify-between gap-7'
             >
-              <p className='body-medium text-light-700'>{question.title}</p>
+              <p className='body-medium body2-color'>{question.title}</p>
 
               <Image
                 src='/assets/icons/chevron-right.svg'
                 alt='Chevron right icon'
                 width={20}
                 height={20}
+                className='white-black-invert'
               />
             </Link>
           ))}
@@ -35,7 +36,7 @@ const RightSidebar = async () => {
       </div>
 
       <div className='mt-16'>
-        <h2 className='h3-bold text-white'>Popular Tags</h2>
+        <h3 className='h3-bold heading3-color'>Popular Tags</h3>
         <div className='mt-7 flex flex-col gap-4'>
           {popularTags.map((tag) => (
             <Link
@@ -43,11 +44,11 @@ const RightSidebar = async () => {
               key={tag._id}
               className='flex justify-between gap-2'
             >
-              <Badge className='subtle-medium rounded-md bg-dark-300 px-4 py-2 uppercase text-light-500'>
+              <Badge className='subtle-medium tag-background-shade  tag-color rounded-md border-none px-4 py-2 uppercase'>
                 {tag.name}
               </Badge>
 
-              <p className='small-medium text-light-700'>
+              <p className='small-medium small2-color'>
                 {tag.questions.length}
               </p>
             </Link>

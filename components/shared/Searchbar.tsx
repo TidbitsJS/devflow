@@ -59,7 +59,7 @@ const Searchbar = ({
 
   return (
     <div
-      className={`dark-gradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
+      className={`search-background-shade flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
       {iconPosition === "left" && (
         <Image
@@ -76,7 +76,7 @@ const Searchbar = ({
         placeholder={placeholder}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className='paragraph-regular no-focus border-none text-light-700 outline-none placeholder:text-light-500'
+        className='paragraph-regular no-focus placeholder input-color border-none shadow-none outline-none'
       />
 
       {iconPosition === "right" && (

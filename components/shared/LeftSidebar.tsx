@@ -12,7 +12,7 @@ const LeftSidebar = () => {
   const { userId } = useAuth();
 
   return (
-    <section className='sticky left-0 top-0 flex h-screen w-fit flex-col gap-6 overflow-y-auto bg-dark-200/50 p-6 pt-36 max-sm:hidden lg:w-[266px]'>
+    <section className='custom-scrollbar common-background-shade sticky left-0 top-0 flex h-screen w-fit flex-col gap-6 overflow-y-auto p-6 pt-36 max-sm:hidden lg:w-[266px]'>
       {sidebarLinks.map((item) => {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 1) ||
@@ -25,14 +25,20 @@ const LeftSidebar = () => {
             href={item.route}
             key={item.label}
             className={`${
-              isActive ? "primary-gradient rounded-lg text-white" : ""
-            } flex items-center justify-start gap-4 bg-transparent p-4`}
+              isActive ? "primary-gradient rounded-lg text-light-900" : ""
+            } base-color flex items-center justify-start gap-4 bg-transparent p-4`}
           >
-            <Image src={item.imgURL} alt={item.label} width={20} height={20} />
+            <Image
+              src={item.imgURL}
+              alt={item.label}
+              width={20}
+              height={20}
+              className={`${isActive ? "" : "white-black-invert"}`}
+            />
             <p
               className={`${
                 isActive ? "base-bold" : "base-medium"
-              } text-white max-lg:hidden`}
+              } max-lg:hidden`}
             >
               {item.label}
             </p>

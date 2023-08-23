@@ -9,7 +9,7 @@ import MobileNav from "./MobileNav";
 
 const Navbar = () => {
   return (
-    <nav className='flex-between fixed z-50 w-full gap-5 border-b border-b-dark-500 bg-dark-200 p-6 sm:px-12'>
+    <nav className='flex-between common-background-shade fixed z-50 w-full gap-5  p-6 sm:px-12'>
       <Link href='/' className='flex items-center gap-1'>
         <Image
           src='/assets/images/site-logo.svg'

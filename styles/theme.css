@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .background-shade {
+    @apply bg-light-850 dark:bg-dark-100;
+  }
+
+  .heading1-color {
+    @apply text-dark-100 dark:text-light-900;
+  }
+
+  .heading3-color {
+    @apply dark:text-light-900 text-dark-200;
+  }
+
+  .body-color {
+    @apply dark:text-light-700 text-dark-400;
+  }
+
+  .body2-color {
+    @apply dark:text-light-700 text-dark-500;
+  }
+
+  .base-color {
+    @apply text-dark-300 dark:text-light-900;
+  }
+
+  .small-color {
+    @apply dark:text-light-800 text-dark-400;
+  }
+
+  .small2-color {
+    @apply dark:text-light-700 text-dark-500;
+  }
+
+  .common-background-shade {
+    @apply dark:bg-dark-200 bg-light-900;
+  }
+
+  .search-background-shade {
+    @apply bg-light-800 dark:dark-gradient;
+  }
+
+  .placeholder {
+    @apply dark:placeholder:text-light-500 placeholder:text-light-400;
+  }
+
+  .input-color {
+    @apply dark:text-light-700 text-dark-400;
+  }
+
+  .white-black-invert {
+    @apply invert dark:invert-0;
+  }
+
+  .tag-background-shade {
+    @apply bg-light-800 dark:bg-dark-300 !important;
+  }
+
+  .tag-color {
+    @apply dark:text-light-500 text-light-400 !important;
+  }
+
+  .card-wrapper {
+    @apply dark:dark-gradient bg-light-900 dark:shadow-question-card-dark shadow-question-card-light;
+  }
+
+  .primary-gradient {
+    background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+  }
+
+  .dark-gradient {
+    background: linear-gradient(
+      232deg,
+      rgba(23, 28, 35, 0.41) 0%,
+      rgba(19, 22, 28, 0.7) 100%
+    );
+  }
+}

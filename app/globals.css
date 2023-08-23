@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("../styles/theme.css");
+
 body {
   font-family: "Inter", sans-serif;
 }
@@ -83,12 +85,32 @@ body {
     @apply text-[12px] font-medium leading-[15.6px];
   }
 
+  .small-semibold {
+    @apply text-[12px] font-semibold leading-[15.6px];
+  }
+
   .subtle-medium {
     @apply text-[10px] font-medium leading-[13px];
   }
 
+  .subtle-regular {
+    @apply text-[10px] font-normal leading-[13px];
+  }
+
   .markdown {
     @apply max-w-full prose prose-p:text-light-700 prose-ol:text-light-700 prose-ul:text-light-500 prose-strong:text-white prose-headings:text-white;
+  }
+
+  .primary-gradient {
+    background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+  }
+
+  .dark-gradient {
+    background: linear-gradient(
+      232deg,
+      rgba(23, 28, 35, 0.41) 0%,
+      rgba(19, 22, 28, 0.7) 100%
+    );
   }
 }
 
@@ -99,18 +121,6 @@ body {
 .active-theme {
   filter: invert(53%) sepia(98%) saturate(3332%) hue-rotate(0deg)
     brightness(104%) contrast(106%) !important;
-}
-
-.primary-gradient {
-  background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
-}
-
-.dark-gradient {
-  background: linear-gradient(
-    232deg,
-    rgba(23, 28, 35, 0.41) 0%,
-    rgba(19, 22, 28, 0.7) 100%
-  );
 }
 
 .light-gradient {
@@ -128,6 +138,26 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 50px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Markdown Start */
 .markdown a {
   color: #1da1f2;
 }
@@ -166,7 +196,9 @@ code {
 
   color: inherit !important;
 }
+/* Markdown End */
 
+/* Clerk */
 .cl-internal-b3fm6y {
   background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%) !important;
 }

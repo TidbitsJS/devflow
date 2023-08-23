@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <main className='relative bg-black'>
+    <main className='background-shade relative'>
       <Navbar />
       <div className='flex'>
         <LeftSidebar />
