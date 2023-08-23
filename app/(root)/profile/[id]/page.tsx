@@ -10,8 +10,15 @@ import { getTopInteractedTags } from "@/lib/actions/tag.action";
 import { getUserById, getUserStats } from "@/lib/actions/user.action";
 import { formatNumber, getJoinedDate } from "@/lib/utils";
 import AnswerCard from "@/components/cards/AnswerCard";
+import Pagination from "@/components/shared/Pagination";
 
-const Page = async ({ params }: { params: { id: string } }) => {
+const Page = async ({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: { [key: string]: string | undefined };
+}) => {
   const { userId } = auth();
   if (!userId) return null;
 
@@ -23,7 +30,10 @@ const Page = async ({ params }: { params: { id: string } }) => {
     limit: 10,
   });
 
-  const userStats = await getUserStats({ userId: mongoUser._id });
+  const userStats = await getUserStats({
+    userId: mongoUser._id,
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   return (
     <>
@@ -203,6 +213,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
                 createdAt={item.createdAt}
               />
             ))}
+
+            <Pagination
+              pageNumber={searchParams?.page ? +searchParams.page : 1}
+              isNext={userStats.isNextQuestions}
+            />
           </TabsContent>
           <TabsContent value='answers' className='flex w-full flex-col gap-6'>
             {userStats.answers.map((item: any) => (
@@ -217,6 +232,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
                 createdAt={item.createdAt}
               />
             ))}
+
+            <Pagination
+              pageNumber={searchParams?.page ? +searchParams.page : 1}
+              isNext={userStats.isNextAnswers}
+            />
           </TabsContent>
         </Tabs>
 

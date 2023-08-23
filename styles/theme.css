@@ -20,7 +20,7 @@
   }
 
   .text-dl-28 {
-    @apply text-dark-200 dark:text-light-800;
+    @apply text-dark-200 dark:text-light-800 !important;
   }
 
   .paragraph-color {

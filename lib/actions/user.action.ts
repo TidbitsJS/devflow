@@ -289,14 +289,16 @@ export async function getUserStats(params: GetUserStatsParams) {
       })
       .populate("author", "_id clerkId name picture");
 
-    const isNext = totalQuestions > skipAmount + userQuestions.length;
+    const isNextQuestions = totalQuestions > skipAmount + userQuestions.length;
+    const isNextAnswers = totalAnswers > skipAmount + userAnswers.length;
 
     return {
       totalQuestions: totalQuestions || 0,
       totalAnswers: totalAnswers || 0,
       questions: userQuestions,
       answers: userAnswers,
-      isNext,
+      isNextAnswers,
+      isNextQuestions,
     };
   } catch (error) {
     console.error("Error fetching user stats:", error);

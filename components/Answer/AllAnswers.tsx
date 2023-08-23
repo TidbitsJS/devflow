@@ -28,7 +28,7 @@ const AllAnswers = async ({
   const result = await getAnswers({
     questionId,
     page: page ? +page : 1,
-    pageSize: 5,
+    pageSize: 1,
     sortBy: filter,
   });
 
@@ -82,11 +82,7 @@ const AllAnswers = async ({
       </div>
 
       <div className='my-10 w-full'>
-        <Pagination
-          path={`question/${questionId}`}
-          pageNumber={page ? +page : 1}
-          isNext={result.isNext}
-        />
+        <Pagination pageNumber={page ? +page : 1} isNext={result.isNext} />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { formUrlQuery } from "@/lib/utils";
-import Image from "next/image";
+// import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "../ui/button";
@@ -9,10 +9,9 @@ import { Button } from "../ui/button";
 interface Props {
   pageNumber: number;
   isNext: boolean;
-  path: string;
 }
 
-function Pagination({ pageNumber, isNext, path }: Props) {
+function Pagination({ pageNumber, isNext }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -26,7 +25,6 @@ function Pagination({ pageNumber, isNext, path }: Props) {
     }
 
     if (nextPageNumber > 1) {
-      // router.push(`/${path}?page=${nextPageNumber}`);
       const newUrl = formUrlQuery({
         params: searchParams.toString(),
         key: "page",
@@ -35,8 +33,6 @@ function Pagination({ pageNumber, isNext, path }: Props) {
 
       router.push(newUrl);
     } else {
-      // router.push(`/${path}`);
-
       const newUrl = formUrlQuery({
         params: searchParams.toString(),
         key: "page",
@@ -50,41 +46,41 @@ function Pagination({ pageNumber, isNext, path }: Props) {
   if (!isNext && pageNumber === 1) return null;
 
   return (
-    <div className='flex-between w-full items-center gap-1'>
+    <div className='flex w-full items-center justify-center gap-2'>
       <Button
         onClick={() => handleNavigation("prev")}
         disabled={pageNumber === 1}
-        className='flex min-h-[36px] items-center justify-center gap-2 border border-dark-400 bg-dark-300'
+        className='light-border-2 btn flex min-h-[36px] items-center justify-center gap-2 border'
       >
-        <Image
+        {/* <Image
           src='/assets/icons/arrow-left.svg'
           alt='arrow left'
           width={20}
           height={20}
           className='object-contain'
-        />
+        /> */}
 
-        <p className='body-medium text-light-800'>Previous</p>
+        <p className='body-medium text-dl-28'>Prev</p>
       </Button>
 
-      <div className='primary-gradient flex min-w-[40px] items-center justify-center rounded-lg p-3'>
-        <p className='body-semibold text-dark-400'>{pageNumber}</p>
+      <div className='flex items-center justify-center rounded-md bg-primary-500 px-3.5 py-2'>
+        <p className='body-semibold text-light-900'>{pageNumber}</p>
       </div>
 
       <Button
         onClick={() => handleNavigation("next")}
         disabled={!isNext}
-        className='flex min-h-[36px] items-center justify-center gap-2 border border-dark-400 bg-dark-300'
+        className='light-border-2 btn flex min-h-[36px] items-center justify-center gap-2 border'
       >
-        <p className='body-medium text-light-800'>Next</p>
+        <p className='body-medium text-dl-28'>Next</p>
 
-        <Image
+        {/* <Image
           src='/assets/icons/arrow-right.svg'
           alt='arrow left'
           width={20}
           height={20}
           className='object-contain'
-        />
+        /> */}
       </Button>
     </div>
   );

@@ -68,7 +68,6 @@ const Page = async ({ searchParams }: Params) => {
 
       <div className='mt-10'>
         <Pagination
-          path='tags'
           pageNumber={searchParams?.page ? +searchParams.page : 1}
           isNext={result.isNext}
         />

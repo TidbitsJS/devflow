@@ -55,11 +55,7 @@ const Page = async ({ searchParams }: Props) => {
       </section>
 
       {jobs.length > 0 && (
-        <Pagination
-          path='/jobs'
-          pageNumber={page}
-          isNext={jobs.length === 10}
-        />
+        <Pagination pageNumber={page} isNext={jobs.length === 10} />
       )}
     </>
   );
