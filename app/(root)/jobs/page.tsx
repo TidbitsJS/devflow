@@ -32,13 +32,13 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <>
-      <h1 className='h1-bold text-white'>Jobs</h1>
+      <h1 className='h1-bold heading1-color'>Jobs</h1>
 
       <div className='flex'>
         <JobsFilter countriesList={countries} />
       </div>
 
-      <section className='mt-11 flex flex-col gap-9'>
+      <section className='light-border mb-9 mt-11 flex flex-col gap-9 border-b pb-9'>
         {jobs.length > 0 ? (
           jobs.map((job: any) => {
             if (job.job_title && job.job_title.toLowerCase() !== "undefined")
@@ -53,8 +53,6 @@ const Page = async ({ searchParams }: Props) => {
           </div>
         )}
       </section>
-
-      <div className='my-9 h-0.5 bg-dark-300' />
 
       {jobs.length > 0 && (
         <Pagination

@@ -19,7 +19,7 @@ const Page = async ({ searchParams }: Params) => {
 
   return (
     <>
-      <h1 className='h1-bold text-white'>All Users</h1>
+      <h1 className='h1-bold heading1-color'>All Users</h1>
 
       <div className='mt-11 flex items-center justify-between gap-5'>
         <Searchbar

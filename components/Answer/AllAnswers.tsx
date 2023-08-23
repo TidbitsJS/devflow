@@ -40,9 +40,9 @@ const AllAnswers = async ({
         <Filter filters={AnswerFilters} />
       </div>
 
-      <div className='mt-10'>
+      <div>
         {result.answers.map((answer) => (
-          <article key={answer._id}>
+          <article key={answer._id} className='light-border border-b py-10'>
             <div className='mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
               <Link
                 href={`/profile/${answer.author.clerkId}`}
@@ -55,11 +55,11 @@ const AllAnswers = async ({
                   height={18}
                   className='rounded-full object-cover'
                 />
-                <p className='small-medium text-light-700'>
+                <p className='body-semibold paragraph-color'>
                   {answer.author.name}
                 </p>
 
-                <p className='subtle-medium text-light-500'>
+                <p className='small-regular small4-color'>
                   • answered {formatDate(answer.createdAt)}
                 </p>
               </Link>
@@ -77,8 +77,6 @@ const AllAnswers = async ({
             </div>
 
             <ParseHTML data={answer.content} />
-
-            <div className='my-10 h-0.5 w-full bg-dark-300' />
           </article>
         ))}
       </div>

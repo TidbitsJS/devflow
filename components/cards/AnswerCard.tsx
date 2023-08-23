@@ -35,10 +35,10 @@ const AnswerCard = ({
   const showActionButtons = clerkId && clerkId === author.clerkId;
 
   return (
-    <div className='dark-gradient rounded-[10px] px-11 py-9 shadow-question-card-dark'>
+    <div className='card-wrapper rounded-[10px] px-11 py-9'>
       <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
         <Link href={`/question/${question._id}`} className='flex-1'>
-          <h3 className='h3-semibold line-clamp-1 text-white'>
+          <h3 className='h3-semibold heading3-color line-clamp-1'>
             {question.title}
           </h3>
         </Link>
@@ -60,7 +60,7 @@ const AnswerCard = ({
             alt='user avatar'
           />
 
-          <p className='body-medium text-light-700'>
+          <p className='body-medium body-color'>
             {author.name}
             <span className='small-regular'>
               • asked {getTimeStamp(createdAt)}
@@ -77,7 +77,7 @@ const AnswerCard = ({
               alt='like icon'
             />
 
-            <p className='small-medium text-light-800'>
+            <p className='small-medium small-color'>
               {formatNumber(upvotes)}
               <span className='small-regular'> Votes</span>
             </p>

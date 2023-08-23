@@ -21,7 +21,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      <h1 className='h1-bold text-white'>Edit Question</h1>
+      <h1 className='h1-bold heading1-color'>Edit Question</h1>
 
       <div className='mt-9'>
         <Question

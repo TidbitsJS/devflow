@@ -34,9 +34,9 @@ const Theme = () => {
   }, [mode]);
 
   return (
-    <Menubar className='no-focus relative border-none bg-transparent'>
+    <Menubar className='no-focus common-background-shade relative border-none'>
       <MenubarMenu>
-        <MenubarTrigger className='p-0 focus:bg-transparent data-[state=open]:bg-transparent dark:focus:bg-transparent dark:data-[state=open]:bg-transparent'>
+        <MenubarTrigger className='common-background-shade p-0 shadow-none focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200'>
           {mode === "light" ? (
             <Image
               src='/assets/icons/sun.svg'

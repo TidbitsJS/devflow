@@ -11,32 +11,68 @@
     @apply text-dark-100 dark:text-light-900;
   }
 
+  .heading2-color {
+    @apply text-dark-200 dark:text-light-900;
+  }
+
   .heading3-color {
-    @apply dark:text-light-900 text-dark-200;
+    @apply text-dark-200 dark:text-light-900;
+  }
+
+  .text-dl-28 {
+    @apply text-dark-200 dark:text-light-800;
+  }
+
+  .paragraph-color {
+    @apply text-dark-300 dark:text-light-700;
   }
 
   .body-color {
-    @apply dark:text-light-700 text-dark-400;
+    @apply text-dark-400 dark:text-light-700;
   }
 
   .body2-color {
-    @apply dark:text-light-700 text-dark-500;
+    @apply text-dark-500 dark:text-light-700;
+  }
+
+  .body3-color {
+    @apply text-dark-500 dark:text-light-500;
   }
 
   .base-color {
-    @apply text-dark-300 dark:text-light-900;
+    @apply text-dark-300 dark:text-light-900 !important;
   }
 
   .small-color {
-    @apply dark:text-light-800 text-dark-400;
+    @apply text-dark-400 dark:text-light-800;
   }
 
   .small2-color {
-    @apply dark:text-light-700 text-dark-500;
+    @apply text-dark-500 dark:text-light-700;
+  }
+
+  .small3-color {
+    @apply text-dark-400 dark:text-light-700;
+  }
+
+  .small4-color {
+    @apply text-light-400 dark:text-light-500;
+  }
+
+  .small5-color {
+    @apply text-dark-400 dark:text-light-500;
+  }
+
+  .subtle-color {
+    @apply text-dark-400 dark:text-light-900 !important;
   }
 
   .common-background-shade {
-    @apply dark:bg-dark-200 bg-light-900;
+    @apply bg-light-900 dark:bg-dark-200;
+  }
+
+  .card-wrapper2 {
+    @apply bg-light-900 dark:bg-dark-300;
   }
 
   .search-background-shade {
@@ -44,11 +80,11 @@
   }
 
   .placeholder {
-    @apply dark:placeholder:text-light-500 placeholder:text-light-400;
+    @apply placeholder:text-light-400 dark:placeholder:text-light-500;
   }
 
   .input-color {
-    @apply dark:text-light-700 text-dark-400;
+    @apply text-dark-400 dark:text-light-700;
   }
 
   .white-black-invert {
@@ -60,11 +96,51 @@
   }
 
   .tag-color {
-    @apply dark:text-light-500 text-light-400 !important;
+    @apply text-light-400 dark:text-light-500  !important;
   }
 
   .card-wrapper {
-    @apply dark:dark-gradient bg-light-900 dark:shadow-question-card-dark shadow-question-card-light;
+    @apply bg-light-900 dark:dark-gradient shadow-question-card-light  dark:shadow-question-card-dark;
+  }
+
+  .vote-background-shade {
+    @apply bg-light-700 dark:bg-dark-400;
+  }
+
+  .input-shade {
+    @apply bg-light-700 dark:bg-dark-300;
+  }
+
+  .light-border {
+    @apply border-light-800 dark:border-dark-300;
+  }
+
+  .btn {
+    @apply bg-light-800 dark:bg-dark-300 !important;
+  }
+
+  .btn-secondary {
+    @apply bg-light-800 dark:bg-dark-400 !important;
+  }
+
+  .btn-tertiary {
+    @apply bg-light-700 dark:bg-dark-300 !important;
+  }
+
+  .light-border-2 {
+    @apply border-light-700 dark:border-dark-400 !important;
+  }
+
+  .job-tag-background-shade {
+    @apply bg-light-800 dark:bg-dark-400;
+  }
+
+  .tab-shade {
+    @apply dark:bg-dark-400 bg-light-800 !important;
+  }
+
+  .tab {
+    @apply min-h-full dark:bg-dark-400 bg-light-800 text-light-500 dark:data-[state=active]:bg-dark-300 data-[state=active]:bg-primary-100 data-[state=active]:text-primary-500 !important;
   }
 
   .primary-gradient {

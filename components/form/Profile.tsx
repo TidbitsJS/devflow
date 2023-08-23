@@ -87,12 +87,12 @@ const Profile = ({ clerkId, user }: Params) => {
           name='name'
           render={({ field }) => (
             <FormItem className='space-y-3.5'>
-              <FormLabel className='paragraph-semibold text-light-800'>
+              <FormLabel className='paragraph-semibold small-color'>
                 Name <span className='text-primary-500'>*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  className='no-focus paragraph-regular min-h-[56px] border border-dark-400 bg-dark-300 text-light-700'
+                  className='no-focus paragraph-regular light-border-2 input-shade paragraph-color min-h-[56px] border'
                   placeholder='Your Name'
                   {...field}
                 />
@@ -107,12 +107,12 @@ const Profile = ({ clerkId, user }: Params) => {
           name='username'
           render={({ field }) => (
             <FormItem className='space-y-3.5'>
-              <FormLabel className='paragraph-semibold text-light-800'>
+              <FormLabel className='paragraph-semibold small-color'>
                 Username <span className='text-primary-500'>*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  className='no-focus paragraph-regular min-h-[56px] border border-dark-400 bg-dark-300 text-light-700'
+                  className='no-focus paragraph-regular light-border-2 input-shade paragraph-color min-h-[56px] border'
                   placeholder='Your username'
                   {...field}
                 />
@@ -127,13 +127,13 @@ const Profile = ({ clerkId, user }: Params) => {
           name='portfolioWebsite'
           render={({ field }) => (
             <FormItem className='space-y-3.5'>
-              <FormLabel className='paragraph-semibold text-light-800'>
+              <FormLabel className='paragraph-semibold small-color'>
                 Portfolio Link
               </FormLabel>
               <FormControl>
                 <Input
                   type='url'
-                  className='no-focus paragraph-regular min-h-[56px] border border-dark-400 bg-dark-300 text-light-700'
+                  className='no-focus paragraph-regular light-border-2 input-shade paragraph-color min-h-[56px] border'
                   placeholder='Your Portfolio link'
                   {...field}
                 />
@@ -148,12 +148,12 @@ const Profile = ({ clerkId, user }: Params) => {
           name='location'
           render={({ field }) => (
             <FormItem className='space-y-3.5'>
-              <FormLabel className='paragraph-semibold text-light-800'>
+              <FormLabel className='paragraph-semibold small-color'>
                 Location <span className='text-primary-500'>*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  className='no-focus paragraph-regular min-h-[56px] border border-dark-400 bg-dark-300 text-light-700'
+                  className='no-focus paragraph-regular light-border-2 input-shade paragraph-color min-h-[56px] border'
                   placeholder='Where do you live?'
                   {...field}
                 />
@@ -168,13 +168,13 @@ const Profile = ({ clerkId, user }: Params) => {
           name='bio'
           render={({ field }) => (
             <FormItem className='space-y-3.5'>
-              <FormLabel className='paragraph-semibold text-light-800'>
+              <FormLabel className='paragraph-semibold small-color'>
                 Bio <span className='text-primary-500'>*</span>
               </FormLabel>
               <FormControl>
                 <Textarea
                   rows={5}
-                  className='no-focus paragraph-regular min-h-[56px] border border-dark-400 bg-dark-300 text-light-700'
+                  className='no-focus paragraph-regular light-border-2 input-shade paragraph-color min-h-[56px] border'
                   placeholder="What's special about you?"
                   {...field}
                 />

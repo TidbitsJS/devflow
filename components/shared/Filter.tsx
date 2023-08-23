@@ -43,7 +43,7 @@ const Filter = ({ filters, otherClasses }: Props) => {
         defaultValue={paramsFilter || filters[0].value}
       >
         <SelectTrigger
-          className={`small-regular border border-dark-300 bg-dark-300 px-5 py-2.5 text-light-700 ${otherClasses}`}
+          className={`small-regular light-border tag-background-shade body2-color border px-5 py-2.5 ${otherClasses}`}
         >
           <SelectValue placeholder='Select a Filter' />
         </SelectTrigger>

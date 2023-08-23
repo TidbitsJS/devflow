@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { usePathname, useRouter } from "next/navigation";
 import { Editor } from "@tinymce/tinymce-react";
@@ -35,6 +35,8 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const [isDark, setIsDark] = useState(false);
+
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -52,6 +54,13 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
       tags: groupedTags || [],
     },
   });
+
+  useEffect(() => {
+    const theme =
+      typeof window !== "undefined" && localStorage.getItem("theme");
+
+    setIsDark(theme === "dark");
+  }, []);
 
   const handleCreateQuestion = async (
     values: z.infer<typeof QuestionSchema>
@@ -152,12 +161,12 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
             name='title'
             render={({ field }) => (
               <FormItem className='flex w-full flex-col'>
-                <FormLabel className='paragraph-semibold text-light-800'>
+                <FormLabel className='paragraph-semibold small-color'>
                   Question Title <span className='text-primary-500'>*</span>
                 </FormLabel>
                 <FormControl className='mt-3.5'>
                   <Input
-                    className='no-focus paragraph-regular min-h-[56px] border border-dark-400 bg-dark-300 text-light-700'
+                    className='no-focus paragraph-regular input-shade light-border-2 paragraph-color min-h-[56px] border'
                     {...field}
                   />
                 </FormControl>
@@ -175,7 +184,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
             name='explanation'
             render={({ field }) => (
               <FormItem className='flex w-full flex-col gap-3'>
-                <FormLabel className='paragraph-semibold text-light-800'>
+                <FormLabel className='paragraph-semibold small-color'>
                   Detailed explanation of your problem?
                   <span className='text-primary-500'>*</span>
                 </FormLabel>
@@ -192,8 +201,8 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                     init={{
                       height: 350,
                       menubar: false,
-                      skin: "oxide-dark",
-                      content_css: "dark",
+                      skin: isDark ? "oxide-dark" : "oxide",
+                      content_css: isDark ? "dark" : "light",
                       plugins: [
                         "advlist",
                         "autolink",
@@ -234,13 +243,13 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
             name='tags'
             render={({ field }) => (
               <FormItem className='flex w-full flex-col gap-3'>
-                <FormLabel className='paragraph-semibold text-light-800'>
+                <FormLabel className='paragraph-semibold small-color'>
                   Tags <span className='text-primary-500'>*</span>
                 </FormLabel>
                 <FormControl>
                   <>
                     <Input
-                      className='no-focus paragraph-regular min-h-[56px] border border-dark-400 bg-dark-300 text-light-700'
+                      className='no-focus paragraph-regular input-shade light-border-2 paragraph-color min-h-[56px] border'
                       placeholder='Add tags...'
                       onKeyDown={(e) => handleInputKeyDown(e, field)}
                     />
@@ -251,7 +260,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                           <Badge
                             key={tag}
                             onClick={() => handleTagRemove(tag, field)}
-                            className='subtle-medium flex items-center justify-center gap-2 rounded-md px-4 py-2 capitalize'
+                            className='subtle-medium tag-background-shade tag-color flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize'
                           >
                             {tag}
                             <Image
@@ -259,7 +268,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                               width={12}
                               height={12}
                               alt='close icon'
-                              className='cursor-pointer object-contain invert'
+                              className='cursor-pointer object-contain invert-0 dark:invert'
                             />
                           </Badge>
                         ))}
@@ -279,7 +288,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           <div className='mt-16 flex justify-end'>
             <Button
               type='submit'
-              className='primary-gradient w-fit'
+              className='primary-gradient w-fit !text-light-900'
               disabled={submitting}
             >
               {submitting ? (

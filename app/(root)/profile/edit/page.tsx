@@ -10,7 +10,7 @@ const Page = async () => {
 
   return (
     <>
-      <h1 className='h1-bold text-white'>Edit Profile</h1>
+      <h1 className='h1-bold heading1-color'>Edit Profile</h1>
 
       <Profile clerkId={userId} user={JSON.stringify(mongoUser)} />
     </>

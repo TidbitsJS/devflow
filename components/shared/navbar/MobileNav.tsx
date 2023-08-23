@@ -34,20 +34,19 @@ const NavContent = () => {
               href={item.route}
               key={item.label}
               className={`${
-                isActive ? "primary-gradient rounded-lg text-white" : ""
-              } flex items-center justify-start gap-4 bg-transparent p-4`}
+                isActive
+                  ? "primary-gradient rounded-lg text-light-900"
+                  : "base-color"
+              }  flex items-center justify-start gap-4 bg-transparent p-4`}
             >
               <Image
                 src={item.imgURL}
                 alt={item.label}
                 width={20}
                 height={20}
+                className={`${isActive ? "" : "white-black-invert"}`}
               />
-              <p
-                className={`${
-                  isActive ? "base-bold" : "base-medium"
-                } text-white`}
-              >
+              <p className={`${isActive ? "base-bold" : "base-medium"}`}>
                 {item.label}
               </p>
             </Link>
@@ -66,11 +65,11 @@ const MobileNav = () => (
         width={36}
         height={36}
         alt='hamburger icon'
-        className='sm:hidden'
+        className='white-black-invert sm:hidden'
       />
     </SheetTrigger>
 
-    <SheetContent side='left' className='border-none bg-dark-200'>
+    <SheetContent side='left' className='common-background-shade border-none'>
       <Link href='/' className='flex items-center gap-1'>
         <Image
           src='/assets/images/site-logo.svg'
@@ -93,7 +92,7 @@ const MobileNav = () => (
           <div className='flex flex-col gap-3'>
             <SheetClose asChild>
               <Link href='/sign-in'>
-                <Button className='small-medium min-h-[41px] w-full rounded-lg bg-dark-400 px-4 py-3'>
+                <Button className='small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3'>
                   <span className='primary-text-gradient'>Log In</span>
                 </Button>
               </Link>
@@ -101,7 +100,7 @@ const MobileNav = () => (
 
             <SheetClose asChild>
               <Link href='/sign-up'>
-                <Button className='small-medium min-h-[41px] w-full rounded-lg border border-dark-400 bg-dark-300 px-4 py-3'>
+                <Button className='small-medium light-border-2 btn-tertiary subtle-color min-h-[41px] w-full rounded-lg border px-4 py-3'>
                   Sign up
                 </Button>
               </Link>

@@ -16,7 +16,7 @@ const JobLocation = ({
   job_state,
 }: JobLocationProps) => {
   return (
-    <div className='flex items-center justify-end gap-2 rounded-2xl bg-dark-400 px-3 py-1.5'>
+    <div className='job-tag-background-shade flex items-center justify-end gap-2 rounded-2xl px-3 py-1.5'>
       <Image
         src={`https://flagsapi.com/${job_country}/flat/64.png`}
         alt='country symbol'
@@ -25,7 +25,7 @@ const JobLocation = ({
         className='rounded-full'
       />
 
-      <p className='body-medium text-light-700'>
+      <p className='body-medium small3-color'>
         {job_city && `${job_city}, `}
         {job_state && `${job_state}, `}
         {job_country && `${job_country}`}
@@ -54,7 +54,7 @@ const JobCard = ({ job }: JobCardProps) => {
   console.log(job_title);
 
   return (
-    <section className='flex flex-col items-start gap-6 rounded-lg border border-dark-300 bg-dark-200 p-6 sm:flex-row sm:p-8'>
+    <section className='common-background-shade light-border flex flex-col items-start gap-6 rounded-lg border p-6 sm:flex-row sm:p-8'>
       <div className='flex w-full justify-end sm:hidden'>
         <JobLocation
           job_country={job_country}
@@ -67,7 +67,7 @@ const JobCard = ({ job }: JobCardProps) => {
         {employer_logo ? (
           <Link
             href={employer_website ?? "/jobs"}
-            className='relative h-16 w-16 rounded-xl bg-dark-400'
+            className='job-tag-background-shade relative h-16 w-16 rounded-xl'
           >
             <Image
               src={employer_logo}
@@ -89,7 +89,7 @@ const JobCard = ({ job }: JobCardProps) => {
 
       <div className='w-full'>
         <div className='flex-between flex-wrap gap-2'>
-          <p className='base-semibold text-white'>
+          <p className='base-semibold heading2-color'>
             {processJobTitle(job_title)}
           </p>
 
@@ -102,7 +102,7 @@ const JobCard = ({ job }: JobCardProps) => {
           </div>
         </div>
 
-        <p className='body-regular mt-2  line-clamp-2 text-light-700'>
+        <p className='body-regular body2-color  mt-2 line-clamp-2'>
           {job_description?.slice(0, 200)}
         </p>
 

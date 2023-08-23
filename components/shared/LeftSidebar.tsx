@@ -25,8 +25,10 @@ const LeftSidebar = () => {
             href={item.route}
             key={item.label}
             className={`${
-              isActive ? "primary-gradient rounded-lg text-light-900" : ""
-            } base-color flex items-center justify-start gap-4 bg-transparent p-4`}
+              isActive
+                ? "primary-gradient rounded-lg text-light-900"
+                : "base-color"
+            }  flex items-center justify-start gap-4 bg-transparent p-4`}
           >
             <Image
               src={item.imgURL}

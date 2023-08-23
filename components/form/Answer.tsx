@@ -3,7 +3,7 @@
 import { z } from "zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -30,9 +30,18 @@ interface Props {
 const Answer = ({ question, questionId, authorId }: Props) => {
   const pathname = usePathname();
 
+  const [isDark, setIsDark] = useState(false);
+
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [aiSubmitting, setAiSubmitting] = useState(false);
+
+  useEffect(() => {
+    const theme =
+      typeof window !== "undefined" && localStorage.getItem("theme");
+
+    setIsDark(theme === "dark");
+  }, []);
 
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
@@ -115,12 +124,12 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   return (
     <div>
       <div className='flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
-        <h4 className='paragraph-semibold text-light-800'>
+        <h4 className='paragraph-semibold small-color'>
           Write your answer here
         </h4>
 
         <Button
-          className='gap-1.5 rounded-md border border-dark-400 bg-dark-300 px-4 py-2.5 text-primary-500'
+          className='btn light-border-2 gap-1.5 rounded-md border px-4 py-2.5 text-primary-500 shadow-none'
           onClick={() => generateAIAnswer()}
           disabled={aiSubmitting}
         >
@@ -166,8 +175,8 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                     init={{
                       height: 350,
                       menubar: false,
-                      skin: "oxide-dark",
-                      content_css: "dark",
+                      skin: isDark ? "oxide-dark" : "oxide",
+                      content_css: isDark ? "dark" : "light",
                       plugins: [
                         "advlist",
                         "autolink",

@@ -43,7 +43,7 @@ const Page = async ({ params, searchParams }: Params) => {
               height={22}
               alt='profile picture'
             />
-            <p className='paragraph-semibold text-light-500'>
+            <p className='paragraph-semibold paragraph-color'>
               {result.author.name}
             </p>
           </Link>
@@ -60,7 +60,7 @@ const Page = async ({ params, searchParams }: Params) => {
             />
           </div>
         </div>
-        <h2 className='h2-semibold mt-3.5 w-full text-left text-white'>
+        <h2 className='h2-semibold heading2-color mt-3.5 w-full text-left'>
           {result.title}
         </h2>
       </div>
@@ -75,7 +75,7 @@ const Page = async ({ params, searchParams }: Params) => {
             alt='user avatar'
           />
 
-          <p className='body-medium text-light-700'>
+          <p className='small-regular body-color'>
             asked {getTimeStamp(result.createdAt)}
           </p>
         </div>
@@ -88,9 +88,9 @@ const Page = async ({ params, searchParams }: Params) => {
             alt='message icon'
           />
 
-          <p className='small-medium text-light-800'>
+          <p className='small-medium body-color'>
             {result.answers.length}
-            <span className='small-regular'> Answers</span>
+            <span className='font-normal'> Answers</span>
           </p>
         </div>
 
@@ -102,9 +102,9 @@ const Page = async ({ params, searchParams }: Params) => {
             alt='eye icon'
           />
 
-          <p className='small-medium text-light-800'>
+          <p className='small-medium body-color'>
             {formatNumber(result.views)}
-            <span className='small-regular'> Views</span>
+            <span className='font-normal'> Views</span>
           </p>
         </div>
       </div>
@@ -115,7 +115,7 @@ const Page = async ({ params, searchParams }: Params) => {
         {result.tags.map((tag: any) => (
           <Badge
             key={tag._id}
-            className='subtle-medium rounded-md bg-dark-300 px-4 py-2 uppercase text-light-500'
+            className='subtle-medium tag-color tag-background-shade rounded-md border-none px-4 py-2 uppercase'
           >
             <Link href={`/tags/${tag._id}`}>{tag.name}</Link>
           </Badge>

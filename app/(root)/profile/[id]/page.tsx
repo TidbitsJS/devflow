@@ -38,8 +38,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
           />
 
           <div className='mt-3'>
-            <h2 className='h2-bold text-white'>{mongoUser.name}</h2>
-            <p className='paragraph-regular text-light-800'>
+            <h2 className='h2-bold heading1-color'>{mongoUser.name}</h2>
+            <p className='paragraph-regular text-dl-28'>
               @{mongoUser.username}
             </p>
 
@@ -72,7 +72,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
                     height={20}
                   />
 
-                  <p className='paragraph-medium text-light-700'>
+                  <p className='paragraph-medium body-color'>
                     {mongoUser.location}
                   </p>
                 </div>
@@ -86,14 +86,14 @@ const Page = async ({ params }: { params: { id: string } }) => {
                   height={20}
                 />
 
-                <p className='paragraph-medium text-light-700'>
+                <p className='paragraph-medium body-color'>
                   {getJoinedDate(mongoUser.joinedAt)}
                 </p>
               </div>
             </div>
 
             {mongoUser?.bio && (
-              <p className='paragraph-regular mt-8 text-light-800'>
+              <p className='paragraph-regular small-color mt-8'>
                 {mongoUser.bio}
               </p>
             )}
@@ -104,7 +104,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           <SignedIn>
             {userId === mongoUser.clerkId && (
               <Link href='/profile/edit'>
-                <Button className='paragraph-medium  min-h-[46px] min-w-[175px] bg-dark-400 px-4 py-3 text-white'>
+                <Button className='paragraph-medium  btn-secondary base-color min-h-[46px] min-w-[175px] px-4 py-3'>
                   Edit Profile
                 </Button>
               </Link>
@@ -115,26 +115,26 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
       {/* User Stats */}
       <div className='mt-10'>
-        <h4 className='h3-semibold text-white'>Stats</h4>
+        <h4 className='h3-semibold heading2-color'>Stats</h4>
 
         <div className='mt-5 grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-4'>
-          <div className='flex flex-wrap items-center justify-evenly gap-11 rounded-md border border-dark-300 bg-dark-200 p-6 shadow-stat-card '>
+          <div className='light-border card-wrapper2 flex flex-wrap items-center justify-evenly gap-11 rounded-md border p-6 shadow-stat-card '>
             <div>
-              <p className='paragraph-semibold text-white'>
+              <p className='paragraph-semibold heading2-color'>
                 {formatNumber(userStats.totalQuestions)}
               </p>
-              <p className='body-medium text-light-700'>Questions</p>
+              <p className='body-medium body-color'>Questions</p>
             </div>
 
             <div>
-              <p className='paragraph-semibold text-white'>
+              <p className='paragraph-semibold heading2-color'>
                 {formatNumber(userStats.totalAnswers)}
               </p>
-              <p className='body-medium text-light-700'>Answers</p>
+              <p className='body-medium body-color'>Answers</p>
             </div>
           </div>
 
-          <div className='flex flex-wrap items-center justify-start gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card'>
+          <div className='light-border card-wrapper2 flex flex-wrap items-center justify-start gap-4 rounded-md border p-6 shadow-stat-card'>
             <Image
               src='/assets/icons/gold-medal.svg'
               alt='gold medal icon'
@@ -142,12 +142,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
               height={50}
             />
             <div>
-              <p className='paragraph-semibold text-white'>50</p>
-              <p className='body-medium text-light-700'>Gold Badges</p>
+              <p className='paragraph-semibold heading2-color'>50</p>
+              <p className='body-medium body-color'>Gold Badges</p>
             </div>
           </div>
 
-          <div className='flex flex-wrap items-center justify-start gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card'>
+          <div className='light-border card-wrapper2 flex flex-wrap items-center justify-start gap-4 rounded-md border p-6 shadow-stat-card'>
             <Image
               src='/assets/icons/silver-medal.svg'
               alt='silver medal icon'
@@ -155,12 +155,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
               height={50}
             />
             <div>
-              <p className='paragraph-semibold text-white'>50</p>
-              <p className='body-medium text-light-700'>Silver Badges</p>
+              <p className='paragraph-semibold heading2-color'>50</p>
+              <p className='body-medium body-color'>Silver Badges</p>
             </div>
           </div>
 
-          <div className='flex flex-wrap items-center justify-start gap-4 rounded-md border border-dark-300 bg-dark-300 p-6 shadow-stat-card'>
+          <div className='light-border card-wrapper2 flex flex-wrap items-center justify-start gap-4 rounded-md border p-6 shadow-stat-card'>
             <Image
               src='/assets/icons/bronze-medal.svg'
               alt='bronze medal icon'
@@ -168,8 +168,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
               height={50}
             />
             <div>
-              <p className='paragraph-semibold text-white'>80</p>
-              <p className='body-medium text-light-700'>Bronze Badges</p>
+              <p className='paragraph-semibold heading2-color'>80</p>
+              <p className='body-medium body-color'>Bronze Badges</p>
             </div>
           </div>
         </div>
@@ -177,17 +177,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
       <div className='mt-10 flex gap-10'>
         <Tabs defaultValue='top-posts' className='flex-1'>
-          <TabsList className='min-h-[42px] bg-dark-400 p-1'>
-            <TabsTrigger
-              value='top-posts'
-              className='min-h-full bg-dark-400 text-light-500 data-[state=active]:bg-dark-300 data-[state=active]:text-primary-500'
-            >
+          <TabsList className='tab-shade min-h-[42px] p-1'>
+            <TabsTrigger value='top-posts' className='tab'>
               Top Posts
             </TabsTrigger>
-            <TabsTrigger
-              value='answers'
-              className='min-h-full bg-dark-400 text-light-500 data-[state=active]:bg-dark-300 data-[state=active]:text-primary-500'
-            >
+            <TabsTrigger value='answers' className='tab'>
               Answers
             </TabsTrigger>
           </TabsList>
@@ -227,7 +221,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
         </Tabs>
 
         <div className='flex min-w-[278px] flex-col max-lg:hidden'>
-          <h3 className='h3-bold text-white'>Top Tags</h3>
+          <h3 className='h3-bold heading2-color'>Top Tags</h3>
 
           <div className='mt-7 flex flex-col gap-4'>
             {interactedTags.map((tag) => (
@@ -236,11 +230,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
                 key={tag._id}
                 className='flex justify-between gap-2'
               >
-                <Badge className='subtle-medium rounded-md bg-dark-300 px-4 py-2 uppercase text-light-500'>
+                <Badge className='subtle-medium tag-background-shade tag-color rounded-md border-none px-4 py-2 uppercase'>
                   {tag.name}
                 </Badge>
 
-                <p className='small-medium text-light-700'>
+                <p className='small-medium body2-color'>
                   {tag.questions.length}
                 </p>
               </Link>

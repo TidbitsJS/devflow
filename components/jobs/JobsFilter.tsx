@@ -44,7 +44,7 @@ const JobsFilter = ({ countriesList }: JobsFilterProps) => {
       />
 
       <Select onValueChange={(value) => handleUpdateParams(value)}>
-        <SelectTrigger className='paragraph-regular min-h-[56px] max-w-[250px] border border-dark-300 bg-dark-300 p-4 text-light-700'>
+        <SelectTrigger className='paragraph-regular light-border tag-background-shade body2-color min-h-[56px] max-w-[250px] border p-4'>
           <div className='flex items-center gap-3'>
             <Image
               src='/assets/icons/carbon-location.svg'
@@ -57,14 +57,14 @@ const JobsFilter = ({ countriesList }: JobsFilterProps) => {
           </div>
         </SelectTrigger>
 
-        <SelectContent className='body-semibold max-h-[350px] max-w-[250px] border border-dark-300 bg-dark-200 text-light-500'>
+        <SelectContent className='body-semibold max-h-[350px] max-w-[250px]'>
           <SelectGroup>
             {countriesList ? (
               countriesList.map((country: Country) => (
                 <SelectItem
                   key={country.name.common}
                   value={country.name.common}
-                  className='px-4 py-3 focus:bg-dark-400 focus:text-primary-500'
+                  className='px-4 py-3'
                 >
                   {country.name.common}
                 </SelectItem>

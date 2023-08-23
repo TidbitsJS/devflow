@@ -98,7 +98,7 @@ body {
   }
 
   .markdown {
-    @apply max-w-full prose prose-p:text-light-700 prose-ol:text-light-700 prose-ul:text-light-500 prose-strong:text-white prose-headings:text-white;
+    @apply max-w-full prose dark:prose-p:text-light-700 dark:prose-ol:text-light-700 dark:prose-ul:text-light-500 dark:prose-strong:text-white dark:prose-headings:text-white prose-headings:text-dark-400 prose-h1:text-dark-300 prose-h2:text-dark-300 prose-p:text-dark-500 prose-ul:text-dark-500 prose-ol:text-dark-500;
   }
 
   .primary-gradient {
