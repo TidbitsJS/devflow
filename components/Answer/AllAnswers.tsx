@@ -28,7 +28,6 @@ const AllAnswers = async ({
   const result = await getAnswers({
     questionId,
     page: page ? +page : 1,
-    pageSize: 1,
     sortBy: filter,
   });
 

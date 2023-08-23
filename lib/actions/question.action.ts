@@ -107,6 +107,9 @@ export async function createQuestion(params: CreateQuestionParams) {
       tags: tagDocuments,
     });
 
+    // Increment author's reputation by +5 for creating a question
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
+
     revalidatePath(path);
   } catch (error) {
     console.error("Error creating question:", error);
@@ -164,6 +167,12 @@ export async function upvoteQuestion(params: VoteParams) {
       throw new Error("Question not found");
     }
 
+    // Increment author's reputation by +1 for upvoting a question
+    await User.findByIdAndUpdate(userId, { $inc: { reputation: 1 } });
+
+    // Increment question author's reputation by +10 for receiving an upvote
+    await User.findByIdAndUpdate(question.author, { $inc: { reputation: 10 } });
+
     revalidatePath(path);
   } catch (error) {
     console.error("Error upvoting question:", error);
@@ -186,6 +195,12 @@ export async function downvoteQuestion(params: VoteParams) {
     if (!question) {
       throw new Error("Question not found");
     }
+
+    // Decrement author's reputation by -1 for downvoting a question
+    await User.findByIdAndUpdate(userId, { $inc: { reputation: -1 } });
+
+    // Decrement question author's reputation by -2 for receiving a downvote
+    await User.findByIdAndUpdate(question.author, { $inc: { reputation: -2 } });
 
     revalidatePath(path);
   } catch (error) {

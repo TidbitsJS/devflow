@@ -7,6 +7,7 @@ import { connectToDB } from "../mongoose";
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
 import Interaction from "@/mongodb/interaction.model";
+import User from "@/mongodb/user.model";
 
 interface CreateAnswerParams {
   content: string;
@@ -40,6 +41,9 @@ export async function createAnswer(params: CreateAnswerParams) {
       question,
       answer: newAnswer._id,
     });
+
+    // Increment author's reputation by +10 for creating an answer
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -133,6 +137,12 @@ export async function upvoteAnswer(params: VoteParams) {
       throw new Error("Answer not found");
     }
 
+    // Increment author's reputation by +2 for upvoting a answer
+    await User.findByIdAndUpdate(userId, { $inc: { reputation: 2 } });
+
+    // Increment answer author's reputation by +10 for receiving an upvote
+    await User.findByIdAndUpdate(answer.author, { $inc: { reputation: 10 } });
+
     revalidatePath(path);
   } catch (error) {
     console.error("Error upvoting answer:", error);
@@ -155,6 +165,12 @@ export async function downvoteAnswer(params: VoteParams) {
     if (!answer) {
       throw new Error("Answer not found");
     }
+
+    // Decrement author's reputation by -2 for downvoting a answer
+    await User.findByIdAndUpdate(userId, { $inc: { reputation: -2 } });
+
+    // Decrement answer author's reputation by -2 for receiving a downvote
+    await User.findByIdAndUpdate(answer.author, { $inc: { reputation: -2 } });
 
     revalidatePath(path);
   } catch (error) {
