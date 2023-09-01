@@ -1,16 +1,16 @@
-import { auth, SignedIn } from "@clerk/nextjs";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { auth, SignedIn } from "@clerk/nextjs";
 
-import QuestionCard from "@/components/cards/QuestionCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getTopInteractedTags } from "@/lib/actions/tag.action";
-import { getUserById, getUserStats } from "@/lib/actions/user.action";
-import { formatNumber, getJoinedDate } from "@/lib/utils";
 import AnswerCard from "@/components/cards/AnswerCard";
 import Pagination from "@/components/shared/Pagination";
+import { formatNumber, getJoinedDate } from "@/lib/utils";
+import QuestionCard from "@/components/cards/QuestionCard";
+import { getTopInteractedTags } from "@/lib/actions/tag.action";
+import { getUserById, getUserStats } from "@/lib/actions/user.action";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Page = async ({
   params,

@@ -3,9 +3,9 @@ import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
-import Searchbar from "../Searchbar";
 import Theme from "./Theme";
 import MobileNav from "./MobileNav";
+import GlobalSearch from "../search/GlobalSearch";
 
 const Navbar = () => {
   return (
@@ -18,18 +18,19 @@ const Navbar = () => {
           alt='Dev Overflow Logo'
         />
 
-        <p className='h2-bold font-spaceGrotesk text-white max-sm:hidden'>
+        <p className='h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900 max-sm:hidden'>
           Dev<span className='text-primary-500'>Overflow</span>
         </p>
       </Link>
 
-      <Searchbar
+      {/* <Searchbar
         route='/'
         iconPosition='left'
         imgSrc='/assets/icons/search.svg'
         placeholder='Search for Questions Here...'
         otherClasses='max-lg:hidden max-w-[600px]'
-      />
+      /> */}
+      <GlobalSearch />
 
       <div className='flex-between gap-5'>
         <Theme />
