@@ -226,7 +226,6 @@ const Page = async ({
                 clerkId={userId}
                 _id={item._id}
                 question={item.question}
-                title={item.content}
                 author={item.author}
                 upvotes={item.upvotes.length}
                 createdAt={item.createdAt}
