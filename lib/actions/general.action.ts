@@ -93,13 +93,15 @@ export async function globalSearch(params: SearchParams) {
 
 interface RecommendedParams {
   userId: string;
+  page?: number;
+  pageSize?: number;
 }
 
 export async function getRecommendedQuestions(params: RecommendedParams) {
   try {
     await connectToDB();
 
-    const { userId } = params;
+    const { userId, page = 1, pageSize = 20 } = params;
 
     // find user
     const user = await User.findOne({ clerkId: userId });
@@ -107,6 +109,8 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
     if (!user) {
       throw new Error("user not found");
     }
+
+    const skipAmount = (page - 1) * pageSize;
 
     // Find the user's interactions
     const userInteractions = await Interaction.find({ user: user._id })
@@ -126,17 +130,30 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
       ...new Set(userTags.map((tag: any) => tag._id)),
     ];
 
-    // Find questions with the same tags but not created by the user
-    const recommendedQuestions = await Question.find({
+    const query = {
       $and: [
         { tags: { $in: distinctUserTagIds } }, // Questions with user's tags
         { author: { $ne: user._id } }, // Exclude user's own questions
       ],
-    })
-      .populate("tags")
-      .limit(10);
+    };
 
-    return recommendedQuestions;
+    const totalQuestions = await Question.countDocuments(query);
+
+    const recommendedQuestions = await Question.find(query)
+      .populate({
+        path: "tags",
+        model: Tag,
+      })
+      .populate({
+        path: "author",
+        model: User,
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const isNext = totalQuestions > skipAmount + recommendedQuestions.length;
+
+    return { questions: recommendedQuestions, isNext };
   } catch (error) {
     console.error("Error getting recommended questions:", error);
     throw error;

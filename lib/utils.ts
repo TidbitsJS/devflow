@@ -82,6 +82,39 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
   return newUrl;
 }
 
+interface RemoveUrlQueryParams {
+  params: string;
+  keysToRemove: string[];
+}
+
+export function removeKeysFromQuery({
+  params,
+  keysToRemove,
+}: RemoveUrlQueryParams) {
+  const currentUrl = qs.parse(params);
+
+  const newQuery = {
+    ...currentUrl,
+  };
+
+  if (keysToRemove && keysToRemove.length > 0) {
+    for (const removeKey of keysToRemove) {
+      newQuery[removeKey] = null;
+    }
+  }
+
+  const routePart = window.location.pathname;
+  const newUrl = qs.stringifyUrl(
+    {
+      url: routePart,
+      query: newQuery,
+    },
+    { skipNull: true }
+  );
+
+  return newUrl;
+}
+
 export function getJoinedDate(joinedAt: Date | undefined) {
   if (!joinedAt) {
     return "Joined";

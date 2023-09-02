@@ -32,7 +32,7 @@
   }
 
   .body2-color {
-    @apply text-dark-500 dark:text-light-700;
+    @apply text-dark-500 dark:text-light-700 !important;
   }
 
   .body3-color {

@@ -5,7 +5,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -40,16 +39,17 @@ const Filter = ({ filters, otherClasses }: Props) => {
     <div className='relative'>
       <Select
         onValueChange={(value) => handleUpdateParams(value)}
-        defaultValue={paramsFilter || filters[0].value}
+        defaultValue={paramsFilter || undefined}
       >
         <SelectTrigger
-          className={`small-regular light-border tag-background-shade body2-color border px-5 py-2.5 ${otherClasses}`}
+          className={`body-regular light-border tag-background-shade body2-color border px-5 py-2.5 ${otherClasses}`}
         >
-          <SelectValue placeholder='Select a Filter' />
+          <div className='line-clamp-1 flex-1 text-left'>
+            <SelectValue placeholder='Select a Filter' />
+          </div>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Filters</SelectLabel>
             {filters.map((item) => (
               <SelectItem key={item.value} value={item.value}>
                 {item.name}

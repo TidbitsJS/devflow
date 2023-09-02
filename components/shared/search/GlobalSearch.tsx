@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { formUrlQuery } from "@/lib/utils";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import GlobalResult from "./GlobalResult";
 
@@ -49,7 +49,14 @@ const GlobalSearch = () => {
 
         router.push(newUrl, { scroll: false });
       } else {
-        // router.push(pathname, { scroll: false });
+        if (query) {
+          const newUrl = removeKeysFromQuery({
+            params: searchParams.toString(),
+            keysToRemove: ["global", "type"],
+          });
+
+          router.push(newUrl, { scroll: false });
+        }
       }
     }, 300);
 

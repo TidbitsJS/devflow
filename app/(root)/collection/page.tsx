@@ -36,7 +36,7 @@ async function Home({
 
         <Filter
           filters={QuestionFilters}
-          otherClasses='min-h-[56px] max-w-[250px]'
+          otherClasses='min-h-[56px] min-w-[170px]'
         />
       </div>
 

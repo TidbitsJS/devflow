@@ -34,7 +34,7 @@ const Page = async ({ searchParams }: Params) => {
 
         <Filter
           filters={TagFilters}
-          otherClasses='min-h-[56px] max-w-[250px]'
+          otherClasses='min-h-[56px] min-w-[170px]'
         />
       </div>
 

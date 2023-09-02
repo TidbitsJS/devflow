@@ -16,13 +16,14 @@ interface GetQuestionsParams {
   page?: number;
   pageSize?: number;
   searchQuery?: string;
+  filter?: string;
 }
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDB();
 
-    const { page = 1, pageSize = 20, searchQuery } = params;
+    const { page = 1, pageSize = 20, searchQuery, filter } = params;
 
     // Calculate the number of posts to skip based on the page number and page size.
     const skipAmount = (page - 1) * pageSize;
@@ -34,6 +35,25 @@ export async function getQuestions(params: GetQuestionsParams) {
         { title: { $regex: new RegExp(searchQuery, "i") } },
         { content: { $regex: new RegExp(searchQuery, "i") } },
       ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+
+      default:
+        break;
     }
 
     const totalQuestions = await Question.countDocuments(query);
@@ -49,7 +69,7 @@ export async function getQuestions(params: GetQuestionsParams) {
       })
       .skip(skipAmount)
       .limit(pageSize)
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
 
     const isNext = totalQuestions > skipAmount + questions.length;
 

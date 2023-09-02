@@ -49,7 +49,7 @@ const RightSidebar = async () => {
               </Badge>
 
               <p className='small-medium small2-color'>
-                {tag.questions.length}
+                {tag.numberOfQuestions}
               </p>
             </Link>
           ))}

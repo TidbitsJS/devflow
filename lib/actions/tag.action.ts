@@ -31,7 +31,7 @@ export async function getAllTags(params: GetAllTagsParams) {
 
     switch (filter) {
       case "popular":
-        sortOptions = { questions: -1 };
+        sortOptions = { questions: 1 };
         break;
 
       case "recent":
@@ -124,10 +124,20 @@ export async function getTopPopularTags() {
   try {
     await connectToDB();
 
-    // Find the top five popular tags based on the number of questions
-    const popularTags = await Tag.find()
-      .sort({ questions: -1 }) // Sort by questions count in descending order
-      .limit(5); // Limit the result to the top five tags
+    const popularTags = await Tag.aggregate([
+      {
+        $project: {
+          name: 1,
+          numberOfQuestions: { $size: "$questions" },
+        },
+      },
+      {
+        $sort: { numberOfQuestions: -1 },
+      },
+      {
+        $limit: 5,
+      },
+    ]);
 
     return popularTags;
   } catch (error) {
