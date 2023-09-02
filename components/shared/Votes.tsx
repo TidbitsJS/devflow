@@ -7,7 +7,6 @@ import {
   upvoteQuestion,
 } from "@/lib/actions/question.action";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
-import { toast } from "../ui/use-toast";
 import { useEffect } from "react";
 import { viewQuestion } from "@/lib/actions/interaction.action";
 import { formatNumber } from "@/lib/utils";
@@ -47,31 +46,21 @@ const Votes = ({
   }, [itemId, userId, pathname, router]);
 
   const handleVote = async (action: string) => {
-    if (action === "upvote" && hasupVoted) {
-      return toast({
-        title: "Already upvoted",
-        description: `You have already upvoted this ${type}`,
-      });
-    }
-
-    if (action === "downvote" && hasdownVoted) {
-      return toast({
-        title: "Already downvoted",
-        description: `You have already downvoted this ${type}`,
-      });
-    }
-
     if (action === "upvote") {
       if (type === "Question") {
         return await upvoteQuestion({
           questionId: JSON.parse(itemId),
           userId: JSON.parse(userId),
+          hasupVoted,
+          hasdownVoted,
           path: pathname,
         });
       } else if (type === "Answer") {
         return await upvoteAnswer({
           answerId: JSON.parse(itemId),
           userId: JSON.parse(userId),
+          hasupVoted,
+          hasdownVoted,
           path: pathname,
         });
       }
@@ -82,12 +71,16 @@ const Votes = ({
         return await downvoteQuestion({
           questionId: JSON.parse(itemId),
           userId: JSON.parse(userId),
+          hasupVoted,
+          hasdownVoted,
           path: pathname,
         });
       } else if (type === "Answer") {
         return await downvoteAnswer({
           answerId: JSON.parse(itemId),
           userId: JSON.parse(userId),
+          hasupVoted,
+          hasdownVoted,
           path: pathname,
         });
       }

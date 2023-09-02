@@ -148,6 +148,8 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
 interface VoteParams {
   questionId: string;
   userId: string;
+  hasupVoted: boolean;
+  hasdownVoted: boolean;
   path: string;
 }
 
@@ -155,23 +157,38 @@ export async function upvoteQuestion(params: VoteParams) {
   try {
     await connectToDB();
 
-    const { questionId, userId, path } = params;
+    const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
 
-    const question = await Question.findByIdAndUpdate(
-      questionId,
-      { $addToSet: { upvotes: userId }, $pull: { downvotes: userId } },
-      { new: true }
-    );
+    let updateQuery = {};
+
+    if (hasupVoted) {
+      updateQuery = { $pull: { upvotes: userId } };
+    } else if (hasdownVoted) {
+      updateQuery = {
+        $pull: { downvotes: userId },
+        $addToSet: { upvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { upvotes: userId } };
+    }
+
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
 
     if (!question) {
       throw new Error("Question not found");
     }
 
-    // Increment author's reputation by +1 for upvoting a question
-    await User.findByIdAndUpdate(userId, { $inc: { reputation: 1 } });
+    // Increment author's reputation by +1/-1 for upvoting/revoking upvoting an question
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasupVoted ? -1 : +1 },
+    });
 
-    // Increment question author's reputation by +10 for receiving an upvote
-    await User.findByIdAndUpdate(question.author, { $inc: { reputation: 10 } });
+    // Increment question author's reputation by +10/-10 for receiving a upvote
+    await User.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasupVoted ? -10 : +10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -184,23 +201,38 @@ export async function downvoteQuestion(params: VoteParams) {
   try {
     await connectToDB();
 
-    const { questionId, userId, path } = params;
+    const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
 
-    const question = await Question.findByIdAndUpdate(
-      questionId,
-      { $addToSet: { downvotes: userId }, $pull: { upvotes: userId } },
-      { new: true }
-    );
+    let updateQuery = {};
+
+    if (hasdownVoted) {
+      updateQuery = { $pull: { downvotes: userId } };
+    } else if (hasupVoted) {
+      updateQuery = {
+        $pull: { upvotes: userId },
+        $addToSet: { downvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { downvotes: userId } };
+    }
+
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
 
     if (!question) {
       throw new Error("Question not found");
     }
 
-    // Decrement author's reputation by -1 for downvoting a question
-    await User.findByIdAndUpdate(userId, { $inc: { reputation: -1 } });
+    // Decrement author's reputation by -1/+1 for downvoting/revoking downvoting a question
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasdownVoted ? +1 : -1 },
+    });
 
-    // Decrement question author's reputation by -2 for receiving a downvote
-    await User.findByIdAndUpdate(question.author, { $inc: { reputation: -2 } });
+    // Decrement question author's reputation by -2/+2 for receiving a downvote
+    await User.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasdownVoted ? +2 : -2 },
+    });
 
     revalidatePath(path);
   } catch (error) {
