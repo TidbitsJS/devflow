@@ -27,6 +27,7 @@ const GlobalSearch = () => {
         !searchContainerRef.current?.contains(event.target)
       ) {
         setIsOpen(false);
+        setSearch("");
       }
     };
 
