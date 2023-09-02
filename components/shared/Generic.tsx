@@ -20,7 +20,13 @@ export const Metric = ({
 }: MetricProps) => {
   const metricContent = (
     <>
-      <Image src={imgUrl} width={16} height={16} alt={alt} />
+      <Image
+        src={imgUrl}
+        width={16}
+        height={16}
+        alt={alt}
+        className={`object-contain ${href ? "rounded-full" : ""}`}
+      />
 
       <p className={textStyles}>
         {value}

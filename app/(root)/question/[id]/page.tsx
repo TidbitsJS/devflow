@@ -9,9 +9,9 @@ import RenderTag from "@/components/shared/RenderTag";
 import ParseHTML from "@/components/shared/ParseHTML";
 import AllAnswers from "@/components/Answer/AllAnswers";
 
+import { getUserById } from "@/lib/actions/user.action";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 import { getQuestionById } from "@/lib/actions/question.action";
-import { getUserById } from "@/lib/actions/user.action";
 
 import { ITag } from "@/mongodb";
 import { URLProps } from "@/types";
@@ -61,20 +61,6 @@ const Page = async ({ params, searchParams }: URLProps) => {
       </div>
 
       <div className='mb-8 mt-5 flex flex-wrap gap-4'>
-        {/* <div className='flex-center gap-1'>
-          <Image
-            src='/assets/icons/clock.svg'
-            className='rounded-full'
-            width={18}
-            height={18}
-            alt='user avatar'
-          />
-
-          <p className='small-regular body-color'>
-            asked {getTimeStamp(result.createdAt)}
-          </p>
-        </div> */}
-
         <Metric
           imgUrl='/assets/icons/clock.svg'
           alt='clock icon'
@@ -83,19 +69,6 @@ const Page = async ({ params, searchParams }: URLProps) => {
           textStyles='small-regular body-color'
         />
 
-        {/* <div className='flex-center gap-1'>
-          <Image
-            src='/assets/icons/message.svg'
-            width={18}
-            height={18}
-            alt='message icon'
-          />
-
-          <p className='small-medium body-color'>
-            {result.answers.length}
-            <span className='font-normal'> Answers</span>
-          </p>
-        </div> */}
         <Metric
           imgUrl='/assets/icons/message.svg'
           alt='message icon'
@@ -103,20 +76,6 @@ const Page = async ({ params, searchParams }: URLProps) => {
           title=' Answers'
           textStyles='small-medium body-color'
         />
-
-        {/* <div className='flex-center gap-1'>
-          <Image
-            src='/assets/icons/eye.svg'
-            width={18}
-            height={18}
-            alt='eye icon'
-          />
-
-          <p className='small-medium body-color'>
-            {formatNumber(result.views)}
-            <span className='font-normal'> Views</span>
-          </p>
-        </div> */}
 
         <Metric
           imgUrl='/assets/icons/eye.svg'

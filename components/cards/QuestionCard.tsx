@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { SignedIn } from "@clerk/nextjs";
 
-import { formatNumber, getTimeStamp } from "@/lib/utils";
-
 import { Metric } from "../shared/Generic";
 import RenderTag from "../shared/RenderTag";
 import EditDeleteAction from "../shared/EditDeleteAction";
+
+import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 export interface QuestionProps {
   clerkId?: string;
@@ -63,23 +63,6 @@ const QuestionCard = ({
       </div>
 
       <div className='flex-between mt-6 w-full flex-wrap gap-3'>
-        {/* <Link href={`/profile/${author.clerkId}`} className='flex-center gap-1'>
-          <Image
-            src={author.picture}
-            className='rounded-full'
-            width={18}
-            height={18}
-            alt='user avatar'
-          />
-
-          <p className='body-medium body-color'>
-            {author.name}
-            <span className='small-regular ml-0.5'>
-              • asked {getTimeStamp(createdAt)}
-            </span>
-          </p>
-        </Link> */}
-
         <Metric
           imgUrl={author.picture}
           alt='user avatar'
@@ -90,20 +73,6 @@ const QuestionCard = ({
         />
 
         <div className='flex-center gap-3'>
-          {/* <div className='flex-center gap-1'>
-            <Image
-              src='/assets/icons/like.svg'
-              width={16}
-              height={16}
-              alt='like icon'
-            />
-
-            <p className='small-medium small-color'>
-              {formatNumber(upvotes)}
-              <span className='small-regular'> Votes</span>
-            </p>
-          </div> */}
-
           <Metric
             imgUrl='/assets/icons/like.svg'
             alt='like icon'
@@ -112,20 +81,6 @@ const QuestionCard = ({
             textStyles='small-medium small-color'
           />
 
-          {/* <div className='flex-center gap-1'>
-            <Image
-              src='/assets/icons/message.svg'
-              width={16}
-              height={16}
-              alt='message icon'
-            />
-
-            <p className='small-medium small-color'>
-              {formatNumber(answers.length)}
-              <span className='small-regular'> Answers</span>
-            </p>
-          </div> */}
-
           <Metric
             imgUrl='/assets/icons/message.svg'
             alt='message icon'
@@ -133,20 +88,6 @@ const QuestionCard = ({
             title=' Answers'
             textStyles='small-medium small-color'
           />
-
-          {/* <div className='flex-center gap-1'>
-            <Image
-              src='/assets/icons/eye.svg'
-              width={16}
-              height={16}
-              alt='eye icon'
-            />
-
-            <p className='small-medium small-color'>
-              {formatNumber(views)}
-              <span className='small-regular'> Views</span>
-            </p>
-          </div> */}
 
           <Metric
             imgUrl='/assets/icons/eye.svg'
