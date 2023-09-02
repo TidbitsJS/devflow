@@ -20,7 +20,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
     <>
       <h1 className='h1-bold heading1-color'>Tags</h1>
 
-      <div className='mt-11 flex items-center justify-between gap-5'>
+      <div className='mt-11 flex flex-wrap items-center justify-between gap-5'>
         <LocalSearchbar
           route='/tags'
           iconPosition='left'
