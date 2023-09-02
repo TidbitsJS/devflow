@@ -1,18 +1,14 @@
 import Filter from "@/components/shared/Filter";
 import UserCard from "@/components/cards/UserCard";
-import Searchbar from "@/components/shared/Searchbar";
 import Pagination from "@/components/shared/Pagination";
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 
 import { UserFilters } from "@/constants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
 
-interface Props {
-  searchParams: {
-    [key: string]: string | undefined;
-  };
-}
+import { SearchParamsProps } from "@/types";
 
-const Page = async ({ searchParams }: Props) => {
+const Page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllUsers({
     page: searchParams.page ? +searchParams.page : 1,
     filter: searchParams.filter,
@@ -24,7 +20,7 @@ const Page = async ({ searchParams }: Props) => {
       <h1 className='h1-bold heading1-color'>All Users</h1>
 
       <div className='mt-11 flex items-center justify-between gap-5'>
-        <Searchbar
+        <LocalSearchbar
           route='/community'
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'

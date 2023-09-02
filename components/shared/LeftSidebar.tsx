@@ -1,15 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { useAuth } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 
 import { sidebarLinks } from "@/constants";
-import { useAuth } from "@clerk/nextjs";
 
 const LeftSidebar = () => {
-  const pathname = usePathname();
   const { userId } = useAuth();
+  const pathname = usePathname();
 
   return (
     <section className='custom-scrollbar common-background-shade sticky left-0 top-0 flex h-screen w-fit flex-col gap-6 overflow-y-auto p-6 pt-36 max-sm:hidden lg:w-[266px]'>

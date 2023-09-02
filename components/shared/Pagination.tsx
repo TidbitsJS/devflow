@@ -1,10 +1,9 @@
 "use client";
 
-import { formUrlQuery } from "@/lib/utils";
-// import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "../ui/button";
+import { formUrlQuery } from "@/lib/utils";
 
 interface Props {
   pageNumber: number;
@@ -52,14 +51,6 @@ function Pagination({ pageNumber, isNext }: Props) {
         disabled={pageNumber === 1}
         className='light-border-2 btn flex min-h-[36px] items-center justify-center gap-2 border'
       >
-        {/* <Image
-          src='/assets/icons/arrow-left.svg'
-          alt='arrow left'
-          width={20}
-          height={20}
-          className='object-contain'
-        /> */}
-
         <p className='body-medium text-dl-28'>Prev</p>
       </Button>
 
@@ -73,14 +64,6 @@ function Pagination({ pageNumber, isNext }: Props) {
         className='light-border-2 btn flex min-h-[36px] items-center justify-center gap-2 border'
       >
         <p className='body-medium text-dl-28'>Next</p>
-
-        {/* <Image
-          src='/assets/icons/arrow-right.svg'
-          alt='arrow left'
-          width={20}
-          height={20}
-          className='object-contain'
-        /> */}
       </Button>
     </div>
   );

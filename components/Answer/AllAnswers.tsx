@@ -1,16 +1,16 @@
+import Link from "next/link";
 import Image from "next/image";
 
 import Votes from "../shared/Votes";
+import Filter from "../shared/Filter";
 import ParseHTML from "../shared/ParseHTML";
+import Pagination from "../shared/Pagination";
 
 import { formatDate } from "@/lib/utils";
-import { getAnswers } from "@/lib/actions/answer.action";
-import Pagination from "../shared/Pagination";
-import Filter from "../shared/Filter";
 import { AnswerFilters } from "@/constants/filters";
-import Link from "next/link";
+import { getAnswers } from "@/lib/actions/answer.action";
 
-interface Params {
+interface Props {
   questionId: string;
   userId: string;
   totalAnswers: number;
@@ -24,7 +24,7 @@ const AllAnswers = async ({
   totalAnswers,
   page,
   filter,
-}: Params) => {
+}: Props) => {
   const result = await getAnswers({
     questionId,
     page: page ? +page : 1,

@@ -1,8 +1,8 @@
-import React from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
-import { Badge } from "../ui/badge";
+import RenderTag from "./RenderTag";
+
 import { getTopPopularTags } from "@/lib/actions/tag.action";
 import { getHotQuestions } from "@/lib/actions/question.action";
 
@@ -39,19 +39,13 @@ const RightSidebar = async () => {
         <h3 className='h3-bold heading3-color'>Popular Tags</h3>
         <div className='mt-7 flex flex-col gap-4'>
           {popularTags.map((tag) => (
-            <Link
-              href={`/tags/${tag._id}`}
+            <RenderTag
               key={tag._id}
-              className='flex justify-between gap-2'
-            >
-              <Badge className='subtle-medium tag-background-shade  tag-color rounded-md border-none px-4 py-2 uppercase'>
-                {tag.name}
-              </Badge>
-
-              <p className='small-medium small2-color'>
-                {tag.numberOfQuestions}
-              </p>
-            </Link>
+              _id={tag._id}
+              name={tag.name}
+              totalQuestions={tag.numberOfQuestions}
+              showCount
+            />
           ))}
         </div>
       </div>

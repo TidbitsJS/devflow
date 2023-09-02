@@ -1,6 +1,7 @@
+import { auth } from "@clerk/nextjs";
+
 import Profile from "@/components/form/Profile";
 import { getUserById } from "@/lib/actions/user.action";
-import { auth } from "@clerk/nextjs";
 
 const Page = async () => {
   const { userId } = auth();

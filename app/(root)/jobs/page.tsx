@@ -8,6 +8,8 @@ import {
   fetchLocation,
 } from "@/lib/actions/job.action";
 
+import { Job } from "@/types";
+
 interface Props {
   searchParams: {
     q: string;
@@ -39,7 +41,7 @@ const Page = async ({ searchParams }: Props) => {
 
       <section className='light-border mb-9 mt-11 flex flex-col gap-9 border-b pb-9'>
         {jobs.length > 0 ? (
-          jobs.map((job: any) => {
+          jobs.map((job: Job) => {
             if (job.job_title && job.job_title.toLowerCase() !== "undefined")
               return <JobCard key={job.id} job={job} />;
 

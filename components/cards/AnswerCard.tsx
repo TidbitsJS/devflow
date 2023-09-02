@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { SignedIn } from "@clerk/nextjs";
 
 import { formatNumber, getTimeStamp } from "@/lib/utils";
-import { SignedIn } from "@clerk/nextjs";
 import EditDeleteAction from "../shared/EditDeleteAction";
 
 interface Props {

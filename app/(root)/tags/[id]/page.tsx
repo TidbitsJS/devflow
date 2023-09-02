@@ -1,14 +1,11 @@
-import QuestionCard from "@/components/cards/QuestionCard";
 import Pagination from "@/components/shared/Pagination";
+import QuestionCard from "@/components/cards/QuestionCard";
+
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
 
-async function Page({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams: { [key: string]: string | undefined };
-}) {
+import { URLProps } from "@/types";
+
+async function Page({ params, searchParams }: URLProps) {
   const result = await getQuestionsByTagId({
     tagId: params.id,
     page: searchParams.page ? +searchParams.page : 1,

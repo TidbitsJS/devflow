@@ -2,24 +2,22 @@ import Link from "next/link";
 import Image from "next/image";
 import { auth, SignedIn } from "@clerk/nextjs";
 
-import { Badge } from "@/components/ui/badge";
+import Stats from "@/components/Profile/Stats";
 import { Button } from "@/components/ui/button";
+import RenderTag from "@/components/shared/RenderTag";
 import AnswerCard from "@/components/cards/AnswerCard";
 import Pagination from "@/components/shared/Pagination";
 import QuestionCard from "@/components/cards/QuestionCard";
+import { ProfileLink } from "@/components/Profile/ProfileLink";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { getJoinedDate } from "@/lib/utils";
 import { getTopInteractedTags } from "@/lib/actions/tag.action";
 import { getUserById, getUserStats } from "@/lib/actions/user.action";
-import Stats from "@/components/Profile/Stats";
 
-interface Props {
-  params: { id: string };
-  searchParams: { [key: string]: string | undefined };
-}
+import { URLProps } from "@/types";
 
-const Page = async ({ params, searchParams }: Props) => {
+const Page = async ({ params, searchParams }: URLProps) => {
   const { userId } = auth();
   if (!userId) return null;
 
@@ -56,51 +54,24 @@ const Page = async ({ params, searchParams }: Props) => {
 
             <div className='mt-5 flex flex-wrap items-center justify-start gap-5'>
               {mongoUser.portfolioWebsite && (
-                <div className='flex-center gap-1'>
-                  <Image
-                    src='/assets/icons/link.svg'
-                    alt='link icon'
-                    width={20}
-                    height={20}
-                  />
-
-                  <Link
-                    href={mongoUser.portfolioWebsite}
-                    target='_blank'
-                    className='paragraph-medium  text-accent-blue'
-                  >
-                    Portfolio
-                  </Link>
-                </div>
+                <ProfileLink
+                  imgUrl='/assets/icons/link.svg'
+                  href={mongoUser.portfolioWebsite}
+                  title='Portfolio'
+                />
               )}
 
               {mongoUser.location && (
-                <div className='flex-center gap-1'>
-                  <Image
-                    src='/assets/icons/location.svg'
-                    alt='link icon'
-                    width={20}
-                    height={20}
-                  />
-
-                  <p className='paragraph-medium body-color'>
-                    {mongoUser.location}
-                  </p>
-                </div>
+                <ProfileLink
+                  imgUrl='/assets/icons/location.svg'
+                  title={mongoUser.location}
+                />
               )}
 
-              <div className='flex-center gap-1'>
-                <Image
-                  src='/assets/icons/calendar.svg'
-                  alt='link icon'
-                  width={20}
-                  height={20}
-                />
-
-                <p className='paragraph-medium body-color'>
-                  {getJoinedDate(mongoUser.joinedAt)}
-                </p>
-              </div>
+              <ProfileLink
+                imgUrl='/assets/icons/calendar.svg'
+                title={getJoinedDate(mongoUser.joinedAt)}
+              />
             </div>
 
             {mongoUser?.bio && (
@@ -124,7 +95,6 @@ const Page = async ({ params, searchParams }: Props) => {
         </div>
       </div>
 
-      {/* User Stats */}
       <Stats
         totalQuestions={userStats.totalQuestions}
         totalAnswers={userStats.totalAnswers}
@@ -140,11 +110,12 @@ const Page = async ({ params, searchParams }: Props) => {
               Answers
             </TabsTrigger>
           </TabsList>
+
           <TabsContent
             value='top-posts'
             className='mt-5 flex w-full flex-col gap-6'
           >
-            {userStats.questions.map((item: any) => (
+            {userStats.questions.map((item) => (
               <QuestionCard
                 key={item._id}
                 clerkId={userId}
@@ -164,8 +135,9 @@ const Page = async ({ params, searchParams }: Props) => {
               isNext={userStats.isNextQuestions}
             />
           </TabsContent>
+
           <TabsContent value='answers' className='flex w-full flex-col gap-6'>
-            {userStats.answers.map((item: any) => (
+            {userStats.answers.map((item) => (
               <AnswerCard
                 key={item._id}
                 clerkId={userId}
@@ -189,19 +161,13 @@ const Page = async ({ params, searchParams }: Props) => {
 
           <div className='mt-7 flex flex-col gap-4'>
             {interactedTags.map((tag) => (
-              <Link
-                href={`/tags/${tag._id}`}
+              <RenderTag
                 key={tag._id}
-                className='flex justify-between gap-2'
-              >
-                <Badge className='subtle-medium tag-background-shade tag-color rounded-md border-none px-4 py-2 uppercase'>
-                  {tag.name}
-                </Badge>
-
-                <p className='small-medium body2-color'>
-                  {tag.questions.length}
-                </p>
-              </Link>
+                _id={tag._id}
+                name={tag.name}
+                totalQuestions={tag.questions.length}
+                showCount
+              />
             ))}
           </div>
         </div>

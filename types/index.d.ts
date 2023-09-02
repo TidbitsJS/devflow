@@ -1,91 +1,11 @@
-import { Types } from "mongoose";
-
-export interface QuestionFormType {
-  title: string;
-  explanation: string;
-  expectedBehaviour: string;
-  tags: string[];
-}
-
-export interface ProfileFormType {
-  firstName: string;
-  lastName: string;
-  username: string;
-  portfolioLink: string;
-  location: string;
-  bio: string;
-  picture: string;
-}
 export interface SidebarLink {
   imgURL: string;
   route: string;
   label: string;
 }
 
-export interface PopularTag {
-  id: number;
-  name: string;
-  count: string;
-}
-
-export interface IAnswer {
-  _id: Types.ObjectId;
-  questionId: Types.ObjectId;
-  creatorId: Types.ObjectId;
-  body: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export interface Question {
-  _id: number;
-  title: string;
-  explanation: string;
-  expectedBehaviour: string;
-  author: string;
-  reputation: number;
-  date: string;
-  tags: string[];
-  voteCount: number;
-  viewCount: number;
-  answers: IAnswer[];
-}
-
-export interface Tag {
-  name: string;
-  count: number;
-}
-
-export interface IQuestion {
-  _id: Types.ObjectId;
-  creatorId: Types.ObjectId;
-  title: string;
-  explanation: string;
-  expectedBehaviour: string;
-  answers?: Array<Types.ObjectId>;
-  likes?: Array<Types.ObjectId>;
-  views?: number;
-  tags: string[];
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export interface IUser {
-  userId: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  username?: string;
-  bio?: string;
-  location?: string;
-  portfolioLink?: string;
-  picture: string;
-  createdAt: Date;
-  questionId: Array<Types.ObjectId>;
-  answerId: Array<Types.ObjectId>;
-}
-
 export interface Job {
+  id?: string;
   employer_name?: string;
   employer_logo?: string | undefined;
   employer_website?: string;
@@ -98,24 +18,21 @@ export interface Job {
   job_country?: string;
 }
 
-export interface QueryParams {
-  query: string;
-  employment_types: string;
-  page: string;
-}
-
-export interface JobsProps {
-  searchParams: QueryParams;
-}
-
 export interface Country {
   name: {
     common: string;
   };
 }
 
-export interface Filter {
-  searchInput: string;
-  location: string;
-  employmentType: string;
+export interface ParamsProps {
+  params: { id: string };
+}
+
+export interface SearchParamsProps {
+  searchParams: { [key: string]: string | undefined };
+}
+
+export interface URLProps {
+  params: { id: string };
+  searchParams: { [key: string]: string | undefined };
 }

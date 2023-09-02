@@ -1,16 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+
 import {
   downvoteQuestion,
   upvoteQuestion,
 } from "@/lib/actions/question.action";
-import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
-import { useEffect } from "react";
-import { viewQuestion } from "@/lib/actions/interaction.action";
 import { formatNumber } from "@/lib/utils";
 import { toggleSaveQuestion } from "@/lib/actions/user.action";
+import { viewQuestion } from "@/lib/actions/interaction.action";
+import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 
 interface Params {
   type: string;

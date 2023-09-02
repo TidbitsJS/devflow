@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-import { themes } from "@/constants";
 import {
   Menubar,
   MenubarItem,
@@ -11,6 +10,7 @@ import {
   MenubarContent,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import { themes } from "@/constants";
 
 const Theme = () => {
   const [mode, setMode] = useState("");

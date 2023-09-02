@@ -1,18 +1,16 @@
 import { auth } from "@clerk/nextjs";
 
 import Filter from "@/components/shared/Filter";
-import Searchbar from "@/components/shared/Searchbar";
 import Pagination from "@/components/shared/Pagination";
 import QuestionCard from "@/components/cards/QuestionCard";
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 
 import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 
-interface Props {
-  searchParams: { [key: string]: string | undefined };
-}
+import { SearchParamsProps } from "@/types";
 
-async function Home({ searchParams }: Props) {
+async function Home({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
   if (!userId) return null;
 
@@ -28,7 +26,7 @@ async function Home({ searchParams }: Props) {
       <h1 className='h1-bold heading1-color'>Saved Questions</h1>
 
       <div className='mt-11 flex items-center justify-between gap-5'>
-        <Searchbar
+        <LocalSearchbar
           route='/collection'
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'

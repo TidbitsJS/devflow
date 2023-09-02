@@ -1,7 +1,8 @@
 "use client";
 
-import { formUrlQuery } from "@/lib/utils";
-import { Country } from "@/types";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import {
   Select,
   SelectContent,
@@ -10,9 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Searchbar from "../shared/Searchbar";
+import LocalSearchbar from "../shared/search/LocalSearchbar";
+
+import { Country } from "@/types";
+import { formUrlQuery } from "@/lib/utils";
 
 interface JobsFilterProps {
   countriesList: Country[];
@@ -35,7 +37,7 @@ const JobsFilter = ({ countriesList }: JobsFilterProps) => {
 
   return (
     <div className='relative mt-11 flex w-full gap-5 sm:items-center'>
-      <Searchbar
+      <LocalSearchbar
         route={pathname}
         iconPosition='left'
         imgSrc='/assets/icons/job-search.svg'

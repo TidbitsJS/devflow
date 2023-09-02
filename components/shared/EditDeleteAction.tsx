@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
-import { deleteQuestion } from "@/lib/actions/question.action";
 import { toast } from "../ui/use-toast";
+
+import { deleteQuestion } from "@/lib/actions/question.action";
 import { deleteAnswer } from "@/lib/actions/answer.action";
 
 interface Props {
@@ -51,6 +52,7 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
           onClick={handleEdit}
         />
       )}
+
       <Image
         src='/assets/icons/trash.svg'
         alt='trash'

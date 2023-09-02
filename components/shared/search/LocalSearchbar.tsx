@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { formUrlQuery } from "@/lib/utils";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 interface CustomInputProps {
   route: string;
@@ -15,7 +15,7 @@ interface CustomInputProps {
   otherClasses?: string;
 }
 
-const Searchbar = ({
+const LocalSearchbar = ({
   route,
   iconPosition,
   imgSrc,
@@ -43,10 +43,9 @@ const Searchbar = ({
         router.push(newUrl, { scroll: false });
       } else {
         if (pathname === route) {
-          const newUrl = formUrlQuery({
+          const newUrl = removeKeysFromQuery({
             params: searchParams.toString(),
-            key: "q",
-            value: null,
+            keysToRemove: ["q"],
           });
 
           router.push(newUrl, { scroll: false });
@@ -92,4 +91,4 @@ const Searchbar = ({
   );
 };
 
-export default Searchbar;
+export default LocalSearchbar;

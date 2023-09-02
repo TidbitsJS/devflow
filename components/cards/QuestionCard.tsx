@@ -1,12 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { SignedIn } from "@clerk/nextjs";
 
 import { Badge } from "../ui/badge";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
-import { SignedIn } from "@clerk/nextjs";
+
 import EditDeleteAction from "../shared/EditDeleteAction";
 
-interface Question {
+export interface QuestionProps {
   clerkId?: string;
   _id: string;
   title: string;
@@ -36,7 +37,7 @@ const QuestionCard = ({
   views,
   answers,
   createdAt,
-}: Question) => {
+}: QuestionProps) => {
   const showActionButtons = clerkId && clerkId === author.clerkId;
 
   return (

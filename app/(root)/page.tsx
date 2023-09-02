@@ -1,20 +1,20 @@
-import QuestionCard from "@/components/cards/QuestionCard";
-import HomeFilters from "@/components/Home/HomeFilters";
-import Pagination from "@/components/shared/Pagination";
-import { Button } from "@/components/ui/button";
-import { getRecommendedQuestions } from "@/lib/actions/general.action";
-import { getQuestions } from "@/lib/actions/question.action";
-import { auth } from "@clerk/nextjs";
 import Link from "next/link";
+import { auth } from "@clerk/nextjs";
 
-async function Home({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}) {
+import { Button } from "@/components/ui/button";
+import Pagination from "@/components/shared/Pagination";
+import HomeFilters from "@/components/Home/HomeFilters";
+import QuestionCard from "@/components/cards/QuestionCard";
+
+import { getQuestions } from "@/lib/actions/question.action";
+import { getRecommendedQuestions } from "@/lib/actions/general.action";
+
+import { SearchParamsProps } from "@/types";
+
+async function Home({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
-  let result;
 
+  let result;
   if (searchParams?.filter === "recommended" && userId) {
     result = await getRecommendedQuestions({
       userId,

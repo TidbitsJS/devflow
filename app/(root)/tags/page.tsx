@@ -2,17 +2,14 @@ import Link from "next/link";
 
 import Filter from "@/components/shared/Filter";
 import Pagination from "@/components/shared/Pagination";
-import Searchbar from "@/components/shared/Searchbar";
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
+
 import { TagFilters } from "@/constants/filters";
 import { getAllTags } from "@/lib/actions/tag.action";
 
-interface Params {
-  searchParams: {
-    [key: string]: string | undefined;
-  };
-}
+import { SearchParamsProps } from "@/types";
 
-const Page = async ({ searchParams }: Params) => {
+const Page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllTags({
     page: searchParams.page ? +searchParams.page : 1,
     filter: searchParams.filter,
@@ -24,7 +21,7 @@ const Page = async ({ searchParams }: Params) => {
       <h1 className='h1-bold heading1-color'>Tags</h1>
 
       <div className='mt-11 flex items-center justify-between gap-5'>
-        <Searchbar
+        <LocalSearchbar
           route='/tags'
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'

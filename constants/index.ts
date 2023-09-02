@@ -43,10 +43,3 @@ export const sidebarLinks: SidebarLink[] = [
     label: "Ask a question",
   },
 ];
-
-export const filterLinks: string[] = [
-  "Newest",
-  "Interesting",
-  "Frequent",
-  "Unanswered",
-];

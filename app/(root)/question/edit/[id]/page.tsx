@@ -1,10 +1,13 @@
-import Question from "@/components/form/Question";
-import { getQuestionById } from "@/lib/actions/question.action";
-import { getUserById } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs";
-import React from "react";
 
-const Page = async ({ params }: { params: { id: string } }) => {
+import Question from "@/components/form/Question";
+
+import { getUserById } from "@/lib/actions/user.action";
+import { getQuestionById } from "@/lib/actions/question.action";
+
+import { ParamsProps } from "@/types";
+
+const Page = async ({ params }: ParamsProps) => {
   const { userId } = auth();
   if (!userId) return null;
 

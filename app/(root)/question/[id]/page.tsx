@@ -3,8 +3,8 @@ import Link from "next/link";
 import { auth } from "@clerk/nextjs";
 
 import Answer from "@/components/form/Answer";
-import { Badge } from "@/components/ui/badge";
 import Votes from "@/components/shared/Votes";
+import RenderTag from "@/components/shared/RenderTag";
 import ParseHTML from "@/components/shared/ParseHTML";
 import AllAnswers from "@/components/Answer/AllAnswers";
 
@@ -12,16 +12,10 @@ import { formatNumber, getTimeStamp } from "@/lib/utils";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 
-interface Params {
-  params: {
-    id: string;
-  };
-  searchParams: {
-    [key: string]: string | undefined;
-  };
-}
+import { ITag } from "@/mongodb";
+import { URLProps } from "@/types";
 
-const Page = async ({ params, searchParams }: Params) => {
+const Page = async ({ params, searchParams }: URLProps) => {
   const { userId } = auth();
   if (!userId) return null;
 
@@ -112,13 +106,13 @@ const Page = async ({ params, searchParams }: Params) => {
       <ParseHTML data={result.content} />
 
       <div className='mt-8 flex flex-wrap gap-2'>
-        {result.tags.map((tag: any) => (
-          <Badge
+        {result.tags.map((tag: ITag) => (
+          <RenderTag
             key={tag._id}
-            className='subtle-medium tag-color tag-background-shade rounded-md border-none px-4 py-2 uppercase'
-          >
-            <Link href={`/tags/${tag._id}`}>{tag.name}</Link>
-          </Badge>
+            _id={tag._id}
+            name={tag.name}
+            showCount={false}
+          />
         ))}
       </div>
 

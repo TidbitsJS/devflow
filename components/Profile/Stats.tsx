@@ -31,7 +31,7 @@ const Stats = ({ totalQuestions, totalAnswers }: Props) => {
       <h4 className='h3-semibold heading2-color'>Stats</h4>
 
       <div className='mt-5 grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-4'>
-        <div className='light-border card-wrapper2 flex flex-wrap items-center justify-evenly gap-11 rounded-md border p-6 shadow-stat-card '>
+        <div className='light-border card-wrapper2 flex flex-wrap items-center justify-evenly gap-4 rounded-md border p-6 shadow-stat-card'>
           <div>
             <p className='paragraph-semibold heading2-color'>
               {formatNumber(totalQuestions)}
