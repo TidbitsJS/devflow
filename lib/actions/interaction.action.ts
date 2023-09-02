@@ -2,13 +2,10 @@
 
 import { connectToDB } from "../mongoose";
 
-import Interaction from "@/mongodb/interaction.model";
 import Question from "@/mongodb/question.model";
+import Interaction from "@/mongodb/interaction.model";
 
-interface ViewQuestionParams {
-  questionId: string;
-  userId: string;
-}
+import { ViewQuestionParams } from "./shared.types";
 
 export async function viewQuestion(params: ViewQuestionParams) {
   try {

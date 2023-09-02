@@ -1,3 +1,5 @@
+import { JobFilterParams } from "./shared.types";
+
 export const fetchLocation = async () => {
   const response = await fetch("http://ip-api.com/json/?fields=country");
   const location = await response.json();
@@ -14,12 +16,7 @@ export const fetchCountries = async () => {
   }
 };
 
-interface FilterParams {
-  query: string;
-  page: string;
-}
-
-export const fetchJobs = async (filters: FilterParams) => {
+export const fetchJobs = async (filters: JobFilterParams) => {
   const { query, page } = filters;
 
   const headers = {

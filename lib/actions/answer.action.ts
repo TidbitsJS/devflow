@@ -4,17 +4,17 @@ import { revalidatePath } from "next/cache";
 
 import { connectToDB } from "../mongoose";
 
+import User from "@/mongodb/user.model";
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
 import Interaction from "@/mongodb/interaction.model";
-import User from "@/mongodb/user.model";
 
-interface CreateAnswerParams {
-  content: string;
-  author: string; // User ID
-  question: string; // Question ID
-  path: string;
-}
+import {
+  CreateAnswerParams,
+  DeleteAnswerParams,
+  GetAnswersParams,
+  AnswerVoteParams,
+} from "./shared.types";
 
 export async function createAnswer(params: CreateAnswerParams) {
   connectToDB();
@@ -52,22 +52,15 @@ export async function createAnswer(params: CreateAnswerParams) {
   }
 }
 
-interface GetAnswersParams {
-  questionId: string;
-  sortBy?: string;
-  page?: number;
-  pageSize?: number;
-}
-
 export async function getAnswers(params: GetAnswersParams) {
   try {
     connectToDB();
 
     const {
       questionId,
-      sortBy = "highestUpvotes", // Default to highestUpvotes
-      page = 1, // Default limit
-      pageSize = 10, // Default skip
+      sortBy = "highestUpvotes",
+      page = 1,
+      pageSize = 10,
     } = params;
 
     // Calculate the number of posts to skip based on the page number and page size.
@@ -115,15 +108,7 @@ export async function getAnswers(params: GetAnswersParams) {
   }
 }
 
-interface VoteParams {
-  answerId: string;
-  userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
-  path: string;
-}
-
-export async function upvoteAnswer(params: VoteParams) {
+export async function upvoteAnswer(params: AnswerVoteParams) {
   try {
     await connectToDB();
 
@@ -167,7 +152,7 @@ export async function upvoteAnswer(params: VoteParams) {
   }
 }
 
-export async function downvoteAnswer(params: VoteParams) {
+export async function downvoteAnswer(params: AnswerVoteParams) {
   try {
     await connectToDB();
 
@@ -209,11 +194,6 @@ export async function downvoteAnswer(params: VoteParams) {
     console.error("Error downvoting answer:", error);
     throw error;
   }
-}
-
-interface DeleteAnswerParams {
-  answerId: string;
-  path: string;
 }
 
 export async function deleteAnswer(params: DeleteAnswerParams) {

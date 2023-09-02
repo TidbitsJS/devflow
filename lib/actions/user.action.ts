@@ -3,23 +3,24 @@
 import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 
-import { IUser } from "@/mongodb";
 import { connectToDB } from "../mongoose";
 
+import Tag from "@/mongodb/tag.model";
+import User from "@/mongodb/user.model";
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
-import User from "@/mongodb/user.model";
-
 import Interaction from "@/mongodb/interaction.model";
-import Tag from "@/mongodb/tag.model";
 
-interface CreateUserParams {
-  clerkId: string;
-  name: string;
-  username: string;
-  email: string;
-  picture: string;
-}
+import {
+  CreateUserParams,
+  DeleteUserParams,
+  GetAllUsersParams,
+  GetSavedQuestionsParams,
+  GetUserByIdParams,
+  GetUserStatsParams,
+  ToggleSaveQuestionParams,
+  UpdateUserParams,
+} from "./shared.types";
 
 export async function createUser(userData: CreateUserParams) {
   try {
@@ -33,10 +34,6 @@ export async function createUser(userData: CreateUserParams) {
   }
 }
 
-interface GetUserByIdParams {
-  userId: string;
-}
-
 export async function getUserById(params: GetUserByIdParams) {
   try {
     connectToDB();
@@ -48,13 +45,6 @@ export async function getUserById(params: GetUserByIdParams) {
     console.error("Error getting user by ID:", error);
     throw error;
   }
-}
-
-interface GetAllUsersParams {
-  page?: number;
-  pageSize?: number;
-  filter?: string;
-  searchQuery?: string; // Add searchQuery parameter
 }
 
 export async function getAllUsers(params: GetAllUsersParams) {
@@ -108,12 +98,6 @@ export async function getAllUsers(params: GetAllUsersParams) {
   }
 }
 
-interface UpdateUserParams {
-  clerkId: string;
-  updateData: Partial<IUser>;
-  path: string;
-}
-
 export async function updateUser(params: UpdateUserParams) {
   try {
     connectToDB();
@@ -129,12 +113,6 @@ export async function updateUser(params: UpdateUserParams) {
     console.error("Error updating user:", error);
     throw error;
   }
-}
-
-interface ToggleSaveQuestionParams {
-  userId: string;
-  questionId: string;
-  path: string;
 }
 
 export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
@@ -172,14 +150,6 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
     console.error("Error toggling saved question:", error);
     throw error;
   }
-}
-
-interface GetSavedQuestionsParams {
-  clerkId: string;
-  page?: number;
-  pageSize?: number;
-  filter?: string;
-  searchQuery?: string;
 }
 
 export async function getSavedQuestions(params: GetSavedQuestionsParams) {
@@ -251,12 +221,6 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   }
 }
 
-interface GetUserStatsParams {
-  userId: string;
-  page?: number;
-  pageSize?: number;
-}
-
 export async function getUserStats(params: GetUserStatsParams) {
   try {
     await connectToDB();
@@ -304,10 +268,6 @@ export async function getUserStats(params: GetUserStatsParams) {
     console.error("Error fetching user stats:", error);
     throw error;
   }
-}
-
-interface DeleteUserParams {
-  clerkId: string;
 }
 
 export async function deleteUser(params: DeleteUserParams) {
@@ -377,5 +337,3 @@ export async function deleteUser(params: DeleteUserParams) {
     throw error;
   }
 }
-
-// TODO: Interaction Recommendation?

@@ -1,23 +1,24 @@
 "use server";
 
+import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
-import { FilterQuery, Schema } from "mongoose";
 
-import { IUser } from "@/mongodb";
 import { connectToDB } from "../mongoose";
 
 import Tag from "@/mongodb/tag.model";
-import Question from "@/mongodb/question.model";
-import Interaction from "@/mongodb/interaction.model";
 import User from "@/mongodb/user.model";
 import Answer from "@/mongodb/answer.model";
+import Question from "@/mongodb/question.model";
+import Interaction from "@/mongodb/interaction.model";
 
-interface GetQuestionsParams {
-  page?: number;
-  pageSize?: number;
-  searchQuery?: string;
-  filter?: string;
-}
+import {
+  CreateQuestionParams,
+  DeleteQuestionParams,
+  EditQuestionParams,
+  GetQuestionByIdParams,
+  GetQuestionsParams,
+  QuestionVoteParams,
+} from "./shared.types";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -80,14 +81,6 @@ export async function getQuestions(params: GetQuestionsParams) {
   }
 }
 
-interface CreateQuestionParams {
-  title: string;
-  content: string;
-  tags: string[];
-  author: Schema.Types.ObjectId | IUser;
-  path: string;
-}
-
 export async function createQuestion(params: CreateQuestionParams) {
   try {
     connectToDB();
@@ -137,10 +130,6 @@ export async function createQuestion(params: CreateQuestionParams) {
   }
 }
 
-interface GetQuestionByIdParams {
-  questionId: string;
-}
-
 export async function getQuestionById(params: GetQuestionByIdParams) {
   try {
     connectToDB();
@@ -165,15 +154,7 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
   }
 }
 
-interface VoteParams {
-  questionId: string;
-  userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
-  path: string;
-}
-
-export async function upvoteQuestion(params: VoteParams) {
+export async function upvoteQuestion(params: QuestionVoteParams) {
   try {
     await connectToDB();
 
@@ -217,7 +198,7 @@ export async function upvoteQuestion(params: VoteParams) {
   }
 }
 
-export async function downvoteQuestion(params: VoteParams) {
+export async function downvoteQuestion(params: QuestionVoteParams) {
   try {
     await connectToDB();
 
@@ -277,11 +258,6 @@ export async function getHotQuestions() {
   }
 }
 
-interface DeleteQuestionParams {
-  questionId: string;
-  path: string;
-}
-
 export async function deleteQuestion(params: DeleteQuestionParams) {
   try {
     await connectToDB();
@@ -308,14 +284,6 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
     console.error("Error deleting question:", error);
     throw error;
   }
-}
-
-interface EditQuestionParams {
-  questionId: string;
-  title: string;
-  content: string;
-  tags: string[];
-  path: string;
 }
 
 export async function editQuestion(params: EditQuestionParams) {

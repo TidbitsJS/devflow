@@ -7,15 +7,10 @@ import User from "@/mongodb/user.model";
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
 import Interaction from "@/mongodb/interaction.model";
-import console from "console";
 
-interface SearchParams {
-  query: string;
-  type?: string | null;
-}
+import { RecommendedParams, SearchParams } from "./shared.types";
 
 const SearchableTypes = ["question", "answer", "user", "tag"];
-
 export async function globalSearch(params: SearchParams) {
   try {
     await connectToDB();
@@ -91,12 +86,6 @@ export async function globalSearch(params: SearchParams) {
   }
 }
 
-interface RecommendedParams {
-  userId: string;
-  page?: number;
-  pageSize?: number;
-}
-
 export async function getRecommendedQuestions(params: RecommendedParams) {
   try {
     await connectToDB();
@@ -114,7 +103,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 
     // Find the user's interactions
     const userInteractions = await Interaction.find({ user: user._id })
-      .populate("tags") // Populate the associated tags
+      .populate("tags")
       .exec();
 
     // Extract tags from user's interactions

@@ -1,18 +1,19 @@
 "use server";
 
-import Interaction from "@/mongodb/interaction.model";
-import Question from "@/mongodb/question.model";
-import Tag, { ITag } from "@/mongodb/tag.model";
-import User from "@/mongodb/user.model";
 import { FilterQuery } from "mongoose";
+
 import { connectToDB } from "../mongoose";
 
-export interface GetAllTagsParams {
-  page?: number;
-  pageSize?: number;
-  filter?: string;
-  searchQuery?: string;
-}
+import User from "@/mongodb/user.model";
+import Tag, { ITag } from "@/mongodb/tag.model";
+import Question from "@/mongodb/question.model";
+import Interaction from "@/mongodb/interaction.model";
+
+import {
+  GetAllTagsParams,
+  GetQuestionsByTagIdParams,
+  GetTopInteractedTagsParams,
+} from "./shared.types";
 
 export async function getAllTags(params: GetAllTagsParams) {
   try {
@@ -70,18 +71,13 @@ export async function getAllTags(params: GetAllTagsParams) {
   }
 }
 
-interface GetQuestionsByTagIdParams {
-  tagId: string;
-  page?: number;
-  pageSize?: number;
-  searchQuery?: string;
-}
-
 export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
   try {
     await connectToDB();
 
     const { tagId, page = 1, pageSize = 10, searchQuery } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     // Create a filter for the tag by ID
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
@@ -94,7 +90,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
         ? { title: { $regex: searchQuery, $options: "i" } }
         : {},
       options: {
-        skip: (page - 1) * pageSize,
+        skip: skipAmount,
         limit: pageSize + 1, // Fetch one extra to determine if there is a next page
       },
       populate: [
@@ -144,11 +140,6 @@ export async function getTopPopularTags() {
     console.error("Error fetching top popular tags:", error);
     throw error;
   }
-}
-
-interface GetTopInteractedTagsParams {
-  userId: string;
-  limit?: number;
 }
 
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
