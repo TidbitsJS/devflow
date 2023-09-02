@@ -6,6 +6,8 @@ import Tag from "@/mongodb/tag.model";
 import User from "@/mongodb/user.model";
 import Answer from "@/mongodb/answer.model";
 import Question from "@/mongodb/question.model";
+import Interaction from "@/mongodb/interaction.model";
+import console from "console";
 
 interface SearchParams {
   query: string;
@@ -85,6 +87,58 @@ export async function globalSearch(params: SearchParams) {
     return JSON.stringify(results);
   } catch (error: any) {
     console.error("Error fetching search results:", error.message);
+    throw error;
+  }
+}
+
+interface RecommendedParams {
+  userId: string;
+}
+
+export async function getRecommendedQuestions(params: RecommendedParams) {
+  try {
+    await connectToDB();
+
+    const { userId } = params;
+
+    // find user
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error("user not found");
+    }
+
+    // Find the user's interactions
+    const userInteractions = await Interaction.find({ user: user._id })
+      .populate("tags") // Populate the associated tags
+      .exec();
+
+    // Extract tags from user's interactions
+    const userTags = userInteractions.reduce((tags, interaction) => {
+      if (interaction.tags) {
+        tags = tags.concat(interaction.tags);
+      }
+      return tags;
+    }, []);
+
+    // Get distinct tag IDs from user's interactions
+    const distinctUserTagIds = [
+      ...new Set(userTags.map((tag: any) => tag._id)),
+    ];
+
+    // Find questions with the same tags but not created by the user
+    const recommendedQuestions = await Question.find({
+      $and: [
+        { tags: { $in: distinctUserTagIds } }, // Questions with user's tags
+        { author: { $ne: user._id } }, // Exclude user's own questions
+      ],
+    })
+      .populate("tags")
+      .limit(10);
+
+    return recommendedQuestions;
+  } catch (error) {
+    console.error("Error getting recommended questions:", error);
     throw error;
   }
 }
