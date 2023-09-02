@@ -1,8 +1,7 @@
-import React from "react";
-
 import JobCard from "@/components/cards/JobCard";
 import JobsFilter from "@/components/jobs/JobsFilter";
 import Pagination from "@/components/shared/Pagination";
+
 import {
   fetchCountries,
   fetchJobs,
@@ -47,7 +46,7 @@ const Page = async ({ searchParams }: Props) => {
             return null;
           })
         ) : (
-          <div className='paragraph-regular w-full text-center text-light-700'>
+          <div className='paragraph-regular text-dl-28 w-full text-center'>
             Oops! We couldn&apos;t find any jobs at the moment. Please try again
             later
           </div>

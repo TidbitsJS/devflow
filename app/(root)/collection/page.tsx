@@ -1,16 +1,18 @@
-import QuestionCard from "@/components/cards/QuestionCard";
-import Filter from "@/components/shared/Filter";
-import Pagination from "@/components/shared/Pagination";
-import Searchbar from "@/components/shared/Searchbar";
-import { QuestionFilters } from "@/constants/filters";
-import { getSavedQuestions } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs";
 
-async function Home({
-  searchParams,
-}: {
+import Filter from "@/components/shared/Filter";
+import Searchbar from "@/components/shared/Searchbar";
+import Pagination from "@/components/shared/Pagination";
+import QuestionCard from "@/components/cards/QuestionCard";
+
+import { QuestionFilters } from "@/constants/filters";
+import { getSavedQuestions } from "@/lib/actions/user.action";
+
+interface Props {
   searchParams: { [key: string]: string | undefined };
-}) {
+}
+
+async function Home({ searchParams }: Props) {
   const { userId } = auth();
   if (!userId) return null;
 

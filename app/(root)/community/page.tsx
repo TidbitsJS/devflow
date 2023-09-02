@@ -1,17 +1,18 @@
-import UserCard from "@/components/cards/UserCard";
 import Filter from "@/components/shared/Filter";
-import Pagination from "@/components/shared/Pagination";
+import UserCard from "@/components/cards/UserCard";
 import Searchbar from "@/components/shared/Searchbar";
+import Pagination from "@/components/shared/Pagination";
+
 import { UserFilters } from "@/constants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
 
-interface Params {
+interface Props {
   searchParams: {
     [key: string]: string | undefined;
   };
 }
 
-const Page = async ({ searchParams }: Params) => {
+const Page = async ({ searchParams }: Props) => {
   const result = await getAllUsers({
     page: searchParams.page ? +searchParams.page : 1,
     filter: searchParams.filter,

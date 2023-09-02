@@ -6,19 +6,20 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import AnswerCard from "@/components/cards/AnswerCard";
 import Pagination from "@/components/shared/Pagination";
-import { formatNumber, getJoinedDate } from "@/lib/utils";
 import QuestionCard from "@/components/cards/QuestionCard";
-import { getTopInteractedTags } from "@/lib/actions/tag.action";
-import { getUserById, getUserStats } from "@/lib/actions/user.action";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const Page = async ({
-  params,
-  searchParams,
-}: {
+import { getJoinedDate } from "@/lib/utils";
+import { getTopInteractedTags } from "@/lib/actions/tag.action";
+import { getUserById, getUserStats } from "@/lib/actions/user.action";
+import Stats from "@/components/Profile/Stats";
+
+interface Props {
   params: { id: string };
   searchParams: { [key: string]: string | undefined };
-}) => {
+}
+
+const Page = async ({ params, searchParams }: Props) => {
   const { userId } = auth();
   if (!userId) return null;
 
@@ -124,66 +125,10 @@ const Page = async ({
       </div>
 
       {/* User Stats */}
-      <div className='mt-10'>
-        <h4 className='h3-semibold heading2-color'>Stats</h4>
-
-        <div className='mt-5 grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-4'>
-          <div className='light-border card-wrapper2 flex flex-wrap items-center justify-evenly gap-11 rounded-md border p-6 shadow-stat-card '>
-            <div>
-              <p className='paragraph-semibold heading2-color'>
-                {formatNumber(userStats.totalQuestions)}
-              </p>
-              <p className='body-medium body-color'>Questions</p>
-            </div>
-
-            <div>
-              <p className='paragraph-semibold heading2-color'>
-                {formatNumber(userStats.totalAnswers)}
-              </p>
-              <p className='body-medium body-color'>Answers</p>
-            </div>
-          </div>
-
-          <div className='light-border card-wrapper2 flex flex-wrap items-center justify-start gap-4 rounded-md border p-6 shadow-stat-card'>
-            <Image
-              src='/assets/icons/gold-medal.svg'
-              alt='gold medal icon'
-              width={40}
-              height={50}
-            />
-            <div>
-              <p className='paragraph-semibold heading2-color'>50</p>
-              <p className='body-medium body-color'>Gold Badges</p>
-            </div>
-          </div>
-
-          <div className='light-border card-wrapper2 flex flex-wrap items-center justify-start gap-4 rounded-md border p-6 shadow-stat-card'>
-            <Image
-              src='/assets/icons/silver-medal.svg'
-              alt='silver medal icon'
-              width={40}
-              height={50}
-            />
-            <div>
-              <p className='paragraph-semibold heading2-color'>50</p>
-              <p className='body-medium body-color'>Silver Badges</p>
-            </div>
-          </div>
-
-          <div className='light-border card-wrapper2 flex flex-wrap items-center justify-start gap-4 rounded-md border p-6 shadow-stat-card'>
-            <Image
-              src='/assets/icons/bronze-medal.svg'
-              alt='bronze medal icon'
-              width={40}
-              height={50}
-            />
-            <div>
-              <p className='paragraph-semibold heading2-color'>80</p>
-              <p className='body-medium body-color'>Bronze Badges</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Stats
+        totalQuestions={userStats.totalQuestions}
+        totalAnswers={userStats.totalAnswers}
+      />
 
       <div className='mt-10 flex gap-10'>
         <Tabs defaultValue='top-posts' className='flex-1'>
