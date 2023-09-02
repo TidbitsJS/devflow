@@ -77,7 +77,7 @@ const QuestionCard = ({
 
           <p className='body-medium body-color'>
             {author.name}
-            <span className='small-regular'>
+            <span className='small-regular ml-0.5'>
               • asked {getTimeStamp(createdAt)}
             </span>
           </p>

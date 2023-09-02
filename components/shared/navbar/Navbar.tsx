@@ -1,7 +1,6 @@
-import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
-
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 import Theme from "./Theme";
 import MobileNav from "./MobileNav";
@@ -23,13 +22,6 @@ const Navbar = () => {
         </p>
       </Link>
 
-      {/* <Searchbar
-        route='/'
-        iconPosition='left'
-        imgSrc='/assets/icons/search.svg'
-        placeholder='Search for Questions Here...'
-        otherClasses='max-lg:hidden max-w-[600px]'
-      /> */}
       <GlobalSearch />
 
       <div className='flex-between gap-5'>

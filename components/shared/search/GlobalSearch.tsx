@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
-import { Input } from "@/components/ui/input";
+import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import { formUrlQuery } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import GlobalResult from "./GlobalResult";
 
 const GlobalSearch = () => {
@@ -16,29 +16,50 @@ const GlobalSearch = () => {
   const query = searchParams.get("global");
 
   const [search, setSearch] = useState(query || "");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(query || false);
+  const searchContainerRef = useRef(null);
 
-  // query after 0.3s of no input
-  //   useEffect(() => {
-  //     const delayDebounceFn = setTimeout(() => {
-  //       if (search) {
-  //         const newUrl = formUrlQuery({
-  //           params: searchParams.toString(),
-  //           key: "gloabl",
-  //           value: search,
-  //         });
+  useEffect(() => {
+    const handleOutsideClick = (event: any) => {
+      if (
+        searchContainerRef.current &&
+        // @ts-ignore
+        !searchContainerRef.current?.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
 
-  //         router.push(newUrl, { scroll: false });
-  //       } else {
-  //         // do something
-  //       }
-  //     }, 300);
+    document.addEventListener("click", handleOutsideClick);
 
-  //     return () => clearTimeout(delayDebounceFn);
-  //   }, [search, pathname, router, searchParams, query]);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (search) {
+        const newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "global",
+          value: search,
+        });
+
+        router.push(newUrl, { scroll: false });
+      } else {
+        router.push(pathname, { scroll: false });
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search, pathname, router, searchParams, query]);
 
   return (
-    <div className='relative w-full max-w-[600px] max-lg:hidden'>
+    <div
+      className='relative w-full max-w-[600px] max-lg:hidden'
+      ref={searchContainerRef}
+    >
       <div className='search-background-shade relative flex min-h-[56px] grow items-center gap-1 rounded-xl px-4'>
         <Image
           src='/assets/icons/search.svg'
