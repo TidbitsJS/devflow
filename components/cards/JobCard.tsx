@@ -1,13 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
-import { Job } from "@/types";
 import { processJobTitle } from "@/lib/utils";
 
+import { Job } from "@/types";
+
 interface JobLocationProps {
-  job_country: string | undefined;
-  job_city: string | undefined;
-  job_state: string | undefined;
+  job_country?: string;
+  job_city?: string;
+  job_state?: string;
 }
 
 const JobLocation = ({
@@ -34,11 +35,7 @@ const JobLocation = ({
   );
 };
 
-type JobCardProps = {
-  job: Job;
-};
-
-const JobCard = ({ job }: JobCardProps) => {
+const JobCard = ({ job }: { job: Job }) => {
   const {
     employer_logo,
     employer_website,
@@ -50,8 +47,6 @@ const JobCard = ({ job }: JobCardProps) => {
     job_state,
     job_country,
   } = job;
-
-  console.log(job_title);
 
   return (
     <section className='common-background-shade light-border flex flex-col items-start gap-6 rounded-lg border p-6 sm:flex-row sm:p-8'>

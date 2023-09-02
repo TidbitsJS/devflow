@@ -2,12 +2,12 @@
 
 import * as z from "zod";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { usePathname, useRouter } from "next/navigation";
 import { Editor } from "@tinymce/tinymce-react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   Form,
@@ -18,12 +18,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Badge } from "../ui/badge";
+import { toast } from "../ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "../ui/badge";
-import { createQuestion, editQuestion } from "@/lib/actions/question.action";
-import { toast } from "../ui/use-toast";
+
 import { QuestionSchema } from "@/lib/validations";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 
 interface Props {
   type?: string;

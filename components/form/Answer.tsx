@@ -3,11 +3,12 @@
 import { z } from "zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import React, { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Editor } from "@tinymce/tinymce-react";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useRef, useState } from "react";
 
-import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -15,11 +16,11 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { createAnswer } from "@/lib/actions/answer.action";
-import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+
 import { AnswerSchema } from "@/lib/validations";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { createAnswer } from "@/lib/actions/answer.action";
 
 interface Props {
   question: string;

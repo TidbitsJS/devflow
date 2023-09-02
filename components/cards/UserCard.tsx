@@ -1,9 +1,11 @@
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 
 import { Badge } from "../ui/badge";
+import RenderTag from "../shared/RenderTag";
+
 import { getTopInteractedTags } from "@/lib/actions/tag.action";
-import Link from "next/link";
 
 interface Props {
   item: {
@@ -43,11 +45,7 @@ const UserCard = async ({ item }: Props) => {
         <div className='mt-5 flex flex-wrap gap-2'>
           {interactedTags.length > 0 ? (
             interactedTags.map((tag) => (
-              <Link key={tag._id} href={`/tags/${tag._id}`}>
-                <Badge className='subtle-medium tag-background-shade tag-color border-none px-4 py-2 uppercase'>
-                  {tag.name}
-                </Badge>
-              </Link>
+              <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
             ))
           ) : (
             <Badge className='subtle-medium tag-background-shade tag-color border-none px-4 py-2 uppercase'>

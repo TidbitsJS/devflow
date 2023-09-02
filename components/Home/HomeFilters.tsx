@@ -1,11 +1,11 @@
 "use client";
 
-import { formUrlQuery } from "@/lib/utils";
-import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { useSearchParams, useRouter } from "next/navigation";
 
-const filters = ["newest", "recommended", "frequent", "unanswered"];
+import { Button } from "../ui/button";
+import { formUrlQuery } from "@/lib/utils";
+import { HomePageFilters } from "@/constants/filters";
 
 const HomeFilters = () => {
   const router = useRouter();
@@ -43,17 +43,17 @@ const HomeFilters = () => {
 
   return (
     <div className='mt-10 flex flex-wrap gap-3'>
-      {filters.map((item) => (
+      {HomePageFilters.map((item) => (
         <Button
-          key={item}
+          key={item.value}
           className={`body-medium rounded-lg px-6 py-3 capitalize shadow-none ${
-            active === item
+            active === item.value
               ? "bg-primary-100 text-primary-500 hover:bg-primary-100 dark:bg-dark-400 dark:text-primary-500 dark:hover:bg-dark-400"
               : "bg-light-800 text-light-500 hover:bg-light-800 dark:bg-dark-300 dark:text-light-500 dark:hover:bg-dark-300"
           }`}
-          onClick={() => handleTypeClick(item)}
+          onClick={() => handleTypeClick(item.value)}
         >
-          {item}
+          {item.name}
         </Button>
       ))}
     </div>

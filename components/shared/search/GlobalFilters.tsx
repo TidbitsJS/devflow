@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import { formUrlQuery } from "@/lib/utils";
-
-const filters = ["question", "answer", "user", "tag"];
+import { GlobalSearchFilters } from "@/constants/filters";
 
 const GlobalFilters = () => {
   const router = useRouter();
@@ -45,18 +44,18 @@ const GlobalFilters = () => {
     <div className='flex items-center gap-5 px-5'>
       <p className='subtle-color body-medium'>Type:</p>
       <div className='flex gap-3'>
-        {filters.map((item) => (
+        {GlobalSearchFilters.map((item) => (
           <button
             type='button'
-            key={item}
+            key={item.value}
             className={`light-border-2 small-medium rounded-2xl px-5 py-2 capitalize ${
-              active === item
+              active === item.value
                 ? "bg-primary-500 text-light-900"
                 : "bg-light-700 text-dark-400 hover:text-primary-500 dark:bg-dark-500 dark:text-light-800 dark:hover:text-primary-500"
             }`}
-            onClick={() => handleTypeClick(item)}
+            onClick={() => handleTypeClick(item.value)}
           >
-            {item}
+            {item.name}
           </button>
         ))}
       </div>

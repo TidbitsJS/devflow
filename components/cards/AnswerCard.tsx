@@ -1,9 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import { SignedIn } from "@clerk/nextjs";
 
-import { formatNumber, getTimeStamp } from "@/lib/utils";
+import { Metric } from "../shared/Generic";
 import EditDeleteAction from "../shared/EditDeleteAction";
+
+import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 interface Props {
   clerkId?: string;
@@ -50,7 +51,7 @@ const AnswerCard = ({
       </div>
 
       <div className='flex-between mt-6 w-full flex-wrap gap-3'>
-        <Link href={`/profile/${author.clerkId}`} className='flex-center gap-1'>
+        {/* <Link href={`/profile/${author.clerkId}`} className='flex-center gap-1'>
           <Image
             src={author.picture}
             className='rounded-full'
@@ -65,10 +66,26 @@ const AnswerCard = ({
               • asked {getTimeStamp(createdAt)}
             </span>
           </p>
-        </Link>
+        </Link> */}
+
+        <Metric
+          imgUrl={author.picture}
+          alt='user avatar'
+          value={author.name}
+          title={` • asked ${getTimeStamp(createdAt)}`}
+          href={`/profile/${author.clerkId}`}
+          textStyles='body-medium body-color'
+        />
 
         <div className='flex-center gap-3'>
-          <div className='flex-center gap-1'>
+          <Metric
+            imgUrl='/assets/icons/like.svg'
+            alt='like icon'
+            value={formatNumber(upvotes)}
+            title=' Votes'
+            textStyles='small-medium small-color'
+          />
+          {/* <div className='flex-center gap-1'>
             <Image
               src='/assets/icons/like.svg'
               width={16}
@@ -80,7 +97,7 @@ const AnswerCard = ({
               {formatNumber(upvotes)}
               <span className='small-regular'> Votes</span>
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </Link>

@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs";
 
 import Answer from "@/components/form/Answer";
 import Votes from "@/components/shared/Votes";
+import { Metric } from "@/components/shared/Generic";
 import RenderTag from "@/components/shared/RenderTag";
 import ParseHTML from "@/components/shared/ParseHTML";
 import AllAnswers from "@/components/Answer/AllAnswers";
@@ -60,7 +61,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
       </div>
 
       <div className='mb-8 mt-5 flex flex-wrap gap-4'>
-        <div className='flex-center gap-1'>
+        {/* <div className='flex-center gap-1'>
           <Image
             src='/assets/icons/clock.svg'
             className='rounded-full'
@@ -72,9 +73,17 @@ const Page = async ({ params, searchParams }: URLProps) => {
           <p className='small-regular body-color'>
             asked {getTimeStamp(result.createdAt)}
           </p>
-        </div>
+        </div> */}
 
-        <div className='flex-center gap-1'>
+        <Metric
+          imgUrl='/assets/icons/clock.svg'
+          alt='clock icon'
+          value={` asked ${getTimeStamp(result.createdAt)}`}
+          title=' Votes'
+          textStyles='small-regular body-color'
+        />
+
+        {/* <div className='flex-center gap-1'>
           <Image
             src='/assets/icons/message.svg'
             width={18}
@@ -86,9 +95,16 @@ const Page = async ({ params, searchParams }: URLProps) => {
             {result.answers.length}
             <span className='font-normal'> Answers</span>
           </p>
-        </div>
+        </div> */}
+        <Metric
+          imgUrl='/assets/icons/message.svg'
+          alt='message icon'
+          value={result.answers.length}
+          title=' Answers'
+          textStyles='small-medium body-color'
+        />
 
-        <div className='flex-center gap-1'>
+        {/* <div className='flex-center gap-1'>
           <Image
             src='/assets/icons/eye.svg'
             width={18}
@@ -100,7 +116,15 @@ const Page = async ({ params, searchParams }: URLProps) => {
             {formatNumber(result.views)}
             <span className='font-normal'> Views</span>
           </p>
-        </div>
+        </div> */}
+
+        <Metric
+          imgUrl='/assets/icons/eye.svg'
+          alt='eye icon'
+          value={formatNumber(result.views)}
+          title=' Views'
+          textStyles='small-medium body-color'
+        />
       </div>
 
       <ParseHTML data={result.content} />

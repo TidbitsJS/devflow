@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import { SignedIn } from "@clerk/nextjs";
 
-import { Badge } from "../ui/badge";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
+import { Metric } from "../shared/Generic";
+import RenderTag from "../shared/RenderTag";
 import EditDeleteAction from "../shared/EditDeleteAction";
 
 export interface QuestionProps {
@@ -58,16 +58,12 @@ const QuestionCard = ({
 
       <div className='mt-3.5 flex flex-wrap gap-2'>
         {tags.map((tag) => (
-          <Link href={`/tags/${tag._id}`} key={tag._id}>
-            <Badge className='subtle-medium tag-background-shade tag-color border-none px-4 py-2 uppercase'>
-              {tag.name}
-            </Badge>
-          </Link>
+          <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
         ))}
       </div>
 
       <div className='flex-between mt-6 w-full flex-wrap gap-3'>
-        <Link href={`/profile/${author.clerkId}`} className='flex-center gap-1'>
+        {/* <Link href={`/profile/${author.clerkId}`} className='flex-center gap-1'>
           <Image
             src={author.picture}
             className='rounded-full'
@@ -82,10 +78,19 @@ const QuestionCard = ({
               • asked {getTimeStamp(createdAt)}
             </span>
           </p>
-        </Link>
+        </Link> */}
+
+        <Metric
+          imgUrl={author.picture}
+          alt='user avatar'
+          value={author.name}
+          title={` • asked ${getTimeStamp(createdAt)}`}
+          href={`/profile/${author.clerkId}`}
+          textStyles='body-medium body-color'
+        />
 
         <div className='flex-center gap-3'>
-          <div className='flex-center gap-1'>
+          {/* <div className='flex-center gap-1'>
             <Image
               src='/assets/icons/like.svg'
               width={16}
@@ -97,9 +102,17 @@ const QuestionCard = ({
               {formatNumber(upvotes)}
               <span className='small-regular'> Votes</span>
             </p>
-          </div>
+          </div> */}
 
-          <div className='flex-center gap-1'>
+          <Metric
+            imgUrl='/assets/icons/like.svg'
+            alt='like icon'
+            value={formatNumber(upvotes)}
+            title=' Votes'
+            textStyles='small-medium small-color'
+          />
+
+          {/* <div className='flex-center gap-1'>
             <Image
               src='/assets/icons/message.svg'
               width={16}
@@ -111,9 +124,17 @@ const QuestionCard = ({
               {formatNumber(answers.length)}
               <span className='small-regular'> Answers</span>
             </p>
-          </div>
+          </div> */}
 
-          <div className='flex-center gap-1'>
+          <Metric
+            imgUrl='/assets/icons/message.svg'
+            alt='message icon'
+            value={formatNumber(answers.length)}
+            title=' Answers'
+            textStyles='small-medium small-color'
+          />
+
+          {/* <div className='flex-center gap-1'>
             <Image
               src='/assets/icons/eye.svg'
               width={16}
@@ -125,7 +146,15 @@ const QuestionCard = ({
               {formatNumber(views)}
               <span className='small-regular'> Views</span>
             </p>
-          </div>
+          </div> */}
+
+          <Metric
+            imgUrl='/assets/icons/eye.svg'
+            alt='eye icon'
+            value={formatNumber(views)}
+            title=' Views'
+            textStyles='small-medium small-color'
+          />
         </div>
       </div>
     </div>

@@ -1,10 +1,12 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,14 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "../ui/textarea";
-import { updateUser } from "@/lib/actions/user.action";
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+
 import { ProfileSchema } from "@/lib/validations";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { updateUser } from "@/lib/actions/user.action";
 
 interface Params {
   clerkId: string;
