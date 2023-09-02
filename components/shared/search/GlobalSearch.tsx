@@ -49,7 +49,7 @@ const GlobalSearch = () => {
 
         router.push(newUrl, { scroll: false });
       } else {
-        router.push(pathname, { scroll: false });
+        // router.push(pathname, { scroll: false });
       }
     }, 300);
 
