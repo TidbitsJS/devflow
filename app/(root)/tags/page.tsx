@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import Filter from "@/components/shared/Filter";
+import NoResult from "@/components/shared/NoResult";
 import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 
@@ -36,31 +37,37 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
       </div>
 
       <section className='mt-12 flex flex-wrap gap-4'>
-        {result.tags.map((tag) => (
-          <article
-            key={tag._id}
-            className='common-background-shade light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]'
-          >
-            <Link href={`/tags/${tag._id}`}>
-              <div className='job-tag-background-shade w-fit rounded-sm px-5 py-1.5'>
-                <p className='paragraph-semibold base-color'>{tag.name}</p>
-              </div>
+        {result.tags.length > 0 ? (
+          result.tags.map((tag) => (
+            <Link href={`/tags/${tag._id}`} key={tag._id}>
+              <article className='common-background-shade light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]'>
+                <div className='job-tag-background-shade w-fit rounded-sm px-5 py-1.5'>
+                  <p className='paragraph-semibold base-color'>{tag.name}</p>
+                </div>
+
+                <p className='small-regular small2-color mt-4'>
+                  JavaScript, often abbreviated as JS, is a programming language
+                  that is one of the core technologies of the World Wide Web,
+                  alongside HTML and CSS
+                </p>
+
+                <p className='small-medium small5-color mt-3.5'>
+                  <span className='body-semibold primary-text-gradient mr-2.5'>
+                    {tag.questions.length}+
+                  </span>
+                  Questions
+                </p>
+              </article>
             </Link>
-
-            <p className='small-regular small2-color mt-4'>
-              JavaScript, often abbreviated as JS, is a programming language
-              that is one of the core technologies of the World Wide Web,
-              alongside HTML and CSS
-            </p>
-
-            <p className='small-medium small5-color mt-3.5'>
-              <span className='body-semibold primary-text-gradient mr-2.5'>
-                {tag.questions.length}+
-              </span>
-              Questions
-            </p>
-          </article>
-        ))}
+          ))
+        ) : (
+          <NoResult
+            title='No Tags Found'
+            description='It looks like there are no tags available at the moment. 😕 Be a trendsetter by asking a question and creating a tag that best represents your topic of interest. 🚀 '
+            link='/ask-question'
+            linkTitle='Ask a Question'
+          />
+        )}
       </section>
 
       <div className='mt-10'>

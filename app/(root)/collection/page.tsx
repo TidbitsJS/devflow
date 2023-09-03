@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 
 import Filter from "@/components/shared/Filter";
+import NoResult from "@/components/shared/NoResult";
 import Pagination from "@/components/shared/Pagination";
 import QuestionCard from "@/components/cards/QuestionCard";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
@@ -41,19 +42,28 @@ async function Home({ searchParams }: SearchParamsProps) {
       </div>
 
       <div className='mt-10 flex w-full flex-col gap-6'>
-        {result.questions.map((item: any) => (
-          <QuestionCard
-            key={item._id}
-            _id={item._id}
-            title={item.title}
-            tags={item.tags}
-            author={item.author}
-            upvotes={item.upvotes.length}
-            views={item.views}
-            answers={item.answers}
-            createdAt={item.createdAt}
+        {result.questions.length > 0 ? (
+          result.questions.map((item: any) => (
+            <QuestionCard
+              key={item._id}
+              _id={item._id}
+              title={item.title}
+              tags={item.tags}
+              author={item.author}
+              upvotes={item.upvotes.length}
+              views={item.views}
+              answers={item.answers}
+              createdAt={item.createdAt}
+            />
+          ))
+        ) : (
+          <NoResult
+            title='No Saved Questions Found'
+            description='It appears that there are no saved questions in your collection at the moment 😔.Start exploring and saving questions that pique your interest 🌟'
+            link='/'
+            linkTitle='Explore Questions'
           />
-        ))}
+        )}
       </div>
 
       <div className='mt-10'>

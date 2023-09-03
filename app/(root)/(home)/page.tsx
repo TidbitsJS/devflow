@@ -2,8 +2,9 @@ import Link from "next/link";
 import { auth } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
-import Pagination from "@/components/shared/Pagination";
+import NoResult from "@/components/shared/NoResult";
 import HomeFilters from "@/components/Home/HomeFilters";
+import Pagination from "@/components/shared/Pagination";
 import QuestionCard from "@/components/cards/QuestionCard";
 
 import { getQuestions } from "@/lib/actions/question.action";
@@ -43,19 +44,28 @@ async function Home({ searchParams }: SearchParamsProps) {
       <HomeFilters />
 
       <div className='mt-10 flex w-full flex-col gap-6'>
-        {result.questions.map((item: any) => (
-          <QuestionCard
-            key={item._id}
-            _id={item._id}
-            title={item.title}
-            tags={item.tags}
-            author={item.author}
-            upvotes={item.upvotes.length}
-            views={item.views}
-            answers={item.answers}
-            createdAt={item.createdAt}
+        {result.questions.length > 0 ? (
+          result.questions.map((item: any) => (
+            <QuestionCard
+              key={item._id}
+              _id={item._id}
+              title={item.title}
+              tags={item.tags}
+              author={item.author}
+              upvotes={item.upvotes.length}
+              views={item.views}
+              answers={item.answers}
+              createdAt={item.createdAt}
+            />
+          ))
+        ) : (
+          <NoResult
+            title='There are no question to show'
+            description='Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡'
+            link='/ask-question'
+            linkTitle='Ask a Question'
           />
-        ))}
+        )}
       </div>
 
       <div className='mt-10'>

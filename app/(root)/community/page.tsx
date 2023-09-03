@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Filter from "@/components/shared/Filter";
 import UserCard from "@/components/cards/UserCard";
 import Pagination from "@/components/shared/Pagination";
@@ -35,10 +37,19 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
       </div>
 
       <section className='mt-12 flex flex-wrap gap-4'>
-        {result.users.map((item) => (
-          // @ts-ignore
-          <UserCard key={item._id} item={item} />
-        ))}
+        {result.users.length > 0 ? (
+          result.users.map((item) => (
+            // @ts-ignore
+            <UserCard key={item._id} item={item} />
+          ))
+        ) : (
+          <div className='paragraph-regular text-dl-28 mx-auto max-w-4xl text-center'>
+            <p>No users yet.</p>
+            <Link href='/sign-up' className='mt-1 font-bold text-accent-blue'>
+              Join Now to be the First 🚀
+            </Link>
+          </div>
+        )}
       </section>
 
       <div className='mt-10'>
