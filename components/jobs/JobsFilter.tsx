@@ -36,7 +36,7 @@ const JobsFilter = ({ countriesList }: JobsFilterProps) => {
   };
 
   return (
-    <div className='relative mt-11 flex w-full gap-5 sm:items-center'>
+    <div className='relative mt-11 flex w-full flex-wrap items-center justify-between gap-5 sm:items-center'>
       <LocalSearchbar
         route={pathname}
         iconPosition='left'

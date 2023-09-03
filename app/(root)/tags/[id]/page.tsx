@@ -18,7 +18,7 @@ async function Page({ params, searchParams }: URLProps) {
     <>
       <h1 className='h1-bold heading1-color'>{result.tagTitle}</h1>
 
-      <div className='mt-11 flex flex-wrap items-center justify-between gap-5'>
+      <div className='mt-11 w-full'>
         <LocalSearchbar
           route={`/tags/${params.id}`}
           iconPosition='left'

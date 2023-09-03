@@ -5,7 +5,7 @@ const Loading = () => {
     <section>
       <h1 className='h1-bold heading1-color'>Tags</h1>
 
-      <div className='mb-12 mt-11 flex flex-wrap gap-5'>
+      <div className='mb-12 mt-11 flex flex-wrap items-center justify-between gap-5'>
         <Skeleton className='h-14 flex-1' />
         <Skeleton className='h-14 w-28' />
       </div>
