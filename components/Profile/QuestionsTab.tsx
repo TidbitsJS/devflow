@@ -6,7 +6,7 @@ import { getUserQuestions } from "@/lib/actions/user.action";
 
 export interface Props extends SearchParamsProps {
   userId: string;
-  clerkId: string;
+  clerkId?: string | null;
 }
 
 const QuestionsTab = async ({ searchParams, userId, clerkId }: Props) => {

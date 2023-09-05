@@ -45,6 +45,12 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   });
 
   const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
+    if (!authorId)
+      return toast({
+        title: "Please log in",
+        description: "You must logged in to post an Answer",
+      });
+
     setSubmitting(true);
 
     try {
@@ -76,6 +82,12 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   };
 
   const generateAIAnswer = async () => {
+    if (!authorId)
+      return toast({
+        title: "Please log in",
+        description: "You must logged in to generate an AI Answer",
+      });
+
     setAiSubmitting(true);
 
     try {

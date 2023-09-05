@@ -39,15 +39,23 @@ const Votes = ({
   const router = useRouter();
 
   useEffect(() => {
-    viewQuestion({
-      questionId: JSON.parse(itemId),
-      userId: JSON.parse(userId),
-    });
+    if (userId) {
+      viewQuestion({
+        questionId: JSON.parse(itemId),
+        userId: JSON.parse(userId),
+      });
+    }
 
     router.refresh();
   }, [itemId, userId, pathname, router]);
 
   const handleVote = async (action: string) => {
+    if (!userId)
+      return toast({
+        title: "Please log in",
+        description: "You must be logged in to perform this action",
+      });
+
     if (action === "upvote") {
       if (type === "Question") {
         await upvoteQuestion({
@@ -100,6 +108,12 @@ const Votes = ({
   };
 
   const handleSave = async () => {
+    if (!userId)
+      return toast({
+        title: "Please log in",
+        description: "You must be logged in to perform this action",
+      });
+
     await toggleSaveQuestion({
       userId: JSON.parse(userId),
       questionId: JSON.parse(itemId),

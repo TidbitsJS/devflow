@@ -8,7 +8,7 @@ import EditDeleteAction from "../shared/EditDeleteAction";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 export interface QuestionProps {
-  clerkId?: string;
+  clerkId?: string | null;
   _id: string;
   title: string;
   tags: {

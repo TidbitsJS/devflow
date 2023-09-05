@@ -7,7 +7,7 @@ import EditDeleteAction from "../shared/EditDeleteAction";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 interface Props {
-  clerkId?: string;
+  clerkId?: string | null;
   _id: string;
   question: {
     _id: string;

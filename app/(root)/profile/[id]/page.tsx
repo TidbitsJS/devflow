@@ -18,7 +18,6 @@ import { URLProps } from "@/types";
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
-  if (!clerkId) return null;
 
   const userInfo = await getUserInfo({ userId: params.id });
   if (!userInfo.user) return null;
