@@ -204,3 +204,20 @@ export function assignBadges(params: BadgeParam) {
 
   return badgeCounts;
 }
+
+interface TruncateParams {
+  name: string;
+  total: number;
+}
+
+export const truncateTag = ({ name, total }: TruncateParams) => {
+  if (total >= 2) {
+    if (name.length > 4) {
+      return `${name.slice(0, 4)}..`;
+    } else {
+      return name;
+    }
+  } else {
+    return name;
+  }
+};

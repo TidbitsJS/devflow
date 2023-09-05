@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Badge } from "../ui/badge";
 import RenderTag from "../shared/RenderTag";
 
+import { truncateTag } from "@/lib/utils";
 import { getTopInteractedTags } from "@/lib/actions/tag.action";
 
 interface Props {
@@ -49,9 +50,10 @@ const UserCard = async ({ item }: Props) => {
                 <RenderTag
                   key={tag._id}
                   _id={tag._id}
-                  name={
-                    tag.name.length > 4 ? `${tag.name.slice(0, 4)}..` : tag.name
-                  }
+                  name={truncateTag({
+                    name: tag.name,
+                    total: interactedTags.length,
+                  })}
                 />
               ))}
             </div>
