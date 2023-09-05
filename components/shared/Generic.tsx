@@ -30,7 +30,7 @@ export const Metric = ({
         className={`object-contain ${href ? "rounded-full" : ""}`}
       />
 
-      <p className={`${textStyles} flex gap-1 max-sm:items-center`}>
+      <p className={`${textStyles} flex items-center gap-1`}>
         {value}
         <span className='small-regular line-clamp-1'> {title}</span>
       </p>
