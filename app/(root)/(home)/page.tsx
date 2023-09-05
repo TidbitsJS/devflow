@@ -11,6 +11,9 @@ import { getQuestions } from "@/lib/actions/question.action";
 import { getRecommendedQuestions } from "@/lib/actions/general.action";
 
 import { SearchParamsProps } from "@/types";
+import { HomePageFilters } from "@/constants/filters";
+import Filter from "@/components/shared/Filter";
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 
 async function Home({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
@@ -39,6 +42,23 @@ async function Home({ searchParams }: SearchParamsProps) {
             Ask a Question
           </Button>
         </Link>
+      </div>
+
+      <div className='mt-11 flex flex-wrap items-center justify-between gap-5'>
+        <LocalSearchbar
+          route='/'
+          iconPosition='left'
+          imgSrc='/assets/icons/search.svg'
+          placeholder='Search questions...'
+          otherClasses=''
+        />
+
+        <div className='hidden max-md:flex'>
+          <Filter
+            filters={HomePageFilters}
+            otherClasses='min-h-[56px] min-w-[170px]'
+          />
+        </div>
       </div>
 
       <HomeFilters />
