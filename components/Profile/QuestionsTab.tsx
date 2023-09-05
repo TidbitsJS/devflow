@@ -6,9 +6,10 @@ import { getUserQuestions } from "@/lib/actions/user.action";
 
 export interface Props extends SearchParamsProps {
   userId: string;
+  clerkId: string;
 }
 
-const QuestionsTab = async ({ searchParams, userId }: Props) => {
+const QuestionsTab = async ({ searchParams, userId, clerkId }: Props) => {
   const result = await getUserQuestions({
     userId,
     page: searchParams.page ? +searchParams.page : 1,
@@ -19,7 +20,7 @@ const QuestionsTab = async ({ searchParams, userId }: Props) => {
       {result.questions.map((item) => (
         <QuestionCard
           key={item._id}
-          clerkId={userId}
+          clerkId={clerkId}
           _id={item._id}
           title={item.title}
           tags={item.tags}

@@ -350,15 +350,15 @@ export async function getUserInfo(params: GetUserByIdParams) {
       },
       {
         type: "QUESTION_UPVOTES" as BadgeCriteriaType,
-        count: questionUpvotes.totalUpvotes,
+        count: questionUpvotes?.totalUpvotes || 0,
       },
       {
         type: "ANSWER_UPVOTES" as BadgeCriteriaType,
-        count: answerUpvotes.totalUpvotes,
+        count: answerUpvotes?.totalUpvotes || 0,
       },
       {
         type: "TOTAL_VIEWS" as BadgeCriteriaType,
-        count: questionViews.totalViews,
+        count: questionViews?.totalViews || 0,
       },
     ];
 

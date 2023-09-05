@@ -12,6 +12,7 @@ import { formatNumber } from "@/lib/utils";
 import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { viewQuestion } from "@/lib/actions/interaction.action";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
+import { toast } from "../ui/use-toast";
 
 interface Params {
   type: string;
@@ -49,7 +50,7 @@ const Votes = ({
   const handleVote = async (action: string) => {
     if (action === "upvote") {
       if (type === "Question") {
-        return await upvoteQuestion({
+        await upvoteQuestion({
           questionId: JSON.parse(itemId),
           userId: JSON.parse(userId),
           hasupVoted,
@@ -57,7 +58,7 @@ const Votes = ({
           path: pathname,
         });
       } else if (type === "Answer") {
-        return await upvoteAnswer({
+        await upvoteAnswer({
           answerId: JSON.parse(itemId),
           userId: JSON.parse(userId),
           hasupVoted,
@@ -65,11 +66,16 @@ const Votes = ({
           path: pathname,
         });
       }
+
+      return toast({
+        title: `Upvote ${!hasupVoted ? "Successful" : "Removed"}`,
+        variant: !hasupVoted ? "default" : "destructive",
+      });
     }
 
     if (action === "downvote") {
       if (type === "Question") {
-        return await downvoteQuestion({
+        await downvoteQuestion({
           questionId: JSON.parse(itemId),
           userId: JSON.parse(userId),
           hasupVoted,
@@ -77,7 +83,7 @@ const Votes = ({
           path: pathname,
         });
       } else if (type === "Answer") {
-        return await downvoteAnswer({
+        await downvoteAnswer({
           answerId: JSON.parse(itemId),
           userId: JSON.parse(userId),
           hasupVoted,
@@ -85,6 +91,11 @@ const Votes = ({
           path: pathname,
         });
       }
+
+      return toast({
+        title: `Downvote ${!hasdownVoted ? "Successful" : "Removed"}`,
+        variant: !hasdownVoted ? "default" : "destructive",
+      });
     }
   };
 
@@ -93,6 +104,13 @@ const Votes = ({
       userId: JSON.parse(userId),
       questionId: JSON.parse(itemId),
       path: pathname,
+    });
+
+    return toast({
+      title: `Question ${
+        !hasSaved ? "Saved in" : "Removed from"
+      } your collection`,
+      variant: !hasSaved ? "default" : "destructive",
     });
   };
 

@@ -213,7 +213,7 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
     await Answer.deleteOne({ _id: answerId });
 
     // Remove the answer reference from its question
-    await Question.updateOne(
+    await Question.updateMany(
       { _id: answer.question },
       { $pull: { answers: answerId } }
     );

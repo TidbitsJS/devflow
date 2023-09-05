@@ -34,6 +34,7 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
 
       toast({
         title: "Answer Deleted",
+        variant: "destructive",
         description: "Your answer has been successfully deleted.",
       });
     }

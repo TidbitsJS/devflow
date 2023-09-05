@@ -17,8 +17,8 @@ import { getTopInteractedTags } from "@/lib/actions/tag.action";
 import { URLProps } from "@/types";
 
 const Page = async ({ params, searchParams }: URLProps) => {
-  const { userId } = auth();
-  if (!userId) return null;
+  const { userId: clerkId } = auth();
+  if (!clerkId) return null;
 
   const userInfo = await getUserInfo({ userId: params.id });
   if (!userInfo.user) return null;
@@ -78,7 +78,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
         <div className='flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3'>
           <SignedIn>
-            {userId === userInfo.user.clerkId && (
+            {clerkId === userInfo.user.clerkId && (
               <Link href='/profile/edit'>
                 <Button className='paragraph-medium  btn-secondary base-color min-h-[46px] min-w-[175px] px-4 py-3'>
                   Edit Profile
@@ -114,6 +114,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             <QuestionsTab
               searchParams={searchParams}
               userId={userInfo.user._id}
+              clerkId={clerkId}
             />
           </TabsContent>
 
@@ -122,6 +123,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             <AnswersTab
               searchParams={searchParams}
               userId={userInfo.user._id}
+              clerkId={clerkId}
             />
           </TabsContent>
         </Tabs>
