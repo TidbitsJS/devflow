@@ -42,11 +42,19 @@ const UserCard = async ({ item }: Props) => {
           <p className='body-regular body3-color mt-2'>@{item.username}</p>
         </div>
 
-        <div className='mt-5 flex flex-wrap gap-2'>
+        <div className='mt-5'>
           {interactedTags.length > 0 ? (
-            interactedTags.map((tag) => (
-              <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
-            ))
+            <div className='flex items-center gap-2'>
+              {interactedTags.map((tag) => (
+                <RenderTag
+                  key={tag._id}
+                  _id={tag._id}
+                  name={
+                    tag.name.length > 4 ? `${tag.name.slice(0, 4)}..` : tag.name
+                  }
+                />
+              ))}
+            </div>
           ) : (
             <Badge className='subtle-medium tag-background-shade tag-color border-none px-4 py-2 uppercase'>
               No tags yet
