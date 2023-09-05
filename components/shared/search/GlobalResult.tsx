@@ -59,7 +59,9 @@ const GlobalResult = () => {
       <div className='my-5 h-[1px] bg-light-700/50 dark:bg-dark-500/50' />
 
       <div className='space-y-5'>
-        <p className='subtle-color paragraph-semibold px-5'>Top Match</p>
+        <p className='text-dark400_light900 paragraph-semibold px-5'>
+          Top Match
+        </p>
 
         <div className='flex flex-col gap-2'>
           {result.length > 0 &&
@@ -74,14 +76,14 @@ const GlobalResult = () => {
                   alt='tags'
                   width={18}
                   height={18}
-                  className='white-black-invert mt-1 object-contain'
+                  className='invert-colors mt-1 object-contain'
                 />
 
                 <div className='flex flex-col'>
-                  <p className='body-medium text-dl-28 line-clamp-1'>
+                  <p className='body-medium text-dark200_light800 line-clamp-1'>
                     {item.title}
                   </p>
-                  <p className='small4-color small-medium mt-1 font-bold capitalize'>
+                  <p className='text-light400_light500 small-medium mt-1 font-bold capitalize'>
                     {item.type}
                   </p>
                 </div>

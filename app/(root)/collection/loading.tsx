@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const Loading = () => {
   return (
     <section>
-      <h1 className='h1-bold heading1-color'>Saved Questions</h1>
+      <h1 className='h1-bold text-dark100_light900'>Saved Questions</h1>
 
       <div className='mb-12 mt-11 flex flex-wrap gap-5'>
         <Skeleton className='h-14 flex-1' />

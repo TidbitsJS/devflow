@@ -155,12 +155,12 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
             name='title'
             render={({ field }) => (
               <FormItem className='flex w-full flex-col'>
-                <FormLabel className='paragraph-semibold small-color'>
+                <FormLabel className='paragraph-semibold text-dark400_light800'>
                   Question Title <span className='text-primary-500'>*</span>
                 </FormLabel>
                 <FormControl className='mt-3.5'>
                   <Input
-                    className='no-focus paragraph-regular input-shade light-border-2 paragraph-color min-h-[56px] border'
+                    className='no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
                     {...field}
                   />
                 </FormControl>
@@ -179,7 +179,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
             name='explanation'
             render={({ field }) => (
               <FormItem className='flex w-full flex-col gap-3'>
-                <FormLabel className='paragraph-semibold small-color'>
+                <FormLabel className='paragraph-semibold text-dark400_light800'>
                   Detailed explanation of your problem?
                   <span className='text-primary-500'>*</span>
                 </FormLabel>
@@ -238,13 +238,13 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
             name='tags'
             render={({ field }) => (
               <FormItem className='flex w-full flex-col gap-3'>
-                <FormLabel className='paragraph-semibold small-color'>
+                <FormLabel className='paragraph-semibold text-dark400_light800'>
                   Tags <span className='text-primary-500'>*</span>
                 </FormLabel>
                 <FormControl>
                   <>
                     <Input
-                      className='no-focus paragraph-regular input-shade light-border-2 paragraph-color min-h-[56px] border'
+                      className='no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
                       placeholder='Add tags...'
                       onKeyDown={(e) => handleInputKeyDown(e, field)}
                     />
@@ -255,7 +255,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                           <Badge
                             key={tag}
                             onClick={() => handleTagRemove(tag, field)}
-                            className='subtle-medium tag-background-shade tag-color flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize'
+                            className='subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize'
                           >
                             {tag}
                             <Image

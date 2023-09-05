@@ -16,7 +16,7 @@ async function Page({ params, searchParams }: URLProps) {
 
   return (
     <>
-      <h1 className='h1-bold heading1-color'>{result.tagTitle}</h1>
+      <h1 className='h1-bold text-dark100_light900'>{result.tagTitle}</h1>
 
       <div className='mt-11 w-full'>
         <LocalSearchbar

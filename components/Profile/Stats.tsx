@@ -11,11 +11,11 @@ interface StatsCardProps {
 
 const StatsCard = ({ imgUrl, value, title }: StatsCardProps) => {
   return (
-    <div className='light-border card-wrapper2 flex flex-wrap items-center justify-start gap-4 rounded-md border p-6 shadow-stat-card'>
+    <div className='light-border background-light900_dark300 flex flex-wrap items-center justify-start gap-4 rounded-md border p-6 shadow-stat-card'>
       <Image src={imgUrl} alt='gold medal icon' width={40} height={50} />
       <div>
-        <p className='paragraph-semibold heading2-color'>{value}</p>
-        <p className='body-medium body-color'>{title}</p>
+        <p className='paragraph-semibold text-dark200_light900'>{value}</p>
+        <p className='body-medium text-dark400_light700'>{title}</p>
       </div>
     </div>
   );
@@ -30,22 +30,22 @@ interface Props {
 const Stats = ({ totalQuestions, totalAnswers, badges }: Props) => {
   return (
     <div className='mt-10'>
-      <h4 className='h3-semibold heading2-color'>Stats</h4>
+      <h4 className='h3-semibold text-dark200_light900'>Stats</h4>
 
       <div className='mt-5 grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-4'>
-        <div className='light-border card-wrapper2 flex flex-wrap items-center justify-evenly gap-4 rounded-md border p-6 shadow-stat-card'>
+        <div className='light-border background-light900_dark300 flex flex-wrap items-center justify-evenly gap-4 rounded-md border p-6 shadow-stat-card'>
           <div>
-            <p className='paragraph-semibold heading2-color'>
+            <p className='paragraph-semibold text-dark200_light900'>
               {formatNumber(totalQuestions)}
             </p>
-            <p className='body-medium body-color'>Questions</p>
+            <p className='body-medium text-dark400_light700'>Questions</p>
           </div>
 
           <div>
-            <p className='paragraph-semibold heading2-color'>
+            <p className='paragraph-semibold text-dark200_light900'>
               {formatNumber(totalAnswers)}
             </p>
-            <p className='body-medium body-color'>Answers</p>
+            <p className='body-medium text-dark400_light700'>Answers</p>
           </div>
         </div>
 

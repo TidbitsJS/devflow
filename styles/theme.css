@@ -3,144 +3,184 @@
 @tailwind utilities;
 
 @layer utilities {
-  .background-shade {
+  .background-light850_dark100 {
     @apply bg-light-850 dark:bg-dark-100;
   }
 
-  .heading1-color {
-    @apply text-dark-100 dark:text-light-900;
-  }
-
-  .heading2-color {
-    @apply text-dark-200 dark:text-light-900;
-  }
-
-  .heading3-color {
-    @apply text-dark-200 dark:text-light-900;
-  }
-
-  .text-dl-28 {
-    @apply text-dark-200 dark:text-light-800 !important;
-  }
-
-  .paragraph-color {
-    @apply text-dark-300 dark:text-light-700;
-  }
-
-  .body-color {
-    @apply text-dark-400 dark:text-light-700;
-  }
-
-  .body2-color {
-    @apply text-dark-500 dark:text-light-700 !important;
-  }
-
-  .body3-color {
-    @apply text-dark-500 dark:text-light-500;
-  }
-
-  .base-color {
-    @apply text-dark-300 dark:text-light-900 !important;
-  }
-
-  .small-color {
-    @apply text-dark-400 dark:text-light-800;
-  }
-
-  .small2-color {
-    @apply text-dark-500 dark:text-light-700;
-  }
-
-  .small3-color {
-    @apply text-dark-400 dark:text-light-700;
-  }
-
-  .small4-color {
-    @apply text-light-400 dark:text-light-500;
-  }
-
-  .small5-color {
-    @apply text-dark-400 dark:text-light-500;
-  }
-
-  .subtle-color {
-    @apply text-dark-400 dark:text-light-900 !important;
-  }
-
-  .common-background-shade {
+  .background-light900_dark200 {
     @apply bg-light-900 dark:bg-dark-200;
   }
 
-  .card-wrapper2 {
+  .background-light900_dark300 {
     @apply bg-light-900 dark:bg-dark-300;
   }
 
-  .search-background-shade {
+  .background-light800_darkgradient {
     @apply bg-light-800 dark:dark-gradient;
   }
 
-  .placeholder {
-    @apply placeholder:text-light-400 dark:placeholder:text-light-500;
+  .background-light800_dark400 {
+    @apply bg-light-800 dark:bg-dark-400 !important;
   }
 
-  .input-color {
-    @apply text-dark-400 dark:text-light-700;
-  }
-
-  .white-black-invert {
-    @apply invert dark:invert-0;
-  }
-
-  .tag-background-shade {
-    @apply bg-light-800 dark:bg-dark-300 !important;
-  }
-
-  .tag-color {
-    @apply text-light-400 dark:text-light-500  !important;
-  }
-
-  .card-wrapper {
-    @apply bg-light-900 dark:dark-gradient shadow-question-card-light  dark:shadow-question-card-dark;
-  }
-
-  .vote-background-shade {
+  .background-light700_dark400 {
     @apply bg-light-700 dark:bg-dark-400;
   }
 
-  .input-shade {
+  .background-light700_dark300 {
     @apply bg-light-700 dark:bg-dark-300;
+  }
+
+  .background-light800_dark400 {
+    @apply bg-light-800 dark:bg-dark-400;
+  }
+
+  .background-light800_dark300 {
+    @apply bg-light-800 dark:bg-dark-300 !important;
+  }
+
+  .text-dark100_light900 {
+    @apply text-dark-100 dark:text-light-900;
+  }
+
+  .text-dark200_light900 {
+    @apply text-dark-200 dark:text-light-900;
+  }
+
+  .text-dark200_light800 {
+    @apply text-dark-200 dark:text-light-800 !important;
+  }
+
+  .text-dark300_light700 {
+    @apply text-dark-300 dark:text-light-700;
+  }
+
+  .text-dark400_light700 {
+    @apply text-dark-400 dark:text-light-700;
+  }
+
+  .text-dark500_light700 {
+    @apply text-dark-500 dark:text-light-700 !important;
+  }
+
+  .text-dark500_light500 {
+    @apply text-dark-500 dark:text-light-500;
+  }
+
+  .text-dark300_light900 {
+    @apply text-dark-300 dark:text-light-900 !important;
+  }
+
+  .text-dark400_light800 {
+    @apply text-dark-400 dark:text-light-800;
+  }
+
+  .text-light400_light500 {
+    @apply text-light-400 dark:text-light-500 !important;
+  }
+
+  .text-dark400_light500 {
+    @apply text-dark-400 dark:text-light-500;
+  }
+
+  .text-dark400_light900 {
+    @apply text-dark-400 dark:text-light-900 !important;
+  }
+
+  .text-light400_light500 {
+    @apply text-light-400 dark:text-light-500 !important;
   }
 
   .light-border {
     @apply border-light-800 dark:border-dark-300;
   }
 
-  .btn {
-    @apply bg-light-800 dark:bg-dark-300 !important;
-  }
-
-  .btn-secondary {
-    @apply bg-light-800 dark:bg-dark-400 !important;
-  }
-
-  .btn-tertiary {
-    @apply bg-light-700 dark:bg-dark-300 !important;
-  }
-
   .light-border-2 {
     @apply border-light-700 dark:border-dark-400 !important;
   }
 
-  .job-tag-background-shade {
-    @apply bg-light-800 dark:bg-dark-400;
+  .h1-bold {
+    @apply text-[30px] font-bold leading-[42px] tracking-tighter;
   }
 
-  .tab-shade {
-    @apply dark:bg-dark-400 bg-light-800 !important;
+  .h2-bold {
+    @apply text-[24px] font-bold leading-[31.2px];
   }
 
-  .tab {
-    @apply min-h-full dark:bg-dark-400 bg-light-800 text-light-500 dark:data-[state=active]:bg-dark-300 data-[state=active]:bg-primary-100 data-[state=active]:text-primary-500 !important;
+  .h2-semibold {
+    @apply text-[24px] font-semibold leading-[31.2px];
+  }
+
+  .h3-bold {
+    @apply text-[20px] font-bold leading-[26px];
+  }
+
+  .h3-semibold {
+    @apply text-[20px] font-semibold leading-[24.8px];
+  }
+
+  .base-medium {
+    @apply text-[18px] font-medium leading-[25.2px];
+  }
+
+  .base-semibold {
+    @apply text-[18px] font-semibold leading-[25.2px];
+  }
+
+  .base-bold {
+    @apply text-[18px] font-bold leading-[140%];
+  }
+
+  .paragraph-regular {
+    @apply text-[16px] font-normal leading-[22.4px];
+  }
+
+  .paragraph-medium {
+    @apply text-[16px] font-medium leading-[22.4px];
+  }
+
+  .paragraph-semibold {
+    @apply text-[16px] font-semibold leading-[20.8px];
+  }
+
+  .body-regular {
+    @apply text-[14px] font-normal leading-[19.6px];
+  }
+
+  .body-medium {
+    @apply text-[14px] font-medium leading-[18.2px];
+  }
+
+  .body-semibold {
+    @apply text-[14px] font-semibold leading-[18.2px];
+  }
+
+  .small-regular {
+    @apply text-[12px] font-normal leading-[15.6px];
+  }
+
+  .small-medium {
+    @apply text-[12px] font-medium leading-[15.6px];
+  }
+
+  .small-semibold {
+    @apply text-[12px] font-semibold leading-[15.6px];
+  }
+
+  .subtle-medium {
+    @apply text-[10px] font-medium leading-[13px] !important;
+  }
+
+  .subtle-regular {
+    @apply text-[10px] font-normal leading-[13px];
+  }
+
+  .placeholder {
+    @apply placeholder:text-light-400 dark:placeholder:text-light-500;
+  }
+
+  .invert-colors {
+    @apply invert dark:invert-0;
   }
 
   .primary-gradient {

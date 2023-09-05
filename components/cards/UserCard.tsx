@@ -28,7 +28,7 @@ const UserCard = async ({ item }: Props) => {
     >
       <article
         key={item._id}
-        className='common-background-shade light-border flex w-full flex-col items-center justify-center rounded-2xl border p-8 '
+        className='background-light900_dark200 light-border flex w-full flex-col items-center justify-center rounded-2xl border p-8 '
       >
         <Image
           src={item.picture}
@@ -39,8 +39,12 @@ const UserCard = async ({ item }: Props) => {
         />
 
         <div className='mt-4 text-center'>
-          <h3 className='h3-bold heading3-color line-clamp-1'>{item.name}</h3>
-          <p className='body-regular body3-color mt-2'>@{item.username}</p>
+          <h3 className='h3-bold text-dark200_light900 line-clamp-1'>
+            {item.name}
+          </h3>
+          <p className='body-regular text-dark500_light500 mt-2'>
+            @{item.username}
+          </p>
         </div>
 
         <div className='mt-5'>
@@ -58,7 +62,7 @@ const UserCard = async ({ item }: Props) => {
               ))}
             </div>
           ) : (
-            <Badge className='subtle-medium tag-background-shade tag-color border-none px-4 py-2 uppercase'>
+            <Badge className='subtle-medium background-light800_dark300 text-light400_light500 border-none px-4 py-2 uppercase'>
               No tags yet
             </Badge>
           )}

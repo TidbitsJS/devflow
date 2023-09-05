@@ -38,7 +38,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
               height={22}
               alt='profile picture'
             />
-            <p className='paragraph-semibold paragraph-color'>
+            <p className='paragraph-semibold text-dark300_light700'>
               {result.author.name}
             </p>
           </Link>
@@ -55,7 +55,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             />
           </div>
         </div>
-        <h2 className='h2-semibold heading2-color mt-3.5 w-full text-left'>
+        <h2 className='h2-semibold text-dark200_light900 mt-3.5 w-full text-left'>
           {result.title}
         </h2>
       </div>
@@ -66,7 +66,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
           alt='clock icon'
           value={` asked ${getTimeStamp(result.createdAt)}`}
           title=' Votes'
-          textStyles='small-regular body-color'
+          textStyles='small-regular text-dark400_light700'
         />
 
         <Metric
@@ -74,7 +74,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
           alt='message icon'
           value={result.answers.length}
           title=' Answers'
-          textStyles='small-medium body-color'
+          textStyles='small-medium text-dark400_light700'
         />
 
         <Metric
@@ -82,7 +82,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
           alt='eye icon'
           value={formatNumber(result.views)}
           title=' Views'
-          textStyles='small-medium body-color'
+          textStyles='small-medium text-dark400_light700'
         />
       </div>
 

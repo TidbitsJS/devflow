@@ -56,11 +56,11 @@ const AllAnswers = async ({
                   height={18}
                   className='rounded-full object-cover'
                 />
-                <p className='body-semibold paragraph-color'>
+                <p className='body-semibold text-dark300_light700'>
                   {answer.author.name}
                 </p>
 
-                <p className='small-regular small4-color'>
+                <p className='small-regular text-light400_light500'>
                   • answered {formatDate(answer.createdAt)}
                 </p>
               </Link>

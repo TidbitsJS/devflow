@@ -51,7 +51,7 @@ function Pagination({ pageNumber, isNext }: Props) {
         disabled={pageNumber === 1}
         className='light-border-2 btn flex min-h-[36px] items-center justify-center gap-2 border'
       >
-        <p className='body-medium text-dl-28'>Prev</p>
+        <p className='body-medium text-dark200_light800'>Prev</p>
       </Button>
 
       <div className='flex items-center justify-center rounded-md bg-primary-500 px-3.5 py-2'>
@@ -63,7 +63,7 @@ function Pagination({ pageNumber, isNext }: Props) {
         disabled={!isNext}
         className='light-border-2 btn flex min-h-[36px] items-center justify-center gap-2 border'
       >
-        <p className='body-medium text-dl-28'>Next</p>
+        <p className='body-medium text-dark200_light800'>Next</p>
       </Button>
     </div>
   );

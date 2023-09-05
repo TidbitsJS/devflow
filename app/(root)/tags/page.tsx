@@ -19,7 +19,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <>
-      <h1 className='h1-bold heading1-color'>Tags</h1>
+      <h1 className='h1-bold text-dark100_light900'>Tags</h1>
 
       <div className='mt-11 flex flex-wrap items-center justify-between gap-5'>
         <LocalSearchbar
@@ -40,18 +40,20 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
         {result.tags.length > 0 ? (
           result.tags.map((tag) => (
             <Link href={`/tags/${tag._id}`} key={tag._id}>
-              <article className='common-background-shade light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]'>
-                <div className='job-tag-background-shade w-fit rounded-sm px-5 py-1.5'>
-                  <p className='paragraph-semibold base-color'>{tag.name}</p>
+              <article className='background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]'>
+                <div className='background-light800_dark400 w-fit rounded-sm px-5 py-1.5'>
+                  <p className='paragraph-semibold text-dark300_light900'>
+                    {tag.name}
+                  </p>
                 </div>
 
-                <p className='small-regular small2-color mt-4'>
+                <p className='small-regular text-dark500_light700 mt-4'>
                   JavaScript, often abbreviated as JS, is a programming language
                   that is one of the core technologies of the World Wide Web,
                   alongside HTML and CSS
                 </p>
 
-                <p className='small-medium small5-color mt-3.5'>
+                <p className='small-medium text-dark400_light500 mt-3.5'>
                   <span className='body-semibold primary-text-gradient mr-2.5'>
                     {tag.questions.length}+
                   </span>

@@ -21,7 +21,7 @@ export const ProfileLink = ({ imgUrl, href, title }: ProfileLinkProps) => {
           {title}
         </Link>
       ) : (
-        <p className='paragraph-medium body-color'>{title}</p>
+        <p className='paragraph-medium text-dark400_light700'>{title}</p>
       )}
     </div>
   );

@@ -24,7 +24,7 @@ async function Home({ searchParams }: SearchParamsProps) {
 
   return (
     <>
-      <h1 className='h1-bold heading1-color'>Saved Questions</h1>
+      <h1 className='h1-bold text-dark100_light900'>Saved Questions</h1>
 
       <div className='mt-11 flex flex-wrap items-center justify-between gap-5'>
         <LocalSearchbar

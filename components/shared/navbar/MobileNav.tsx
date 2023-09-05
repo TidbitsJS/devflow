@@ -35,7 +35,7 @@ const NavContent = () => {
               className={`${
                 isActive
                   ? "primary-gradient rounded-lg text-light-900"
-                  : "base-color"
+                  : "text-dark300_light900"
               }  flex items-center justify-start gap-4 bg-transparent p-4`}
             >
               <Image
@@ -43,7 +43,7 @@ const NavContent = () => {
                 alt={item.label}
                 width={20}
                 height={20}
-                className={`${isActive ? "" : "white-black-invert"}`}
+                className={`${isActive ? "" : "invert-colors"}`}
               />
               <p className={`${isActive ? "base-bold" : "base-medium"}`}>
                 {item.label}
@@ -64,11 +64,14 @@ const MobileNav = () => (
         width={36}
         height={36}
         alt='hamburger icon'
-        className='white-black-invert sm:hidden'
+        className='invert-colors sm:hidden'
       />
     </SheetTrigger>
 
-    <SheetContent side='left' className='common-background-shade border-none'>
+    <SheetContent
+      side='left'
+      className='background-light900_dark200 border-none'
+    >
       <Link href='/' className='flex items-center gap-1'>
         <Image
           src='/assets/images/site-logo.svg'
@@ -99,7 +102,7 @@ const MobileNav = () => (
 
             <SheetClose asChild>
               <Link href='/sign-up'>
-                <Button className='small-medium light-border-2 btn-tertiary subtle-color min-h-[41px] w-full rounded-lg border px-4 py-3'>
+                <Button className='small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] w-full rounded-lg border px-4 py-3'>
                   Sign up
                 </Button>
               </Link>

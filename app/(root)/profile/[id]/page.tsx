@@ -41,8 +41,10 @@ const Page = async ({ params, searchParams }: URLProps) => {
           />
 
           <div className='mt-3'>
-            <h2 className='h2-bold heading1-color'>{userInfo.user.name}</h2>
-            <p className='paragraph-regular text-dl-28'>
+            <h2 className='h2-bold text-dark100_light900'>
+              {userInfo.user.name}
+            </h2>
+            <p className='paragraph-regular text-dark200_light800'>
               @{userInfo.user.username}
             </p>
 
@@ -69,7 +71,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             </div>
 
             {userInfo.user?.bio && (
-              <p className='paragraph-regular small-color mt-8'>
+              <p className='paragraph-regular text-dark400_light800 mt-8'>
                 {userInfo.user.bio}
               </p>
             )}
@@ -80,7 +82,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
           <SignedIn>
             {clerkId === userInfo.user.clerkId && (
               <Link href='/profile/edit'>
-                <Button className='paragraph-medium  btn-secondary base-color min-h-[46px] min-w-[175px] px-4 py-3'>
+                <Button className='paragraph-medium  btn-secondary text-dark300_light900 min-h-[46px] min-w-[175px] px-4 py-3'>
                   Edit Profile
                 </Button>
               </Link>
@@ -97,7 +99,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
       <div className='mt-10 flex gap-10'>
         <Tabs defaultValue='top-posts' className='flex-1'>
-          <TabsList className='tab-shade min-h-[42px] p-1'>
+          <TabsList className='background-light800_dark400 min-h-[42px] p-1'>
             <TabsTrigger value='top-posts' className='tab'>
               Top Posts
             </TabsTrigger>
@@ -129,7 +131,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
         </Tabs>
 
         <div className='flex min-w-[278px] flex-col max-lg:hidden'>
-          <h3 className='h3-bold heading2-color'>Top Tags</h3>
+          <h3 className='h3-bold text-dark200_light900'>Top Tags</h3>
 
           <div className='mt-7 flex flex-col gap-4'>
             {interactedTags.map((tag) => (

@@ -19,7 +19,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <>
-      <h1 className='h1-bold heading1-color'>All Users</h1>
+      <h1 className='h1-bold text-dark100_light900'>All Users</h1>
 
       <div className='mt-11 flex flex-wrap items-center justify-between gap-5'>
         <LocalSearchbar
@@ -43,7 +43,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
             <UserCard key={item._id} item={item} />
           ))
         ) : (
-          <div className='paragraph-regular text-dl-28 mx-auto max-w-4xl text-center'>
+          <div className='paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center'>
             <p>No users yet.</p>
             <Link href='/sign-up' className='mt-1 font-bold text-accent-blue'>
               Join Now to be the First 🚀

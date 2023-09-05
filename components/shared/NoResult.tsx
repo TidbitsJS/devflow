@@ -29,9 +29,9 @@ const NoResult = ({ title, description, link, linkTitle }: Props) => {
         className='hidden object-contain dark:flex'
       />
 
-      <h2 className='h2-bold heading2-color mt-8'>{title}</h2>
+      <h2 className='h2-bold text-dark200_light900 mt-8'>{title}</h2>
 
-      <p className='body-regular body2-color my-3.5 max-w-md text-center'>
+      <p className='body-regular text-dark500_light700 my-3.5 max-w-md text-center'>
         {description}
       </p>
 

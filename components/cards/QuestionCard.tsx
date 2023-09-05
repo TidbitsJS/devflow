@@ -44,7 +44,7 @@ const QuestionCard = ({
     <div className='card-wrapper rounded-[10px] p-9 sm:px-11'>
       <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
         <Link href={`/question/${_id}`}>
-          <h3 className='h3-semibold heading3-color line-clamp-1 flex-1'>
+          <h3 className='h3-semibold text-dark200_light900 line-clamp-1 flex-1'>
             {title}
           </h3>
         </Link>
@@ -69,7 +69,7 @@ const QuestionCard = ({
           value={author.name}
           title={` • asked ${getTimeStamp(createdAt)}`}
           href={`/profile/${author.clerkId}`}
-          textStyles='body-medium body-color'
+          textStyles='body-medium text-dark400_light700'
           isAuthor
         />
 
@@ -79,7 +79,7 @@ const QuestionCard = ({
             alt='like icon'
             value={formatNumber(upvotes)}
             title=' Votes'
-            textStyles='small-medium small-color'
+            textStyles='small-medium text-dark400_light800'
           />
 
           <Metric
@@ -87,7 +87,7 @@ const QuestionCard = ({
             alt='message icon'
             value={formatNumber(answers.length)}
             title=' Answers'
-            textStyles='small-medium small-color'
+            textStyles='small-medium text-dark400_light800'
           />
 
           <Metric
@@ -95,7 +95,7 @@ const QuestionCard = ({
             alt='eye icon'
             value={formatNumber(views)}
             title=' Views'
-            textStyles='small-medium small-color'
+            textStyles='small-medium text-dark400_light800'
           />
         </div>
       </div>

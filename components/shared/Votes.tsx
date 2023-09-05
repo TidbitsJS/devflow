@@ -131,8 +131,8 @@ const Votes = ({
             onClick={() => handleVote("upvote")}
           />
 
-          <div className='flex-center vote-background-shade min-w-[18px] rounded-sm p-1'>
-            <p className='subtle-medium subtle-color'>
+          <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
+            <p className='subtle-medium text-dark400_light900'>
               {formatNumber(upvotes)}
             </p>
           </div>
@@ -152,8 +152,8 @@ const Votes = ({
             onClick={() => handleVote("downvote")}
           />
 
-          <div className='flex-center vote-background-shade min-w-[18px] rounded-sm p-1'>
-            <p className='subtle-medium subtle-color'>
+          <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
+            <p className='subtle-medium text-dark400_light900'>
               {formatNumber(downvotes)}
             </p>
           </div>

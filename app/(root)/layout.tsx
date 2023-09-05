@@ -7,7 +7,7 @@ import RightSidebar from "@/components/shared/RightSidebar";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <main className='background-shade relative'>
+    <main className='background-light850_dark100 relative'>
       <Navbar />
       <div className='flex'>
         <LeftSidebar />

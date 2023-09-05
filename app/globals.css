@@ -21,80 +21,20 @@ body {
     @apply flex justify-start items-center;
   }
 
-  .h1-bold {
-    @apply text-[30px] font-bold leading-[42px] tracking-tighter;
+  .card-wrapper {
+    @apply bg-light-900 dark:dark-gradient shadow-question-card-light dark:shadow-question-card-dark;
   }
 
-  .h2-bold {
-    @apply text-[24px] font-bold leading-[31.2px];
+  .btn {
+    @apply bg-light-800 dark:bg-dark-300 !important;
   }
 
-  .h2-semibold {
-    @apply text-[24px] font-semibold leading-[31.2px];
+  .btn-secondary {
+    @apply bg-light-800 dark:bg-dark-400 !important;
   }
 
-  .h3-bold {
-    @apply text-[20px] font-bold leading-[26px];
-  }
-
-  .h3-semibold {
-    @apply text-[20px] font-semibold leading-[24.8px];
-  }
-
-  .base-medium {
-    @apply text-[18px] font-medium leading-[25.2px];
-  }
-
-  .base-semibold {
-    @apply text-[18px] font-semibold leading-[25.2px];
-  }
-
-  .base-bold {
-    @apply text-[18px] font-bold leading-[140%];
-  }
-
-  .paragraph-regular {
-    @apply text-[16px] font-normal leading-[22.4px];
-  }
-
-  .paragraph-medium {
-    @apply text-[16px] font-medium leading-[22.4px];
-  }
-
-  .paragraph-semibold {
-    @apply text-[16px] font-semibold leading-[20.8px];
-  }
-
-  .body-regular {
-    @apply text-[14px] font-normal leading-[19.6px];
-  }
-
-  .body-medium {
-    @apply text-[14px] font-medium leading-[18.2px];
-  }
-
-  .body-semibold {
-    @apply text-[14px] font-semibold leading-[18.2px];
-  }
-
-  .small-regular {
-    @apply text-[12px] font-normal leading-[15.6px];
-  }
-
-  .small-medium {
-    @apply text-[12px] font-medium leading-[15.6px];
-  }
-
-  .small-semibold {
-    @apply text-[12px] font-semibold leading-[15.6px];
-  }
-
-  .subtle-medium {
-    @apply text-[10px] font-medium leading-[13px];
-  }
-
-  .subtle-regular {
-    @apply text-[10px] font-normal leading-[13px];
+  .btn-tertiary {
+    @apply bg-light-700 dark:bg-dark-300 !important;
   }
 
   .markdown {
@@ -111,6 +51,10 @@ body {
       rgba(23, 28, 35, 0.41) 0%,
       rgba(19, 22, 28, 0.7) 100%
     );
+  }
+
+  .tab {
+    @apply min-h-full dark:bg-dark-400 bg-light-800 text-light-500 dark:data-[state=active]:bg-dark-300 data-[state=active]:bg-primary-100 data-[state=active]:text-primary-500 !important;
   }
 }
 

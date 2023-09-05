@@ -58,7 +58,7 @@ const LocalSearchbar = ({
 
   return (
     <div
-      className={`search-background-shade flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
+      className={`background-light800_darkgradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
       {iconPosition === "left" && (
         <Image
@@ -75,7 +75,7 @@ const LocalSearchbar = ({
         placeholder={placeholder}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className='paragraph-regular no-focus placeholder input-color border-none shadow-none outline-none'
+        className='paragraph-regular no-focus placeholder text-dark400_light700 border-none shadow-none outline-none'
       />
 
       {iconPosition === "right" && (

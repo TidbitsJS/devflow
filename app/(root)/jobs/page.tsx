@@ -33,7 +33,7 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <>
-      <h1 className='h1-bold heading1-color'>Jobs</h1>
+      <h1 className='h1-bold text-dark100_light900'>Jobs</h1>
 
       <div className='flex'>
         <JobsFilter countriesList={countries} />
@@ -48,7 +48,7 @@ const Page = async ({ searchParams }: Props) => {
             return null;
           })
         ) : (
-          <div className='paragraph-regular text-dl-28 w-full text-center'>
+          <div className='paragraph-regular text-dark200_light800 w-full text-center'>
             Oops! We couldn&apos;t find any jobs at the moment. Please try again
             later
           </div>

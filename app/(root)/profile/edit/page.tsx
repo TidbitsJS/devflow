@@ -11,7 +11,7 @@ const Page = async () => {
 
   return (
     <>
-      <h1 className='h1-bold heading1-color'>Edit Profile</h1>
+      <h1 className='h1-bold text-dark100_light900'>Edit Profile</h1>
 
       <Profile clerkId={userId} user={JSON.stringify(mongoUser)} />
     </>
