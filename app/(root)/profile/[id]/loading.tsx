@@ -34,8 +34,8 @@ const Loading = () => {
       <div className='mt-10 flex gap-10'>
         <div className='flex flex-1 flex-col'>
           <div className='flex'>
-            <Skeleton className='h-11 w-24' />
-            <Skeleton className='h-11 w-24' />
+            <Skeleton className='h-11 w-24 rounded-r-none' />
+            <Skeleton className='h-11 w-24 rounded-l-none' />
           </div>
 
           <div className='mt-5 flex w-full flex-col gap-6'>
