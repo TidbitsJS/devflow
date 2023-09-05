@@ -5,15 +5,14 @@ import { auth, SignedIn } from "@clerk/nextjs";
 import Stats from "@/components/Profile/Stats";
 import { Button } from "@/components/ui/button";
 import RenderTag from "@/components/shared/RenderTag";
-import AnswerCard from "@/components/cards/AnswerCard";
-import Pagination from "@/components/shared/Pagination";
-import QuestionCard from "@/components/cards/QuestionCard";
+import AnswersTab from "@/components/Profile/AnswersTab";
+import QuestionsTab from "@/components/Profile/QuestionsTab";
 import { ProfileLink } from "@/components/Profile/ProfileLink";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { getJoinedDate } from "@/lib/utils";
+import { getUserInfo } from "@/lib/actions/user.action";
 import { getTopInteractedTags } from "@/lib/actions/tag.action";
-import { getUserById, getUserStats } from "@/lib/actions/user.action";
 
 import { URLProps } from "@/types";
 
@@ -21,17 +20,12 @@ const Page = async ({ params, searchParams }: URLProps) => {
   const { userId } = auth();
   if (!userId) return null;
 
-  const mongoUser = await getUserById({ userId: params.id });
-  if (!mongoUser) return null;
+  const userInfo = await getUserInfo({ userId: params.id });
+  if (!userInfo.user) return null;
 
   const interactedTags = await getTopInteractedTags({
-    userId: mongoUser._id,
+    userId: userInfo.user._id,
     limit: 10,
-  });
-
-  const userStats = await getUserStats({
-    userId: mongoUser._id,
-    page: searchParams.page ? +searchParams.page : 1,
   });
 
   return (
@@ -39,7 +33,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
       <div className='flex flex-col-reverse items-start justify-between sm:flex-row'>
         <div className='flex flex-col items-start gap-4 lg:flex-row'>
           <Image
-            src={mongoUser.picture}
+            src={userInfo.user.picture}
             alt='user avatar'
             width={140}
             height={140}
@@ -47,36 +41,36 @@ const Page = async ({ params, searchParams }: URLProps) => {
           />
 
           <div className='mt-3'>
-            <h2 className='h2-bold heading1-color'>{mongoUser.name}</h2>
+            <h2 className='h2-bold heading1-color'>{userInfo.user.name}</h2>
             <p className='paragraph-regular text-dl-28'>
-              @{mongoUser.username}
+              @{userInfo.user.username}
             </p>
 
             <div className='mt-5 flex flex-wrap items-center justify-start gap-5'>
-              {mongoUser.portfolioWebsite && (
+              {userInfo.user.portfolioWebsite && (
                 <ProfileLink
                   imgUrl='/assets/icons/link.svg'
-                  href={mongoUser.portfolioWebsite}
+                  href={userInfo.user.portfolioWebsite}
                   title='Portfolio'
                 />
               )}
 
-              {mongoUser.location && (
+              {userInfo.user.location && (
                 <ProfileLink
                   imgUrl='/assets/icons/location.svg'
-                  title={mongoUser.location}
+                  title={userInfo.user.location}
                 />
               )}
 
               <ProfileLink
                 imgUrl='/assets/icons/calendar.svg'
-                title={getJoinedDate(mongoUser.joinedAt)}
+                title={getJoinedDate(userInfo.user.joinedAt)}
               />
             </div>
 
-            {mongoUser?.bio && (
+            {userInfo.user?.bio && (
               <p className='paragraph-regular small-color mt-8'>
-                {mongoUser.bio}
+                {userInfo.user.bio}
               </p>
             )}
           </div>
@@ -84,7 +78,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
         <div className='flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3'>
           <SignedIn>
-            {userId === mongoUser.clerkId && (
+            {userId === userInfo.user.clerkId && (
               <Link href='/profile/edit'>
                 <Button className='paragraph-medium  btn-secondary base-color min-h-[46px] min-w-[175px] px-4 py-3'>
                   Edit Profile
@@ -96,8 +90,9 @@ const Page = async ({ params, searchParams }: URLProps) => {
       </div>
 
       <Stats
-        totalQuestions={userStats.totalQuestions}
-        totalAnswers={userStats.totalAnswers}
+        totalQuestions={userInfo.totalQuestions}
+        totalAnswers={userInfo.totalAnswers}
+        badges={userInfo.badgeCounts}
       />
 
       <div className='mt-10 flex gap-10'>
@@ -115,43 +110,18 @@ const Page = async ({ params, searchParams }: URLProps) => {
             value='top-posts'
             className='mt-5 flex w-full flex-col gap-6'
           >
-            {userStats.questions.map((item) => (
-              <QuestionCard
-                key={item._id}
-                clerkId={userId}
-                _id={item._id}
-                title={item.title}
-                tags={item.tags}
-                author={item.author}
-                upvotes={item.upvotes.length}
-                views={item.views}
-                answers={item.answers}
-                createdAt={item.createdAt}
-              />
-            ))}
-
-            <Pagination
-              pageNumber={searchParams?.page ? +searchParams.page : 1}
-              isNext={userStats.isNextQuestions}
+            {/* @ts-ignore */}
+            <QuestionsTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
             />
           </TabsContent>
 
           <TabsContent value='answers' className='flex w-full flex-col gap-6'>
-            {userStats.answers.map((item) => (
-              <AnswerCard
-                key={item._id}
-                clerkId={userId}
-                _id={item._id}
-                question={item.question}
-                author={item.author}
-                upvotes={item.upvotes.length}
-                createdAt={item.createdAt}
-              />
-            ))}
-
-            <Pagination
-              pageNumber={searchParams?.page ? +searchParams.page : 1}
-              isNext={userStats.isNextAnswers}
+            {/* @ts-ignore */}
+            <AnswersTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
             />
           </TabsContent>
         </Tabs>
