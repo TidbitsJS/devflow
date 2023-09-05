@@ -47,6 +47,8 @@ module.exports = {
         "stat-card": "2px 0px 20px 0px rgba(39, 36, 36, 0.04)",
         "question-card-light":
           "0px 12px 20px 0px rgba(184, 184, 184, 0.03), 0px 6px 12px 0px rgba(184, 184, 184, 0.02), 0px 2px 4px 0px rgba(184, 184, 184, 0.03)",
+        "light-shadow": "10px 10px 20px 0px rgba(218, 213, 213, 0.10);",
+        "light-200": "-10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
       },
       backgroundImage: {
         "auth-dark": "url('/assets/images/auth-dark.png')",
