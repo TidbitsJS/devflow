@@ -22,7 +22,7 @@ body {
   }
 
   .card-wrapper {
-    @apply bg-light-900 dark:dark-gradient shadow-question-card-light dark:shadow-question-card-dark;
+    @apply bg-light-900 dark:dark-gradient shadow-light-100 dark:shadow-dark-100;
   }
 
   .btn {
