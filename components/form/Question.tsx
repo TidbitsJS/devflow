@@ -7,7 +7,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   Form,
@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 
 import { QuestionSchema } from "@/lib/validations";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
+import { useTheme } from "@/context/ThemeProvider";
 
 interface Props {
   type?: string;
@@ -35,8 +36,7 @@ interface Props {
 const Question = ({ type, mongoUserId, questionDetails }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
-
-  const [isDark, setIsDark] = useState(false);
+  const { mode } = useTheme();
 
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
@@ -55,13 +55,6 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
       tags: groupedTags || [],
     },
   });
-
-  useEffect(() => {
-    const theme =
-      typeof window !== "undefined" && localStorage.getItem("theme");
-
-    setIsDark(theme === "dark");
-  }, []);
 
   const handleCreateQuestion = async (
     values: z.infer<typeof QuestionSchema>
@@ -181,6 +174,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           />
 
           <FormField
+            key={mode}
             control={form.control}
             name='explanation'
             render={({ field }) => (
@@ -202,8 +196,8 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                     init={{
                       height: 350,
                       menubar: false,
-                      skin: isDark ? "oxide-dark" : "oxide",
-                      content_css: isDark ? "dark" : "light",
+                      skin: mode === "dark" ? "oxide-dark" : "oxide",
+                      content_css: mode === "dark" ? "dark" : "light",
                       plugins: [
                         "advlist",
                         "autolink",

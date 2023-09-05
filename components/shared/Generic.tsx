@@ -8,6 +8,7 @@ interface MetricProps {
   title: string;
   href?: string;
   textStyles: string;
+  isAuthor?: boolean;
 }
 
 export const Metric = ({
@@ -17,6 +18,7 @@ export const Metric = ({
   title,
   href,
   textStyles,
+  isAuthor,
 }: MetricProps) => {
   const metricContent = (
     <>
@@ -28,20 +30,20 @@ export const Metric = ({
         className={`object-contain ${href ? "rounded-full" : ""}`}
       />
 
-      <p className={textStyles}>
+      <p className={`${textStyles} flex gap-1 max-sm:items-center`}>
         {value}
-        <span className='small-regular'> {title}</span>
+        <span className='small-regular line-clamp-1'> {title}</span>
       </p>
     </>
   );
 
   if (href) {
     return (
-      <Link href={href} className='flex-center gap-1'>
+      <Link href={href} className={`flex-center gap-1`}>
         {metricContent}
       </Link>
     );
   }
 
-  return <div className='flex-center gap-1'>{metricContent}</div>;
+  return <div className='flex-center flex-wrap gap-1'>{metricContent}</div>;
 };

@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
 
 import {
   Menubar,
@@ -11,27 +10,10 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { themes } from "@/constants";
+import { useTheme } from "@/context/ThemeProvider";
 
 const Theme = () => {
-  const [mode, setMode] = useState("");
-
-  const handleThemeChange = () => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.documentElement.classList.add("dark");
-      setMode("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      setMode("light");
-    }
-  };
-
-  useEffect(() => {
-    handleThemeChange();
-  }, [mode]);
+  const { mode, setMode } = useTheme();
 
   return (
     <Menubar className='no-focus common-background-shade relative border-none'>

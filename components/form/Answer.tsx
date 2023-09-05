@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { Editor } from "@tinymce/tinymce-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   Form,
@@ -21,6 +21,7 @@ import { toast } from "../ui/use-toast";
 
 import { AnswerSchema } from "@/lib/validations";
 import { createAnswer } from "@/lib/actions/answer.action";
+import { useTheme } from "@/context/ThemeProvider";
 
 interface Props {
   question: string;
@@ -30,19 +31,11 @@ interface Props {
 
 const Answer = ({ question, questionId, authorId }: Props) => {
   const pathname = usePathname();
-
-  const [isDark, setIsDark] = useState(false);
+  const { mode } = useTheme();
 
   const editorRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [aiSubmitting, setAiSubmitting] = useState(false);
-
-  useEffect(() => {
-    const theme =
-      typeof window !== "undefined" && localStorage.getItem("theme");
-
-    setIsDark(theme === "dark");
-  }, []);
 
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
@@ -130,7 +123,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         </h4>
 
         <Button
-          className='btn light-border-2 gap-1.5 rounded-md border px-4 py-2.5 text-primary-500 shadow-none'
+          className='btn light-border-2 gap-1.5 rounded-md border px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500'
           onClick={() => generateAIAnswer()}
           disabled={aiSubmitting}
         >
@@ -160,6 +153,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
           onSubmit={form.handleSubmit(handleCreateAnswer)}
         >
           <FormField
+            key={mode}
             control={form.control}
             name='answer'
             render={({ field }) => (
@@ -176,8 +170,8 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                     init={{
                       height: 350,
                       menubar: false,
-                      skin: isDark ? "oxide-dark" : "oxide",
-                      content_css: isDark ? "dark" : "light",
+                      skin: mode === "dark" ? "oxide-dark" : "oxide",
+                      content_css: mode === "dark" ? "dark" : "light",
                       plugins: [
                         "advlist",
                         "autolink",
