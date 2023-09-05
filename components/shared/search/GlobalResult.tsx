@@ -13,7 +13,7 @@ const GlobalResult = () => {
   const searchParams = useSearchParams();
 
   const [result, setResult] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   const global = searchParams.get("global");
   const type = searchParams.get("type");
