@@ -38,6 +38,7 @@ export interface RecommendedParams {
   userId: string;
   page?: number;
   pageSize?: number;
+  searchQuery?: string;
 }
 
 export interface ViewQuestionParams {

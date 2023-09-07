@@ -23,6 +23,7 @@ async function Home({ searchParams }: SearchParamsProps) {
     if (userId) {
       result = await getRecommendedQuestions({
         userId,
+        searchQuery: searchParams.q,
         page: searchParams.page ? +searchParams.page : 1,
       });
     } else {

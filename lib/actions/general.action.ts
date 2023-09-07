@@ -9,6 +9,7 @@ import Question from "@/mongodb/question.model";
 import Interaction from "@/mongodb/interaction.model";
 
 import { RecommendedParams, SearchParams } from "./shared.types";
+import { FilterQuery } from "mongoose";
 
 const SearchableTypes = ["question", "answer", "user", "tag"];
 export async function globalSearch(params: SearchParams) {
@@ -90,7 +91,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
   try {
     await connectToDB();
 
-    const { userId, page = 1, pageSize = 20 } = params;
+    const { userId, page = 1, pageSize = 20, searchQuery } = params;
 
     // find user
     const user = await User.findOne({ clerkId: userId });
@@ -119,12 +120,19 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
       ...new Set(userTags.map((tag: any) => tag._id)),
     ];
 
-    const query = {
+    const query: FilterQuery<typeof Question> = {
       $and: [
         { tags: { $in: distinctUserTagIds } }, // Questions with user's tags
         { author: { $ne: user._id } }, // Exclude user's own questions
       ],
     };
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: searchQuery, $options: "i" } },
+        { content: { $regex: searchQuery, $options: "i" } },
+      ];
+    }
 
     const totalQuestions = await Question.countDocuments(query);
 
