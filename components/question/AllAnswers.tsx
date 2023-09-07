@@ -42,7 +42,7 @@ const AllAnswers = async ({
       <div>
         {result.answers.map((answer) => (
           <article key={answer._id} className='light-border border-b py-10'>
-            <span id={answer._id} className='hash-span'></span>
+            <span id={JSON.stringify(answer._id)} className='hash-span'></span>
 
             <div className='mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
               <Link
