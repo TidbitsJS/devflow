@@ -2,12 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { auth, SignedIn } from "@clerk/nextjs";
 
-import Stats from "@/components/profile/Stats";
+import Stats from "@/components/profile2.0/Stats";
 import { Button } from "@/components/ui/button";
 import RenderTag from "@/components/shared/RenderTag";
-import AnswersTab from "@/components/profile/AnswersTab";
-import ProfileLink from "@/components/profile/ProfileLink";
-import QuestionsTab from "@/components/profile/QuestionsTab";
+import AnswersTab from "@/components/profile2.0/AnswersTab";
+import ProfileLink from "@/components/profile2.0/ProfileLink";
+import QuestionsTab from "@/components/profile2.0/QuestionsTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { getJoinedDate } from "@/lib/utils";
