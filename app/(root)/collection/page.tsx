@@ -26,18 +26,18 @@ async function Home({ searchParams }: SearchParamsProps) {
     <>
       <h1 className='h1-bold text-dark100_light900'>Saved Questions</h1>
 
-      <div className='mt-11 flex flex-wrap items-center justify-between gap-5'>
+      <div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
         <LocalSearchbar
           route='/collection'
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'
           placeholder='Search amazing minds here...'
-          otherClasses='flex-1 '
+          otherClasses='flex-1'
         />
 
         <Filter
           filters={QuestionFilters}
-          otherClasses='min-h-[56px] min-w-[170px]'
+          otherClasses='min-h-[56px] sm:min-w-[170px]'
         />
       </div>
 

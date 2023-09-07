@@ -21,7 +21,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
     <>
       <h1 className='h1-bold text-dark100_light900'>Tags</h1>
 
-      <div className='mt-11 flex flex-wrap items-center justify-between gap-5'>
+      <div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
         <LocalSearchbar
           route='/tags'
           iconPosition='left'
@@ -32,7 +32,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
 
         <Filter
           filters={TagFilters}
-          otherClasses='min-h-[56px] min-w-[170px]'
+          otherClasses='min-h-[56px] sm:min-w-[170px]'
         />
       </div>
 

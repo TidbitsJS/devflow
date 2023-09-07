@@ -18,9 +18,10 @@ interface Props {
     value: string;
   }[];
   otherClasses?: string;
+  containerClasses?: string;
 }
 
-const Filter = ({ filters, otherClasses }: Props) => {
+const Filter = ({ filters, otherClasses, containerClasses }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -37,7 +38,7 @@ const Filter = ({ filters, otherClasses }: Props) => {
   };
 
   return (
-    <div className='relative'>
+    <div className={`relative ${containerClasses}`}>
       <Select
         onValueChange={(value) => handleUpdateParams(value)}
         defaultValue={paramsFilter || undefined}
