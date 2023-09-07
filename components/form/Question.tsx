@@ -113,10 +113,10 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
       const tagValue = tagInput.value.trim();
 
       if (tagValue !== "") {
-        if (tagValue.length > 10) {
+        if (tagValue.length > 15) {
           return form.setError("tags", {
             type: "required",
-            message: "Tag must not exceed 10 characters.",
+            message: "Tag must not exceed 15 characters.",
           });
         }
 
