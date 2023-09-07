@@ -7,7 +7,7 @@ import Votes from "@/components/shared/Votes";
 import { Metric } from "@/components/shared/Generic";
 import RenderTag from "@/components/shared/RenderTag";
 import ParseHTML from "@/components/shared/ParseHTML";
-import AllAnswers from "@/components/Answer/AllAnswers";
+import AllAnswers from "@/components/question/AllAnswers";
 
 import { getUserById } from "@/lib/actions/user.action";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
