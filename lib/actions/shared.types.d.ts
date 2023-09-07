@@ -42,7 +42,7 @@ export interface RecommendedParams {
 
 export interface ViewQuestionParams {
   questionId: string;
-  userId: string;
+  userId: string | undefined;
 }
 
 export interface JobFilterParams {

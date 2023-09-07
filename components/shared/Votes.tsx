@@ -39,12 +39,10 @@ const Votes = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (userId) {
-      viewQuestion({
-        questionId: JSON.parse(itemId),
-        userId: JSON.parse(userId),
-      });
-    }
+    viewQuestion({
+      questionId: JSON.parse(itemId),
+      userId: userId ? JSON.parse(userId) : undefined,
+    });
 
     router.refresh();
   }, [itemId, userId, pathname, router]);

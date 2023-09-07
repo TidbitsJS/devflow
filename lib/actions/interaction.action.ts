@@ -19,23 +19,25 @@ export async function viewQuestion(params: ViewQuestionParams) {
     });
 
     // Check if the user has already viewed the question
-    const existingInteraction = await Interaction.findOne({
-      user: userId,
-      action: "view",
-      question: questionId,
-    });
+    if (userId) {
+      const existingInteraction = await Interaction.findOne({
+        user: userId,
+        action: "view",
+        question: questionId,
+      });
 
-    if (existingInteraction) {
-      console.log("User has already viewed this question");
-      return;
+      if (existingInteraction) {
+        console.log("User has already viewed this question");
+        return;
+      }
+
+      // Create an Interaction record for the user's view action
+      await Interaction.create({
+        user: userId,
+        action: "view",
+        question: questionId,
+      });
     }
-
-    // Create an Interaction record for the user's view action
-    await Interaction.create({
-      user: userId,
-      action: "view",
-      question: questionId,
-    });
 
     console.log("Question view incremented successfully");
   } catch (error) {
