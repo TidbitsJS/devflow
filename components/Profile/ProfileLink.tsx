@@ -7,7 +7,7 @@ interface ProfileLinkProps {
   title: string;
 }
 
-export const ProfileLink = ({ imgUrl, href, title }: ProfileLinkProps) => {
+const ProfileLink = ({ imgUrl, href, title }: ProfileLinkProps) => {
   return (
     <div className='flex-center gap-1'>
       <Image src={imgUrl} alt='link icon' width={20} height={20} />
@@ -26,3 +26,5 @@ export const ProfileLink = ({ imgUrl, href, title }: ProfileLinkProps) => {
     </div>
   );
 };
+
+export default ProfileLink;
