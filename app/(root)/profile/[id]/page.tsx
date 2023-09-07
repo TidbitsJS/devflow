@@ -6,8 +6,8 @@ import Stats from "@/components/profile/Stats";
 import { Button } from "@/components/ui/button";
 import RenderTag from "@/components/shared/RenderTag";
 import AnswersTab from "@/components/profile/AnswersTab";
-import QuestionsTab from "@/components/profile/QuestionsTab";
 import ProfileLink from "@/components/profile/ProfileLink";
+import QuestionsTab from "@/components/profile/QuestionsTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { getJoinedDate } from "@/lib/utils";
