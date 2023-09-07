@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const AnswerSchema = z.object({
-  answer: z.string().min(20, { message: "Minimum of 20 characters." }),
+  answer: z.string().min(100, { message: "Minimum of 100 characters." }),
 });
 
 export const ProfileSchema = z.object({
@@ -34,7 +34,7 @@ export const QuestionSchema = z.object({
       z
         .string()
         .min(1, { message: "Tag must have at least 1 character." })
-        .max(10, { message: "Tag must not exceed 10 characters." })
+        .max(15, { message: "Tag must not exceed 15 characters." })
     )
     .min(1, { message: "Add at least one tag." })
     .max(3, { message: "Maximum of 3 tags." }),
