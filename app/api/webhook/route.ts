@@ -1,61 +1,46 @@
-import { Webhook, WebhookRequiredHeaders } from "svix";
-import { headers } from "next/headers";
-
+import { Webhook } from "svix";
 import { IncomingHttpHeaders } from "http";
-
 import { NextResponse } from "next/server";
+import type { WebhookRequiredHeaders } from "svix";
+import type { WebhookEvent } from "@clerk/nextjs/server";
+import type { NextApiRequest, NextApiResponse } from "next";
+
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.action";
 
 // Resource: https://clerk.com/docs/integration/webhooks#supported-events
-// Above document lists the supported events
-type EventType = "user.created" | "user.updated" | "user.deleted";
 
-type Event = {
-  data: Record<string, string | number | Record<string, string>[]>;
-  object: "event";
-  type: EventType;
+type NextApiRequestWithSvixRequiredHeaders = NextApiRequest & {
+  headers: IncomingHttpHeaders & WebhookRequiredHeaders;
 };
 
-export const POST = async (request: Request) => {
-  const payload = await request.json();
-  const header = headers();
+export const POST = async (
+  req: NextApiRequestWithSvixRequiredHeaders,
+  res: NextApiResponse
+) => {
+  const payload = JSON.stringify(req.body);
+  const headers = req.headers;
+  // Create a new Webhook instance with your webhook secret
+  const wh = new Webhook(process.env.NEXT_CLERK_WEBHOOK_SECRET!);
 
-  const heads = {
-    "svix-id": header.get("svix-id"),
-    "svix-timestamp": header.get("svix-timestamp"),
-    "svix-signature": header.get("svix-signature"),
-  };
-
-  // Activitate Webhook in the Clerk Dashboard.
-  // After adding the endpoint, you'll see the secret on the right side.
-  const wh = new Webhook(process.env.NEXT_CLERK_WEBHOOK_SECRET || "");
-
-  let evnt: Event | null = null;
-
+  let evt: WebhookEvent;
   try {
-    evnt = wh.verify(
-      JSON.stringify(payload),
-      heads as IncomingHttpHeaders & WebhookRequiredHeaders
-    ) as Event;
-  } catch (err) {
-    return NextResponse.json({ message: err }, { status: 400 });
+    // Verify the webhook payload and headers
+    evt = wh.verify(payload, headers) as WebhookEvent;
+  } catch (_) {
+    // If the verification fails, return a 400 error
+    return res.status(400).json({});
   }
 
-  const eventType: EventType = evnt?.type!;
-
+  const eventType = evt.type;
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, username, first_name, last_name } =
-      evnt.data;
+      evt.data;
 
     const mongoUser = await createUser({
-      // @ts-ignore
       clerkId: id,
       name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
-      // @ts-ignore
-      username,
-      // @ts-ignore
+      username: username!,
       email: email_addresses[0].email_address,
-      // @ts-ignore
       picture: image_url,
     });
 
@@ -64,31 +49,27 @@ export const POST = async (request: Request) => {
 
   if (eventType === "user.updated") {
     const { id, email_addresses, image_url, username, first_name, last_name } =
-      evnt.data;
+      evt.data;
 
     const updatedUser = await updateUser({
-      // @ts-ignore
       clerkId: id,
       updateData: {
         name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
-        // @ts-ignore
-        username,
-        // @ts-ignore
+        username: username!,
         email: email_addresses[0].email_address,
-        // @ts-ignore
         picture: image_url,
       },
+      path: `/profile/${id}`,
     });
 
     return NextResponse.json({ message: "Ok", user: updatedUser });
   }
 
   if (eventType === "user.deleted") {
-    const { id } = evnt.data;
+    const { id } = evt.data;
 
     const deletedUser = await deleteUser({
-      // @ts-ignore
-      clerkId: id,
+      clerkId: id!,
     });
 
     return NextResponse.json({ message: "Ok", user: deletedUser });
