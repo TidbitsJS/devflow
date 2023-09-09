@@ -1,34 +1,56 @@
 import { Webhook } from "svix";
-import { IncomingHttpHeaders } from "http";
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import type { WebhookRequiredHeaders } from "svix";
-import type { WebhookEvent } from "@clerk/nextjs/server";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { WebhookEvent } from "@clerk/nextjs/server";
 
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.action";
 
 // Resource: https://clerk.com/docs/integration/webhooks#supported-events
+// Resource for the below code: https://clerk.com/docs/users/sync-data#setup-your-backend-endpoint
 
-type NextApiRequestWithSvixRequiredHeaders = NextApiRequest & {
-  headers: IncomingHttpHeaders & WebhookRequiredHeaders;
-};
+export async function POST(req: Request) {
+  const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
-export const POST = async (
-  req: NextApiRequestWithSvixRequiredHeaders,
-  res: NextApiResponse
-) => {
-  const payload = JSON.stringify(req.body);
-  const headers = req.headers;
-  // Create a new Webhook instance with your webhook secret
-  const wh = new Webhook(process.env.NEXT_CLERK_WEBHOOK_SECRET!);
+  if (!WEBHOOK_SECRET) {
+    throw new Error(
+      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
+    );
+  }
+
+  // Get the headers
+  const headerPayload = headers();
+  const svix_id = headerPayload.get("svix-id");
+  const svix_timestamp = headerPayload.get("svix-timestamp");
+  const svix_signature = headerPayload.get("svix-signature");
+
+  // If there are no headers, error out
+  if (!svix_id || !svix_timestamp || !svix_signature) {
+    return new Response("Error occured -- no svix headers", {
+      status: 400,
+    });
+  }
+
+  // Get the body
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
+
+  // Create a new SVIX instance with your secret.
+  const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
+
+  // Verify the payload with the headers
   try {
-    // Verify the webhook payload and headers
-    evt = wh.verify(payload, headers) as WebhookEvent;
-  } catch (_) {
-    // If the verification fails, return a 400 error
-    return res.status(400).json({});
+    evt = wh.verify(body, {
+      "svix-id": svix_id,
+      "svix-timestamp": svix_timestamp,
+      "svix-signature": svix_signature,
+    }) as WebhookEvent;
+  } catch (err) {
+    console.error("Error verifying webhook:", err);
+    return new Response("Error occured", {
+      status: 400,
+    });
   }
 
   const eventType = evt.type;
@@ -74,4 +96,4 @@ export const POST = async (
 
     return NextResponse.json({ message: "Ok", user: deletedUser });
   }
-};
+}
