@@ -68,21 +68,15 @@ interface UrlQueryParams {
 export function formUrlQuery({ params, key, value }: UrlQueryParams) {
   const currentUrl = qs.parse(params);
 
-  const newQuery = {
-    ...currentUrl,
-    [key]: value,
-  };
+  currentUrl[key] = value;
 
-  const routePart = window.location.pathname;
-  const newUrl = qs.stringifyUrl(
+  return qs.stringifyUrl(
     {
-      url: routePart,
-      query: newQuery,
+      url: window.location.pathname,
+      query: currentUrl,
     },
     { skipNull: true }
   );
-
-  return newUrl;
 }
 
 interface RemoveUrlQueryParams {
@@ -96,26 +90,17 @@ export function removeKeysFromQuery({
 }: RemoveUrlQueryParams) {
   const currentUrl = qs.parse(params);
 
-  const newQuery = {
-    ...currentUrl,
-  };
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
 
-  if (keysToRemove && keysToRemove.length > 0) {
-    for (const removeKey of keysToRemove) {
-      newQuery[removeKey] = null;
-    }
-  }
-
-  const routePart = window.location.pathname;
-  const newUrl = qs.stringifyUrl(
+  return qs.stringifyUrl(
     {
-      url: routePart,
-      query: newQuery,
+      url: window.location.pathname,
+      query: currentUrl,
     },
     { skipNull: true }
   );
-
-  return newUrl;
 }
 
 export function getJoinedDate(joinedAt: Date | undefined) {
