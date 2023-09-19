@@ -1,6 +1,6 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { WebhookEvent } from "@clerk/nextjs/server";
 
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.action";
@@ -8,7 +8,7 @@ import { createUser, deleteUser, updateUser } from "@/lib/actions/user.action";
 // Resource: https://clerk.com/docs/integration/webhooks#supported-events
 // Resource for the below code: https://clerk.com/docs/users/sync-data#setup-your-backend-endpoint
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
@@ -96,4 +96,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: "Ok", user: deletedUser });
   }
+
+  return NextResponse.json({ message: "Ok" });
 }
