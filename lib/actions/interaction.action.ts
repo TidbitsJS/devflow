@@ -13,6 +13,14 @@ export async function viewQuestion(params: ViewQuestionParams) {
 
     const { questionId, userId } = params;
 
+    // Get the question and its tags
+    const question = await Question.findById(questionId);
+
+    if (!question) {
+      console.log("Question not found");
+      return;
+    }
+
     // Update the view count for the question
     await Question.findByIdAndUpdate(questionId, {
       $inc: { views: 1 },
@@ -31,11 +39,12 @@ export async function viewQuestion(params: ViewQuestionParams) {
         return;
       }
 
-      // Create an Interaction record for the user's view action
+      // Create an Interaction record for the user's view action with all question tags
       await Interaction.create({
         user: userId,
         action: "view",
         question: questionId,
+        tags: question.tags,
       });
     }
 
