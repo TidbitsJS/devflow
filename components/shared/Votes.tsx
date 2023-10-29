@@ -45,7 +45,7 @@ const Votes = ({
     });
 
     router.refresh();
-  }, [itemId, userId, pathname, router]);
+  }, [itemId, userId, router]);
 
   const handleVote = async (action: string) => {
     if (!userId)
