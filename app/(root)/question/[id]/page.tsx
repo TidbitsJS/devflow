@@ -27,26 +27,26 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
   return (
     <>
-      <div className='flex-start w-full flex-col'>
-        <div className='flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
+      <div className="flex-start w-full flex-col">
+        <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
             href={`/profile/${result.author.clerkId}`}
-            className='flex items-center justify-start gap-1'
+            className="flex items-center justify-start gap-1"
           >
             <Image
               src={result.author.picture}
-              className='rounded-full'
+              className="rounded-full"
               width={22}
               height={22}
-              alt='profile picture'
+              alt="profile picture"
             />
-            <p className='paragraph-semibold text-dark300_light700'>
+            <p className="paragraph-semibold text-dark300_light700">
               {result.author.name}
             </p>
           </Link>
-          <div className='flex justify-end'>
+          <div className="flex justify-end">
             <Votes
-              type='Question'
+              type="Question"
               itemId={JSON.stringify(result._id)}
               userId={JSON.stringify(mongoUser?._id)}
               upvotes={result.upvotes.length}
@@ -57,44 +57,44 @@ const Page = async ({ params, searchParams }: URLProps) => {
             />
           </div>
         </div>
-        <h2 className='h2-semibold text-dark200_light900 mt-3.5 w-full text-left'>
+        <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
           {result.title}
         </h2>
       </div>
 
-      <div className='mb-8 mt-5 flex flex-wrap gap-4'>
+      <div className="mb-8 mt-5 flex flex-wrap gap-4">
         <Metric
-          imgUrl='/assets/icons/clock.svg'
-          alt='clock icon'
+          imgUrl="/assets/icons/clock.svg"
+          alt="clock icon"
           value={` asked ${getTimeStamp(result.createdAt)}`}
-          title=' Votes'
-          textStyles='small-regular text-dark400_light700'
+          title=" Votes"
+          textStyles="small-regular text-dark400_light700"
         />
 
         <Metric
-          imgUrl='/assets/icons/message.svg'
-          alt='message icon'
+          imgUrl="/assets/icons/message.svg"
+          alt="message icon"
           value={result.answers.length}
-          title=' Answers'
-          textStyles='small-medium text-dark400_light700'
+          title=" Answers"
+          textStyles="small-medium text-dark400_light700"
         />
 
         <Metric
-          imgUrl='/assets/icons/eye.svg'
-          alt='eye icon'
+          imgUrl="/assets/icons/eye.svg"
+          alt="eye icon"
           value={formatNumber(result.views)}
-          title=' Views'
-          textStyles='small-medium text-dark400_light700'
+          title=" Views"
+          textStyles="small-medium text-dark400_light700"
         />
       </div>
 
       <ParseHTML data={result.content} />
 
-      <div className='mt-8 flex flex-wrap gap-2'>
+      <div className="mt-8 flex flex-wrap gap-2">
         {result.tags.map((tag: ITag) => (
           <RenderTag
-            key={tag._id}
-            _id={tag._id}
+            key={tag._id as undefined}
+            _id={tag._id as string}
             name={tag.name}
             showCount={false}
           />
